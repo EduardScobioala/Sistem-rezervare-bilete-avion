@@ -3,12 +3,20 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonModel;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.border.Border;
 
 public class MainFrame extends JFrame {
 
@@ -43,34 +51,59 @@ public class MainFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Rezervare zbor");
-		btnNewButton.setForeground(new Color(0, 0, 0));
-		btnNewButton.setBackground(new Color(55, 71, 133));
-		btnNewButton.setOpaque(true);
-		btnNewButton.setBounds(327, 343, 176, 56);
-		contentPane.add(btnNewButton);
+		JButton btnRezervare = new JButton("Rezervare zbor");
+		btnRezervare.setFont(new Font("Consolas", Font.PLAIN, 17));
+		btnRezervare.setForeground(new Color(0, 0, 0));
+		btnRezervare.setBounds(306, 343, 231, 56);
+		btnRezervare.setBackground(new Color(55, 71, 133));
+		btnRezervare.setOpaque(true);
+		//Round the button with radius = 30
+		btnRezervare.setBorder(new RoundButton(30));
+
+		btnRezervare.setUI(new BasicButtonUI() {
+	        @Override
+	        public void update(Graphics g, JComponent c) {
+	            if (c.isOpaque()) {
+	                Color fillColor = c.getBackground();
+
+	                AbstractButton button = (AbstractButton) c;
+	                ButtonModel model = button.getModel();
+
+	                if (model.isPressed()) {
+	                    fillColor = fillColor.darker();
+	                } else if (model.isRollover()) {
+	                    fillColor = fillColor.brighter();
+	                }
+
+	                g.setColor(fillColor);
+	                g.fillRoundRect(0, 0, c.getWidth(),c.getHeight(), 30, 30);
+	            }
+	            paint(g, c);
+	        }
+	    });
+		contentPane.add(btnRezervare);
 		
 		JLabel lblNewLabel = new JLabel("Buna dimineata/ziua/seara");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		lblNewLabel.setFont(new Font("Consolas", Font.PLAIN, 26));
 		lblNewLabel.setBounds(269, 40, 324, 56);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblOra = new JLabel("Ora: --/--");
-		lblOra.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		lblOra.setFont(new Font("Consolas", Font.PLAIN, 26));
 		lblOra.setBounds(352, 95, 133, 56);
 		contentPane.add(lblOra);
 		
 		JLabel lblDataCurenta = new JLabel("Data curenta --/--/--");
-		lblDataCurenta.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		lblDataCurenta.setFont(new Font("Consolas", Font.PLAIN, 26));
 		lblDataCurenta.setBounds(306, 145, 324, 56);
 		contentPane.add(lblDataCurenta);
 		
 		JLabel lblMultumimCaAlegeti = new JLabel("Multumim ca alegeti serviciile noastre !");
-		lblMultumimCaAlegeti.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		lblMultumimCaAlegeti.setFont(new Font("Consolas", Font.PLAIN, 26));
 		lblMultumimCaAlegeti.setBounds(216, 212, 480, 56);
 		contentPane.add(lblMultumimCaAlegeti);
 		
-		JLabel lblNewLabel_1 = new JLabel("Login Staff");
+		JLabel lblNewLabel_1 = new JLabel("<HTML><U>Login Staff</U></HTML>");
 		lblNewLabel_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -78,8 +111,8 @@ public class MainFrame extends JFrame {
 				loginStaff.setVisible(true);
 			}
 		});
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblNewLabel_1.setBounds(378, 474, 79, 14);
+		lblNewLabel_1.setFont(new Font("Consolas", Font.PLAIN, 13));
+		lblNewLabel_1.setBounds(378, 474, 83, 14);
 		contentPane.add(lblNewLabel_1);
 	}
 }
