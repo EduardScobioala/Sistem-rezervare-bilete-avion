@@ -11,6 +11,8 @@ import javax.swing.UIManager;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.SystemColor;
 
 public class LoginStaff extends JFrame {
 
@@ -40,7 +42,7 @@ public class LoginStaff extends JFrame {
 	public LoginStaff() {
 		setResizable(false);
 		setTitle("Login");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.);
 		setBounds(100, 100, 600, 300);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(168, 208, 224)); // the color of the MainFrame #a8d0e6
@@ -70,5 +72,12 @@ public class LoginStaff extends JFrame {
 		textField_1.setBounds(213, 116, 277, 30);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
+		
+		JButton btnNewButton = new JButton("Logare");
+		btnNewButton.setFont(new Font("Consolas", Font.PLAIN, 15));
+		btnNewButton.setBackground(new Color(55, 71, 133));
+		btnNewButton.setBounds(197, 186, 168, 45);
+		btnNewButton.setOpaque(true);
+		contentPane.add(btnNewButton);
 	}
 }
