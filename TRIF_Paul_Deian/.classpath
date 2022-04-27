@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/deian/.p2/pool/plugins/org.eclipse.swt.win32.win32.x86_64_3.118.0.v20211123-0851.jar" sourcepath="C:/Users/deian/.p2/pool/plugins/org.eclipse.swt.win32.win32.x86_64_3.118.0.v20211123-0851.jar"/>
+	<classpathentry kind="lib" path="C:/Users/deian/.p2/pool/plugins/com.ibm.icu_67.1.0.v20200706-1749.jar" sourcepath="C:/Users/deian/.p2/pool/plugins/com.ibm.icu_67.1.0.v20200706-1749.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
