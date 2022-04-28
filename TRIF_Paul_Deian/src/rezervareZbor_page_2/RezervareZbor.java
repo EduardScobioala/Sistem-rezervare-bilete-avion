@@ -8,25 +8,28 @@ import org.eclipse.swt.widgets.DateTime;
 import com.ibm.icu.util.Calendar;
 
 public class RezervareZbor {
-	String origine,destinatie, clasa, tipLoc;
-	DateTime data_plecare, data_sosire;
+	String origine,destinatie, clasa, tipLoc, nr;
+	DateTime data_plecare, data_intoarcere;
 	boolean retur;
+	double pret, durata;
 	
-	public RezervareZbor(String origine, String destinatie, String tipLoc, String clasa, DateTime data_plecare,boolean retur, DateTime data_sosire) {
+	public RezervareZbor(String origine, String destinatie, String tipLoc, String clasa, DateTime data_plecare,boolean retur, DateTime data_intoarcere, double pret, double durata, String nr) {
 		super();
 		this.origine = origine;
 		this.destinatie = destinatie;
 		this.clasa = clasa;
 		this.data_plecare = data_plecare;
-		this.data_sosire = data_sosire;
+		this.data_intoarcere = data_intoarcere;
 		this.retur = retur;
 		this.tipLoc = tipLoc;
+		this.durata=durata;
+		this.nr=nr;
 	}
 	
 	@Override
 	public String toString() {
 		return "RezervareZbor [origine=" + origine + ", destinatie=" + destinatie + ", clasa=" + clasa
-				+ ", data_plecare=" + data_plecare + ", data_sosire=" + data_sosire + ", retur=" + retur + "]";
+				+ ", data_plecare=" + data_plecare + ", data_sosire=" + data_intoarcere + ", retur=" + retur + "]";
 	}
 
 	public String getOrigine() {
@@ -53,11 +56,11 @@ public class RezervareZbor {
 	public void setData_plecare(DateTime data_plecare) {
 		this.data_plecare = data_plecare;
 	}
-	public DateTime getData_sosire() {
-		return data_sosire;
+	public DateTime getData_intoarcere() {
+		return data_intoarcere;
 	}
-	public void setData_sosire(DateTime data_sosire) {
-		this.data_sosire = data_sosire;
+	public void setData_intoarcere(DateTime data_intoarcere) {
+		this.data_intoarcere = data_intoarcere;
 	}
 	public boolean isRetur() {
 		return retur;
@@ -66,5 +69,30 @@ public class RezervareZbor {
 		this.retur = retur;
 	}
 	
+	public void setPret(double pret) {
+		this.pret = pret;
+	}
+	
+	public double getPret() {
+		return this.pret;
+	}
+	
+	public void setNr(String nr) {
+		this.nr = nr;
+	}
+	
+	public String getNr() {
+		return this.nr;
+	}
+	
+	public void setDurata(double durata)
+	{
+		this.durata=durata;
+	}
+	
+	public double getDurata()
+	{	
+		return this.durata;
+	}
 	
 }

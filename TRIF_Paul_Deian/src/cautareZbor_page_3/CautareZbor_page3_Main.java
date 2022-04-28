@@ -72,7 +72,7 @@ public class CautareZbor_page3_Main {
 				aux = lst_ZboruriDisponibile.getSelection()[lst_ZboruriDisponibile.getSelectionIndex()-1];
 				
 				//dev: to parse the above-mentioned RezervareZbor[] structure and find the selected flight - aux - and return the details of that flight in
-				//the variable 'ZborAles'
+				//the variable 'ZborAles'; do not forget about the price of the ticket
 				/*
 				 for(;;)
 				 {

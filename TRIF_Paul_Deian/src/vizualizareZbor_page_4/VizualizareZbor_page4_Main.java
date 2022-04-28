@@ -3,13 +3,23 @@ package src.vizualizareZbor_page_4;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
+
+import javax.swing.JOptionPane;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+
+import com.ibm.icu.util.Calendar;
+
+import src.rezervareZbor_page_2.RezervareZbor;
+
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 public class VizualizareZbor_page4_Main {
 
@@ -33,9 +43,16 @@ public class VizualizareZbor_page4_Main {
 	
 	public VizualizareZbor_page4_Main() {
 	}
+	
+	RezervareZbor zbor = null;
+	
+	public VizualizareZbor_page4_Main(RezervareZbor zbor) {
+		this.zbor=zbor;
+	}
 
 	private Text txt_CVC;
 	private Text txt_PlataCashSuma;
+	private Text txt_Pret;
 
 	public static void main(String[] args) {
 		try {
@@ -51,6 +68,23 @@ public class VizualizareZbor_page4_Main {
 		createContents();
 		shell.open();
 		shell.layout();
+		
+		//load selected flight details
+		if(zbor==null) {
+			boolean ok=false;
+			JOptionPane.showMessageDialog(null, "Eroare încãrcare detalii zbor ales");
+			shell.close();
+		}
+		else {
+		txt_OrasPlecare.setText(zbor.getOrigine());
+		txt_OrasDestinatie.setText(zbor.getDestinatie());
+		txt_Durata.setText(""+zbor.getDurata());
+		txt_Pret.setText(""+zbor.getPret());
+		//dateTime_DataZbor.setData(zbor.getData());
+		txt_NrZbor.setText(zbor.getNr());
+		}
+		
+		
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
@@ -60,7 +94,7 @@ public class VizualizareZbor_page4_Main {
 
 	protected void createContents() {
 		shell = new Shell();
-		shell.setSize(724, 622);
+		shell.setSize(724, 681);
 		shell.setText("SWT Application");
 		
 		Label lbl_RezervareTitlu = new Label(shell, SWT.NONE);
@@ -103,10 +137,6 @@ public class VizualizareZbor_page4_Main {
 		Spinner spinner_Varsta = new Spinner(shell, SWT.BORDER);
 		spinner_Varsta.setBounds(102, 288, 231, 26);
 		
-		Button btn_RezervaLocul = new Button(shell, SWT.NONE);
-		btn_RezervaLocul.setBounds(561, 513, 133, 30);
-		btn_RezervaLocul.setText("Rezerv\u0103 locul");
-		
 		Composite groupBox_PlataBanca = new Composite(shell, SWT.NONE);
 		groupBox_PlataBanca.setBounds(10, 329, 404, 231);
 		
@@ -117,6 +147,7 @@ public class VizualizareZbor_page4_Main {
 		Button radio_Card = new Button(groupBox_PlataBanca, SWT.RADIO);
 		radio_Card.setBounds(144, 13, 70, 20);
 		radio_Card.setText("Card");
+		radio_Card.setSelection(true);
 		
 		Button radio_ViramentBancar = new Button(groupBox_PlataBanca, SWT.RADIO);
 		radio_ViramentBancar.setBounds(222, 13, 133, 20);
@@ -169,6 +200,12 @@ public class VizualizareZbor_page4_Main {
 		lbl_RON.setBounds(208, 38, 86, 20);
 
 		groupBox_PlataBanca.setVisible(!plata_cash);
+		
+		Label lbl_ErrData = new Label(groupBox_PlataBanca, SWT.NONE);
+		lbl_ErrData.setVisible(false);
+		lbl_ErrData.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		lbl_ErrData.setBounds(339, 75, 70, 20);
+		lbl_ErrData.setText("!");
 		
 		groupBox_PlataCash.setLocation(10,329);
 		groupBox_PlataCash.setVisible(plata_cash);
@@ -224,6 +261,239 @@ public class VizualizareZbor_page4_Main {
 		lbl_DetaliiZborTitlu.setFont(SWTResourceManager.getFont("Segoe UI", 16, SWT.NORMAL));
 		lbl_DetaliiZborTitlu.setText("Detalii zbor");
 		
-
+		Label lbl_Pret = new Label(groupBox_DetaliiZbor, SWT.NONE);
+		lbl_Pret.setText("Pre\u021B:");
+		lbl_Pret.setBounds(376, 124, 49, 20);
+		
+		txt_Pret = new Text(groupBox_DetaliiZbor, SWT.BORDER);
+		txt_Pret.setEditable(false);
+		txt_Pret.setBounds(431, 121, 123, 26);
+		
+		Label lbl_RON_ReadOnly = new Label(groupBox_DetaliiZbor, SWT.NONE);
+		lbl_RON_ReadOnly.setText("RON");
+		lbl_RON_ReadOnly.setBounds(561, 124, 81, 20);
+		
+		Button btn_RezervaLocul = new Button(shell, SWT.NONE);
+		btn_RezervaLocul.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				boolean err_nume=false;
+				boolean err_prenume=false;
+				boolean err_dataExpirare=false;
+				boolean err_email=false;
+				boolean err_tel = false;
+				boolean err_varsta = false;
+				boolean err_nrCardCont = false;
+				boolean err_NumeTitular = false;
+				boolean err_CVC = false;
+				boolean err=false;
+				String[] data;
+				String err_desc="";
+				
+				if(!numeValid(txt_Nume.getText()))
+				{
+					err=true;
+					err_nume=true;
+					err_desc+="\nNume invalid";
+					txt_Nume.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121));
+				}
+				
+				if(!numeValid(txt_Prenume.getText()))
+				{
+					err=true;
+					err_prenume=true;
+					err_desc+="\nPrenume invalid";
+					txt_Prenume.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121));
+				}
+				
+				data = txt_NumeTitular.getText().split(" ");
+				for(int i=0;i<data.length;i++)
+				{
+					if(!numeValid(data[i])) {
+						err=true;
+						err_NumeTitular=true;
+						err_desc+="\nNume titular invalid";
+						txt_NumeTitular.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121));
+						break;
+					}
+				}
+				
+				if(spinner_Varsta.getText().isEmpty() || (!spinner_Varsta.getText().isEmpty() && spinner_Varsta.getSelection()<=0))
+				{
+					err=true;
+					err_varsta=true;
+					err_desc+="\nVârstã invalidã";
+					spinner_Varsta.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121));
+				}
+				
+				if(!emailValid(txt_Email.getText()))
+				{
+					err=true;
+					err_email=true;
+					err_desc+="\nE-mail invalid";
+					txt_Email.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121));
+				}
+				
+				if(!CVCValid(txt_CVC.getText()))
+				{
+					err=true;
+					err_CVC=true;
+					err_desc+="\nCod CVC invalid";
+					txt_CVC.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121));
+				}
+				
+				if(!dataExpirareValida(dateTime_ExpirareCard))
+				{
+					err=true;
+					err_dataExpirare=true;
+					err_desc+="\nCard expirat";
+					lbl_ErrData.setVisible(err_dataExpirare);
+					dateTime_ExpirareCard.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121)); //does not seem to work
+				}
+				
+				if(!nrCardContValid(txt_NrCard.getText(), radio_Card.getSelection()))
+				{
+					err=true;
+					err_email=true;
+					err_desc+="\nNumãr card eronat";
+					txt_NrCard.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121));
+				}
+				
+				if(!nrTelValid(txt_Telefon.getText()))
+				{
+					err=true;
+					err_email=true;
+					err_desc+="\nNumãr de telefon eronat";
+					txt_Telefon.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121));
+				}
+				
+				if(!sumaCashValida(txt_PlataCashSuma.getText()))
+				{
+					err=true;
+					err_email=true;
+					err_desc+="\nSumã eronatã";
+					txt_PlataCashSuma.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121));
+				}
+				
+				if(err==true)
+				{
+					JOptionPane.showMessageDialog(null, err_desc);
+				}
+			}
+		});
+		btn_RezervaLocul.setBounds(281, 597, 133, 30);
+		btn_RezervaLocul.setText("Rezerv\u0103 locul");
+		
+		Button btn_Iesire = new Button(shell, SWT.NONE);
+		btn_Iesire.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				shell.close(); //dev: to implement more here
+			}
+		});
+		btn_Iesire.setText("\u00CEnapoi");
+		btn_Iesire.setBounds(10, 597, 133, 30);
+		
+		
+		if(zbor!=null) dateTime_DataZbor.setData(zbor.getData_plecare()); //control not found at 'open' method level
+		else {
+			lbl_DetaliiZborTitlu.setText("Zbor negãsit");
+			lbl_DetaliiZborTitlu.setForeground(new org.eclipse.swt.graphics.Color(210, 121, 121));
+			
+		}
+	}
+	
+	private boolean numeValid(String nume)
+	{
+		if(nume.length()==0) return false;
+		
+		for(int i=0;i<nume.length();i++)
+		{
+			if(i==0 && (nume.charAt(i)<'A' || nume.charAt(i)>'Z')) return false;
+			if(i!=0 && (nume.charAt(i)<'a' || nume.charAt(i)>'z')) return false;
+		}
+		return true;
+	}
+	
+	private boolean emailValid(String email)
+	{
+		int at=0,dot=0;
+		for(int i=0;i<email.length();i++)
+		{
+			if(email.charAt(i)=='@') at++;
+			if(email.charAt(i)=='.') dot++;
+		}
+		if(at!=1 || dot!=1) return false;
+		
+		return true;
+	}
+	
+	private boolean CVCValid(String CVC)
+	{
+		if(CVC.length()!=3) return false;
+		for(int i=0;i<CVC.length();i++)
+		{
+			if(CVC.charAt(i)<'0' || CVC.charAt(i)>'9') return false;
+		}
+		
+		return true;
+	}
+	
+	private boolean nrCardContValid(String nr, boolean card)
+	{
+		if(card==true)
+		{
+			if(nr.length()!=16) return false;
+			for(int i=0;i<nr.length();i++)
+			{
+				if(nr.charAt(i)<'0' || nr.charAt(i)>'9') return false;
+			}
+			
+		}else {
+			if(nr.length()!=24) return false;
+			if(nr.charAt(0)<'A' || nr.charAt(0)>'Z' || nr.charAt(1)<'A' || nr.charAt(1)>'Z') return false;
+			//more checks should be implemented here
+		}
+		
+		return true;
+	}
+	
+	private boolean dataExpirareValida(DateTime dataExpirare)
+	{
+		Calendar aux = Calendar.getInstance();
+		if(dataExpirare.getYear()<aux.get(Calendar.YEAR)) return false;
+		if(dataExpirare.getMonth()<aux.get(Calendar.MONTH)) return false;
+		if(dataExpirare.getDay()<aux.get(Calendar.DAY_OF_MONTH)) return false;
+		
+		return true;
+	}
+	
+	private boolean sumaCashValida(String suma)
+	{
+		double d_suma;
+		if(suma.equals("")) return false;
+		
+		for(int i=0;i<suma.length();i++)
+		{
+			if((suma.charAt(i)<'0' || suma.charAt(i)>'9') && suma.charAt(i)!='.') return false;
+		}
+		
+		d_suma = Double.parseDouble(suma);
+		
+		if(d_suma<0) return false; //maybe even implement a maximum sum ?
+		
+		return true;
+	}
+	
+	private boolean nrTelValid(String tel)
+	{
+		if(tel.length()!=10) return false;
+		
+		for(int i=0;i<tel.length();i++)
+		{
+			if(tel.charAt(i)<'0' || tel.charAt(i)>'9') return false;
+		}
+		
+		return true;
 	}
 }

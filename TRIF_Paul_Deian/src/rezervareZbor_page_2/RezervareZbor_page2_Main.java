@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Text;
 
 import src.cautareZbor_page_3.CautareZbor_page3_Main;
+import src.vizualizareZbor_page_4.VizualizareZbor_page4_Main;
 
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.DateTime;
@@ -130,9 +131,9 @@ public class RezervareZbor_page2_Main {
 		lbl_Clasa.setText("Clasa la care se dore\u0219te rezervarea:");
 		lbl_Clasa.setBounds(10, 264, 237, 20);
 		
-		Label lbl_ListaZboruri = new Label(shell, SWT.NONE);
-		lbl_ListaZboruri.setText("List\u0103 zboruri");
-		lbl_ListaZboruri.setBounds(605, 10, 120, 20);
+		Label lbl_ListaLocuri = new Label(shell, SWT.NONE);
+		lbl_ListaLocuri.setText("Listă locuri");
+		lbl_ListaLocuri.setBounds(605, 10, 76, 20);
 		
 		txt_OrasPlecare = new Text(shell, SWT.BORDER);
 		txt_OrasPlecare.setBounds(131, 10, 135, 26);
@@ -173,16 +174,18 @@ public class RezervareZbor_page2_Main {
 				else {
 					CautareZbor_page3_Main CautareZbor = new CautareZbor_page3_Main(rezervare);
 					zbor = CautareZbor.open();
+					
+					VizualizareZbor_page4_Main VizualizareZbor = new VizualizareZbor_page4_Main(zbor);
+					VizualizareZbor.open();
 
 				}
-
 			}
 		});
 		btn_RezervareLoc.setBounds(10, 368, 120, 30);
 		btn_RezervareLoc.setText("Rezervare loc");
 		
-		Button btn_RezervareLoc_1 = new Button(shell, SWT.NONE);
-		btn_RezervareLoc_1.addSelectionListener(new SelectionAdapter() {
+		Button btn_CautareZbor = new Button(shell, SWT.NONE);
+		btn_CautareZbor.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				
@@ -245,14 +248,17 @@ public class RezervareZbor_page2_Main {
 							combo_Clasa.getText(),
 							dateTime_DataPlecarii,
 							chk_ZborRetur.getSelection(),
-							dateTime_DataIntoarcerii
+							dateTime_DataIntoarcerii,
+							0,  //price is 0 for the searched flight; or it could be the maximum/minimum price desired; will be replaced with actual price 
+							0, //duration will be replaced with actual flight duration at search
+							"N/A" //flight no. will be replaced with actual flight no. at search
 							);
 				}else {
 					JOptionPane.showMessageDialog(null, "Date zbor incorecte");
 				}
 			}
 		});
-		btn_RezervareLoc_1.setText("C\u0103utare zbor");
-		btn_RezervareLoc_1.setBounds(370, 368, 120, 30);
+		btn_CautareZbor.setText("C\u0103utare zbor");
+		btn_CautareZbor.setBounds(370, 368, 120, 30);
 	}
 }
