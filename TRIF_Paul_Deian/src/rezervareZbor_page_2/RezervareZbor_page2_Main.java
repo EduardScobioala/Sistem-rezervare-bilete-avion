@@ -34,7 +34,8 @@ public class RezervareZbor_page2_Main {
 	protected Shell shell;
 	private Text txt_OrasPlecare;
 	private Text txt_OrasDestinatie;
-
+	boolean plata_cash=false;
+	
 	public static void main(String[] args) {
 		try {
 			RezervareZbor_page2_Main window = new RezervareZbor_page2_Main();
@@ -175,7 +176,7 @@ public class RezervareZbor_page2_Main {
 					CautareZbor_page3_Main CautareZbor = new CautareZbor_page3_Main(rezervare);
 					zbor = CautareZbor.open();
 					
-					VizualizareZbor_page4_Main VizualizareZbor = new VizualizareZbor_page4_Main(zbor);
+					VizualizareZbor_page4_Main VizualizareZbor = new VizualizareZbor_page4_Main(zbor, plata_cash);
 					VizualizareZbor.open();
 
 				}

@@ -37,17 +37,14 @@ public class VizualizareZbor_page4_Main {
 	
 	boolean plata_cash=false;
 	
-	public VizualizareZbor_page4_Main(boolean plata_cash) {
-		this.plata_cash=plata_cash;
-	}
-	
 	public VizualizareZbor_page4_Main() {
 	}
 	
 	RezervareZbor zbor = null;
 	
-	public VizualizareZbor_page4_Main(RezervareZbor zbor) {
+	public VizualizareZbor_page4_Main(RezervareZbor zbor, boolean plata_cash) {
 		this.zbor=zbor;
+		this.plata_cash=plata_cash;
 	}
 
 	private Text txt_CVC;
@@ -72,7 +69,7 @@ public class VizualizareZbor_page4_Main {
 		//load selected flight details
 		if(zbor==null) {
 			boolean ok=false;
-			JOptionPane.showMessageDialog(null, "Eroare încãrcare detalii zbor ales");
+			JOptionPane.showMessageDialog(null, "Eroare Ã®ncÄƒrcare detalii zbor ales");
 			shell.close();
 		}
 		else {
@@ -138,7 +135,7 @@ public class VizualizareZbor_page4_Main {
 		spinner_Varsta.setBounds(102, 288, 231, 26);
 		
 		Composite groupBox_PlataBanca = new Composite(shell, SWT.NONE);
-		groupBox_PlataBanca.setBounds(10, 329, 404, 231);
+		groupBox_PlataBanca.setBounds(289, 340, 404, 231);
 		
 		Label lbl_ModalitatePlata = new Label(groupBox_PlataBanca, SWT.NONE);
 		lbl_ModalitatePlata.setBounds(10, 10, 128, 20);
@@ -197,7 +194,7 @@ public class VizualizareZbor_page4_Main {
 		
 		Label lbl_RON = new Label(groupBox_PlataCash, SWT.NONE);
 		lbl_RON.setText("RON");
-		lbl_RON.setBounds(208, 38, 86, 20);
+		lbl_RON.setBounds(208, 38, 56, 20);
 
 		groupBox_PlataBanca.setVisible(!plata_cash);
 		
@@ -323,7 +320,7 @@ public class VizualizareZbor_page4_Main {
 				{
 					err=true;
 					err_varsta=true;
-					err_desc+="\nVârstã invalidã";
+					err_desc+="\nVÃ¢rstÄƒ invalidÄƒ";
 					spinner_Varsta.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121));
 				}
 				
@@ -357,7 +354,7 @@ public class VizualizareZbor_page4_Main {
 				{
 					err=true;
 					err_email=true;
-					err_desc+="\nNumãr card eronat";
+					err_desc+="\nNumÄƒr card eronat";
 					txt_NrCard.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121));
 				}
 				
@@ -365,7 +362,7 @@ public class VizualizareZbor_page4_Main {
 				{
 					err=true;
 					err_email=true;
-					err_desc+="\nNumãr de telefon eronat";
+					err_desc+="\nNumÄƒr de telefon eronat";
 					txt_Telefon.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121));
 				}
 				
@@ -373,7 +370,7 @@ public class VizualizareZbor_page4_Main {
 				{
 					err=true;
 					err_email=true;
-					err_desc+="\nSumã eronatã";
+					err_desc+="\nSumÄƒ eronatÄƒ";
 					txt_PlataCashSuma.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121));
 				}
 				
@@ -399,7 +396,7 @@ public class VizualizareZbor_page4_Main {
 		
 		if(zbor!=null) dateTime_DataZbor.setData(zbor.getData_plecare()); //control not found at 'open' method level
 		else {
-			lbl_DetaliiZborTitlu.setText("Zbor negãsit");
+			lbl_DetaliiZborTitlu.setText("Zbor negÄƒsit");
 			lbl_DetaliiZborTitlu.setForeground(new org.eclipse.swt.graphics.Color(210, 121, 121));
 			
 		}
