@@ -290,6 +290,7 @@ public class VizualizareZbor_page4_Main {
 				String[] data;
 				String err_desc="";
 				
+				//functii de verificare
 				if(!numeValid(txt_Nume.getText()))
 				{
 					err=true;
@@ -350,6 +351,7 @@ public class VizualizareZbor_page4_Main {
 					lbl_ErrData.setVisible(err_dataExpirare);
 					dateTime_ExpirareCard.setBackground(new org.eclipse.swt.graphics.Color(210, 121, 121)); //does not seem to work
 				}
+				
 				
 				if(!nrCardContValid(txt_NrCard.getText(), radio_Card.getSelection()))
 				{

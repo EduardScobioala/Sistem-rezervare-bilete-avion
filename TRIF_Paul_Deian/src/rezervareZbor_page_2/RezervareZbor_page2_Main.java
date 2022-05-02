@@ -199,6 +199,7 @@ public class RezervareZbor_page2_Main {
 				
 				Color c_err;
 				
+				//functii de verificare
 				if(!numeOrasValid(txt_OrasPlecare.getText()))
 				{
 					err=true;

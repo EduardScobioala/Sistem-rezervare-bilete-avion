@@ -60,6 +60,7 @@ public class CautareZbor_page3_Main {
 		for(;;)
 		{
 		lst_ZboruriDisponibile.add(null);
+		
 		}
 		*/
 		
