@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
@@ -17,6 +18,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SpinnerDateModel;
 import java.util.Date;
 import java.util.Calendar;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class IntroducereZbor extends JFrame {
 
@@ -51,10 +54,9 @@ public class IntroducereZbor extends JFrame {
 	 * Create the frame.
 	 */
 	public IntroducereZbor() {
-		
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);	
 		setResizable(false);
 		setTitle("Introducere zbor");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 350, 454);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(168, 208, 224)); // the color of the MainFrame #a8d0e6
@@ -182,5 +184,18 @@ public class IntroducereZbor extends JFrame {
 		btnIntroducereZbor.setOpaque(true);
 		btnIntroducereZbor.setBounds(79, 338, 176, 56);
 		contentPane.add(btnIntroducereZbor);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if (JOptionPane.showConfirmDialog(null, "Doriti sa va intoarceti inapoi?", "Inchidere fereastra", 
+			            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)
+						== JOptionPane.YES_OPTION) {
+					OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame();
+					optiuni_staff.setVisible(true);
+					setVisible(false);
+				}
+			}
+		});
 	}
 }
