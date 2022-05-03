@@ -36,9 +36,9 @@ public class OptiuniStaffFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public OptiuniStaffFrame() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Optiuni disponibile");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 360, 240);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -47,6 +47,13 @@ public class OptiuniStaffFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton btnIntroducere = new JButton("Introducere curse");
+		btnIntroducere.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				IntroducereZbor form_introducere = new IntroducereZbor();
+				form_introducere.setVisible(true);
+				setVisible(false);
+			}
+		});
 		btnIntroducere.setOpaque(true);
 		btnIntroducere.setForeground(Color.WHITE);
 		btnIntroducere.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -55,6 +62,13 @@ public class OptiuniStaffFrame extends JFrame {
 		contentPane.add(btnIntroducere);
 		
 		JButton btnActualizareZbor = new JButton("Actualizare zbor");
+		btnActualizareZbor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ActualizareZborFrame form_actualizare = new ActualizareZborFrame();
+				form_actualizare.setVisible(true);
+				setVisible(false);
+			}
+		});
 		btnActualizareZbor.setOpaque(true);
 		btnActualizareZbor.setForeground(Color.WHITE);
 		btnActualizareZbor.setFont(new Font("Tahoma", Font.PLAIN, 12));
