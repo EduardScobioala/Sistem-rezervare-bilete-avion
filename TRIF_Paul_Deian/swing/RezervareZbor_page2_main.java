@@ -48,12 +48,13 @@ public class RezervareZbor_page2_main extends JFrame {
 	private JPanel contentPane;
 	private JTextField txt_OrasPlecare;
 	private JTextField txt_OrasDestinatie;
-
+	static RezervareZbor_page2_main frame;
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RezervareZbor_page2_main frame = new RezervareZbor_page2_main();
+					frame = new RezervareZbor_page2_main();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,8 +62,8 @@ public class RezervareZbor_page2_main extends JFrame {
 			}
 		});
 	}
-	RezervareZbor rezervare=null;
-	RezervareZbor zbor = null;
+	private RezervareZbor rezervare=null;
+	private RezervareZbor zbor = null;
 	boolean plata_cash=false;
 	
 	//functii utilitare
@@ -203,21 +204,19 @@ public class RezervareZbor_page2_main extends JFrame {
 				}else if(rezervare==null){
 					JOptionPane.showMessageDialog(null, "Date zbor incorecte");
 				}				
-				else {
-					CautareZbor_page3_main CautareZbor = new CautareZbor_page3_main(rezervare);
-					CautareZbor.setVisible(true);
+				else {	
+					//deschidere pagina vizualizare zbor
+					VizualizareZbor_page4_main.main(null);
 					
-					VizualizareZbor_page4_main VizualizareZbor = new VizualizareZbor_page4_main(zbor, plata_cash);
-					VizualizareZbor.setVisible(true);
-
 				}
+
 			}
 		});
 		btn_RezervareLoc.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btn_RezervareLoc.setBounds(10, 289, 123, 29);
 		contentPane.add(btn_RezervareLoc);
 		
-		JButton btn_CautareZbor = new JButton("C\u0103utare loc");
+		JButton btn_CautareZbor = new JButton("Căutare zbor");
 		btn_CautareZbor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean err_plecare=false;
@@ -329,10 +328,16 @@ public class RezervareZbor_page2_main extends JFrame {
 							0.0, //duration will be replaced with actual flight duration at search
 							"N/A" //flight no. will be replaced with actual flight no. at search
 							);
+					
+					zbor = new RezervareZbor("ERROR");
+					//deschidere pagina cautare zbor
+					CautareZbor_page3_main.main(frame,null);
+
 							
 				}else {
 					JOptionPane.showMessageDialog(null, "Date zbor incorecte");
 				}
+				
 			}
 		});
 		btn_CautareZbor.setFont(new Font("Tahoma", Font.PLAIN, 14));

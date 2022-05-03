@@ -13,6 +13,11 @@ public class RezervareZbor {
 	boolean retur;
 	double pret, durata;
 	
+	public RezervareZbor(String origine)
+	{
+		this.origine=origine;
+	}
+	
 	public RezervareZbor(String origine, String destinatie, String tipLoc, String clasa, int[] data_plecare,boolean retur, int[] data_intoarcere, double pret, double durata, String nr) {
 		super();
 		this.origine = origine;
