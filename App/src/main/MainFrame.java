@@ -2,22 +2,21 @@ package main;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicButtonUI;
-import javax.swing.AbstractButton;
-import javax.swing.BorderFactory;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
-import javax.swing.JComponent;
-
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.border.Border;
-import java.awt.SystemColor;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainFrame extends JFrame {
 
@@ -46,6 +45,7 @@ public class MainFrame extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 550);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(168, 208, 224));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -54,7 +54,7 @@ public class MainFrame extends JFrame {
 		
 		JButton btnRezervare = new JButton("Rezervare zbor");
 		btnRezervare.setFont(new Font("Consolas", Font.PLAIN, 17));
-		btnRezervare.setForeground(new Color(0, 0, 0));
+		btnRezervare.setForeground(Color.WHITE);
 		btnRezervare.setBounds(306, 343, 231, 56);
 		btnRezervare.setBackground(new Color(55, 71, 133));
 		btnRezervare.setOpaque(true);
@@ -64,43 +64,97 @@ public class MainFrame extends JFrame {
 		btnRezervare.setUI(new ButtonFill());
 		contentPane.add(btnRezervare);
 		
-		JLabel lblNewLabel = new JLabel("Buna dimineata/ziua/seara");
-		lblNewLabel.setFont(new Font("Consolas", Font.PLAIN, 26));
-		lblNewLabel.setBounds(269, 40, 324, 56);
-		contentPane.add(lblNewLabel);
+		JLabel lblSalutare = new JLabel();
+		lblSalutare.setForeground(Color.DARK_GRAY);
+		lblSalutare.setText("Buna ...");
+		lblSalutare.setFont(new Font("Consolas", Font.PLAIN, 26));
+		lblSalutare.setBounds(269, 40, 324, 56);
+		
+		String lblText = "Buna ";
+		DateTimeFormatter oraFormatter = DateTimeFormatter.ofPattern("hh a");
+    	String rawOra = oraFormatter.format(LocalDateTime.now());
+    	String[] dataOra = rawOra.split(" ");
+    	
+    	if (dataOra[1].equals("AM")) {
+    		if (Integer.parseInt(dataOra[0]) < 10) lblText += "dimineata";
+    		else lblText += "ziua";
+    	} else {
+    		if (Integer.parseInt(dataOra[0]) < 18) lblText += "ziua";
+    		else lblText += "seara";
+    	}
+		
+    	lblSalutare.setText(lblText);
+		lblSalutare.setHorizontalAlignment(JLabel.CENTER);
+		contentPane.add(lblSalutare);
 		
 		JLabel lblOra = new JLabel("Ora: --/--");
+		lblOra.setForeground(Color.WHITE);
 		lblOra.setFont(new Font("Consolas", Font.PLAIN, 26));
-		lblOra.setBounds(359, 102, 133, 56);
+		lblOra.setBounds(335, 149, 231, 56);
+        
+		// 
+		Timer t = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	DateTimeFormatter oraFormatter = DateTimeFormatter.ofPattern("hh:mm:ss", new Locale("ro", "RO"));
+            	String ora = oraFormatter.format(LocalDateTime.now());
+            	lblOra.setText("Ora: " + ora);
+            }
+         });
+         t.setRepeats(true);
+         t.setCoalesce(true);
+         t.setInitialDelay(0);
+         t.start();
+		
 		contentPane.add(lblOra);
 		
-		JLabel lblDataCurenta = new JLabel("Data curenta --/--/--");
+		JLabel lblDataCurenta = new JLabel("Data curenta: --/--/--");
+		lblDataCurenta.setForeground(Color.WHITE);
 		lblDataCurenta.setFont(new Font("Consolas", Font.PLAIN, 26));
-		lblDataCurenta.setBounds(306, 145, 324, 56);
+		lblDataCurenta.setBounds(252, 107, 364, 56);
+		
+		LocalDateTime now = LocalDateTime.now();
+		DateTimeFormatter dataFormatter = DateTimeFormatter.ofPattern("dd MMMM uuuu", new Locale("ro", "RO"));
+        String data = dataFormatter.format(now);
+        
+		lblDataCurenta.setText("Data curenta: " + data);
 		contentPane.add(lblDataCurenta);
 		
 		JLabel lblMultumimCaAlegeti = new JLabel("Multumim ca alegeti serviciile noastre !");
+		lblMultumimCaAlegeti.setForeground(Color.DARK_GRAY);
 		lblMultumimCaAlegeti.setFont(new Font("Consolas", Font.PLAIN, 26));
-		lblMultumimCaAlegeti.setBounds(216, 212, 480, 56);
+		lblMultumimCaAlegeti.setBounds(179, 214, 586, 56);
 		contentPane.add(lblMultumimCaAlegeti);
 		
-		JLabel lblNewLabel_1 = new JLabel("<HTML><U>Login Staff</U></HTML>");
-		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+		
+		// Login button
+		boolean isOpenLogin = false;
+		
+		JLabel lblLogin = new JLabel("<HTML><U>Login Staff</U></HTML>");
+		lblLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				//setVisible(false);
+				dispose();
 				LoginStaff loginStaff = new LoginStaff();
 				loginStaff.setVisible(true);
 			}
 		});
-		lblNewLabel_1.setFont(new Font("Consolas", Font.PLAIN, 13));
-		lblNewLabel_1.setBounds(378, 474, 83, 14);
-		contentPane.add(lblNewLabel_1);
+		lblLogin.setFont(new Font("Consolas", Font.PLAIN, 13));
+		lblLogin.setBounds(378, 474, 83, 14);
+		contentPane.add(lblLogin);
 		
-		JButton btnHelp = new JButton("?");
-		btnHelp.setFont(new Font("Consolas", Font.PLAIN, 11));
+		JButton btnHelp = new JButton("Help");
+		btnHelp.setForeground(Color.WHITE);
+		btnHelp.setFont(new Font("Consolas", Font.PLAIN, 12));
 		btnHelp.setBackground(new Color(55, 71, 133));
-		btnHelp.setBounds(814, 445, 43, 43);
+		btnHelp.setBounds(785, 445, 89, 43);
+		
+		btnHelp.setOpaque(true);
+		//Round the button with radius = 30
 		btnHelp.setBorder(new RoundButton(30));
+
+		
 		btnHelp.setUI(new ButtonFill());
 		contentPane.add(btnHelp);
 	}
