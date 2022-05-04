@@ -79,12 +79,15 @@ public class LoginStaff extends JFrame {
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Logare");
-		btnNewButton.setFont(new Font("Consolas", Font.PLAIN, 15));
-		btnNewButton.setBackground(new Color(55, 71, 133));
-		btnNewButton.setBounds(197, 186, 168, 45);
-		btnNewButton.setOpaque(true);
-		contentPane.add(btnNewButton);
+		JButton btnLogin = new JButton("Logare");
+		btnLogin.setFont(new Font("Consolas", Font.PLAIN, 15));
+		btnLogin.setBackground(new Color(55, 71, 133));
+		btnLogin.setForeground(Color.WHITE);
+		btnLogin.setBounds(197, 186, 168, 45);
+		btnLogin.setOpaque(true);
+		btnLogin.setBorder(new RoundButton(30));
+		btnLogin.setUI(new ButtonFill());
+		contentPane.add(btnLogin);
 		
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -92,7 +95,6 @@ public class LoginStaff extends JFrame {
 				dispose();
 				MainFrame mainFrame = new MainFrame();
 				mainFrame.setVisible(true);
-				//setVisible(false);
 			}
 		});
 	}

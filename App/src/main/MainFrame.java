@@ -48,7 +48,7 @@ public class MainFrame extends JFrame {
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(168, 208, 224));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBorder(null);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
@@ -128,8 +128,7 @@ public class MainFrame extends JFrame {
 		
 		
 		// Login button
-		boolean isOpenLogin = false;
-		
+
 		JLabel lblLogin = new JLabel("<HTML><U>Login Staff</U></HTML>");
 		lblLogin.addMouseListener(new MouseAdapter() {
 			@Override
@@ -149,12 +148,10 @@ public class MainFrame extends JFrame {
 		btnHelp.setFont(new Font("Consolas", Font.PLAIN, 12));
 		btnHelp.setBackground(new Color(55, 71, 133));
 		btnHelp.setBounds(785, 445, 89, 43);
-		
 		btnHelp.setOpaque(true);
 		//Round the button with radius = 30
 		btnHelp.setBorder(new RoundButton(30));
 
-		
 		btnHelp.setUI(new ButtonFill());
 		contentPane.add(btnHelp);
 	}
