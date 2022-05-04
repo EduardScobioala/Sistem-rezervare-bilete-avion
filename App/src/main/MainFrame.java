@@ -17,6 +17,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.Border;
+import java.awt.SystemColor;
 
 public class MainFrame extends JFrame {
 
@@ -60,27 +61,7 @@ public class MainFrame extends JFrame {
 		//Round the button with radius = 30
 		btnRezervare.setBorder(new RoundButton(30));
 
-		btnRezervare.setUI(new BasicButtonUI() {
-	        @Override
-	        public void update(Graphics g, JComponent c) {
-	            if (c.isOpaque()) {
-	                Color fillColor = c.getBackground();
-
-	                AbstractButton button = (AbstractButton) c;
-	                ButtonModel model = button.getModel();
-
-	                if (model.isPressed()) {
-	                    fillColor = fillColor.darker();
-	                } else if (model.isRollover()) {
-	                    fillColor = fillColor.brighter();
-	                }
-
-	                g.setColor(fillColor);
-	                g.fillRoundRect(0, 0, c.getWidth(),c.getHeight(), 30, 30);
-	            }
-	            paint(g, c);
-	        }
-	    });
+		btnRezervare.setUI(new ButtonFill());
 		contentPane.add(btnRezervare);
 		
 		JLabel lblNewLabel = new JLabel("Buna dimineata/ziua/seara");
@@ -90,7 +71,7 @@ public class MainFrame extends JFrame {
 		
 		JLabel lblOra = new JLabel("Ora: --/--");
 		lblOra.setFont(new Font("Consolas", Font.PLAIN, 26));
-		lblOra.setBounds(352, 95, 133, 56);
+		lblOra.setBounds(359, 102, 133, 56);
 		contentPane.add(lblOra);
 		
 		JLabel lblDataCurenta = new JLabel("Data curenta --/--/--");
@@ -114,5 +95,13 @@ public class MainFrame extends JFrame {
 		lblNewLabel_1.setFont(new Font("Consolas", Font.PLAIN, 13));
 		lblNewLabel_1.setBounds(378, 474, 83, 14);
 		contentPane.add(lblNewLabel_1);
+		
+		JButton btnHelp = new JButton("?");
+		btnHelp.setFont(new Font("Consolas", Font.PLAIN, 11));
+		btnHelp.setBackground(new Color(55, 71, 133));
+		btnHelp.setBounds(814, 445, 43, 43);
+		btnHelp.setBorder(new RoundButton(30));
+		btnHelp.setUI(new ButtonFill());
+		contentPane.add(btnHelp);
 	}
 }
