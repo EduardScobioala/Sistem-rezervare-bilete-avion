@@ -7,8 +7,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Window.Type;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.UIManager;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -44,6 +49,7 @@ public class LoginStaff extends JFrame {
 		setTitle("Login");
 		//setDefaultCloseOperation(JFrame.);
 		setBounds(100, 100, 600, 300);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(168, 208, 224)); // the color of the MainFrame #a8d0e6
 		contentPane.setForeground(Color.WHITE);
@@ -79,5 +85,15 @@ public class LoginStaff extends JFrame {
 		btnNewButton.setBounds(197, 186, 168, 45);
 		btnNewButton.setOpaque(true);
 		contentPane.add(btnNewButton);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				dispose();
+				MainFrame mainFrame = new MainFrame();
+				mainFrame.setVisible(true);
+				//setVisible(false);
+			}
+		});
 	}
 }
