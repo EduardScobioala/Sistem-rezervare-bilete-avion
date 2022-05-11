@@ -88,7 +88,7 @@ public class VizualizareZborFrame extends JFrame {
 	}
 	
 	public VizualizareZborFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 540, 681);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();

@@ -95,7 +95,7 @@ public class RezervareZborFrame extends JFrame {
 	}
 
 	public RezervareZborFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 736, 365);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();

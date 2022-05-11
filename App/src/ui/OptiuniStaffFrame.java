@@ -37,7 +37,7 @@ public class OptiuniStaffFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public OptiuniStaffFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setTitle("Optiuni disponibile");
 		setResizable(false);
 		setBounds(100, 100, 360, 240);

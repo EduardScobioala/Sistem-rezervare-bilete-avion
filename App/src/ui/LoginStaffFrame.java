@@ -42,10 +42,10 @@ public class LoginStaffFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginStaffFrame() {
-		setResizable(false);
 		setTitle("Login");
-		// setDefaultCloseOperation(JFrame.);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 600, 300);
+		setResizable(false);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(168, 208, 224)); // the color of the MainFrame #a8d0e6
