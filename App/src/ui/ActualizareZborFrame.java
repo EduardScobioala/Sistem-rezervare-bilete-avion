@@ -1,4 +1,4 @@
-package main;
+package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -47,6 +47,7 @@ public class ActualizareZborFrame extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 600, 400);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setBackground(new Color(168, 208, 224)); // the color of the MainFrame #a8d0e6
@@ -101,13 +102,9 @@ public class ActualizareZborFrame extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				if (JOptionPane.showConfirmDialog(null, "Doriti sa va intoarceti inapoi?", "Inchidere fereastra", 
-			            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)
-						== JOptionPane.YES_OPTION) {
-					OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame();
-					optiuni_staff.setVisible(true);
-					setVisible(false);
-				}
+				dispose();
+				OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame();
+				optiuni_staff.setVisible(true);
 			}
 		});
 	}

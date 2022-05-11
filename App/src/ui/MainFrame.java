@@ -1,9 +1,9 @@
-package main;
+package ui;
+
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -12,10 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Locale;
 
 public class MainFrame extends JFrame {
@@ -53,6 +51,14 @@ public class MainFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton btnRezervare = new JButton("Rezervare zbor");
+		btnRezervare.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+				RezervareZborFrame rezervareZbor = new RezervareZborFrame();
+				rezervareZbor.setVisible(true);
+			}
+		});
 		btnRezervare.setFont(new Font("Consolas", Font.PLAIN, 17));
 		btnRezervare.setForeground(Color.WHITE);
 		btnRezervare.setBounds(306, 343, 231, 56);
@@ -128,14 +134,12 @@ public class MainFrame extends JFrame {
 		
 		
 		// Login button
-
 		JLabel lblLogin = new JLabel("<HTML><U>Login Staff</U></HTML>");
 		lblLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//setVisible(false);
 				dispose();
-				LoginStaff loginStaff = new LoginStaff();
+				LoginStaffFrame loginStaff = new LoginStaffFrame();
 				loginStaff.setVisible(true);
 			}
 		});

@@ -1,25 +1,22 @@
-package main;
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+package ui;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import java.awt.Window.Type;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.UIManager;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-import java.awt.SystemColor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class LoginStaff extends JFrame {
+public class LoginStaffFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -44,10 +41,10 @@ public class LoginStaff extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public LoginStaff() {
+	public LoginStaffFrame() {
 		setResizable(false);
 		setTitle("Login");
-		//setDefaultCloseOperation(JFrame.);
+		// setDefaultCloseOperation(JFrame.);
 		setBounds(100, 100, 600, 300);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
@@ -56,30 +53,39 @@ public class LoginStaff extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("Username");
 		lblNewLabel.setFont(new Font("Consolas", Font.PLAIN, 20));
 		lblNewLabel.setBounds(93, 59, 110, 30);
 		contentPane.add(lblNewLabel);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Password");
 		lblNewLabel_1.setFont(new Font("Consolas", Font.PLAIN, 20));
 		lblNewLabel_1.setBounds(93, 117, 110, 29);
 		contentPane.add(lblNewLabel_1);
-		
+
 		textField = new JTextField();
 		textField.setFont(new Font("Consolas", Font.PLAIN, 20));
 		textField.setBounds(213, 59, 277, 30);
 		contentPane.add(textField);
 		textField.setColumns(10);
-		
+
 		textField_1 = new JTextField();
 		textField_1.setFont(new Font("Consolas", Font.PLAIN, 20));
 		textField_1.setBounds(213, 116, 277, 30);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
-		
+
 		JButton btnLogin = new JButton("Logare");
+		btnLogin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+				OptiuniStaffFrame optiuniStaff = new OptiuniStaffFrame();
+				optiuniStaff.setVisible(true);
+			}
+		});
+		
 		btnLogin.setFont(new Font("Consolas", Font.PLAIN, 15));
 		btnLogin.setBackground(new Color(55, 71, 133));
 		btnLogin.setForeground(Color.WHITE);
@@ -88,7 +94,7 @@ public class LoginStaff extends JFrame {
 		btnLogin.setBorder(new RoundButton(30));
 		btnLogin.setUI(new ButtonFill());
 		contentPane.add(btnLogin);
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

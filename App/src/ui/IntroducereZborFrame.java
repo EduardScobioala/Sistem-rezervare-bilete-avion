@@ -1,4 +1,4 @@
-package main;
+package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class IntroducereZbor extends JFrame {
+public class IntroducereZborFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtAeroportPlecare;
@@ -53,11 +53,12 @@ public class IntroducereZbor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IntroducereZbor() {
+	public IntroducereZborFrame() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);	
 		setResizable(false);
 		setTitle("Introducere zbor");
 		setBounds(100, 100, 350, 454);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(168, 208, 224)); // the color of the MainFrame #a8d0e6
 		contentPane.setForeground(Color.WHITE);
@@ -188,13 +189,9 @@ public class IntroducereZbor extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				if (JOptionPane.showConfirmDialog(null, "Doriti sa va intoarceti inapoi?", "Inchidere fereastra", 
-			            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)
-						== JOptionPane.YES_OPTION) {
-					OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame();
-					optiuni_staff.setVisible(true);
-					setVisible(false);
-				}
+				dispose();
+				OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame();
+				optiuni_staff.setVisible(true);
 			}
 		});
 	}
