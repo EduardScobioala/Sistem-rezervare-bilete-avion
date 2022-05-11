@@ -29,6 +29,8 @@ public class CautareZborFrame extends JFrame {
 	}
 	
 	private static CautareZborFrame frame;
+	
+	//functia main
 	public static void main(RezervareZborFrame initial_frame, String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -48,8 +50,8 @@ public class CautareZborFrame extends JFrame {
 		return this.ZborAles;
 	}
 	
-	//functii utilitare
-	
+	//functii
+	//generare forma
 	public CautareZborFrame() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -80,14 +82,6 @@ public class CautareZborFrame extends JFrame {
 				String aux;
 				
 				aux = lst_ZboruriDisponibile.getSelectedValuesList().get(0).toString();
-				//dev: to parse the above-mentioned RezervareZbor[] structure and find the selected flight - aux - and return the details of that flight in
-				//the variable 'ZborAles'; do not forget about the price of the ticket
-				/*
-				 for(;;)
-				 {
-				 
-				 }
-				 */
 				
 				
 				//frame.dispose();

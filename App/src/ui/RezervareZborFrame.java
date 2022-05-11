@@ -50,7 +50,9 @@ public class RezervareZborFrame extends JFrame {
 	boolean plata_cash = false;
 
 	// functii utilitare
-
+	
+	
+	//verifica daca numele orasului este valid
 	protected boolean numeOrasValid(String oras) {
 		java.util.List<String> orase = new ArrayList<String>();
 		BufferedReader read = null;
@@ -79,7 +81,19 @@ public class RezervareZborFrame extends JFrame {
 		return gasit;
 	}
 
+	//verifica daca datele de plecare (data1) si intoarcere (data2) sunt valide
 	protected boolean dateValide(int[] data1, int[] data2) {
+		
+		if(data1.length!=3 || data2.length!=3) return false;
+		
+		if(data1[0]<=0 || data1[0]>31) return false;
+		if(data1[1]<=0 || data1[1]>12) return false;
+		if(data1[2]<2022) return false;
+		
+		if(data2[0]<=0 || data2[0]>31) return false;
+		if(data2[1]<=0 || data2[1]>12) return false;
+		if(data2[2]<2022) return false;
+		
 		if (data1[2] > data2[2])
 			return false;
 		else if (data1[1] > data2[1])
@@ -89,11 +103,13 @@ public class RezervareZborFrame extends JFrame {
 
 		return true;
 	}
-
+	
+	//seteaza zborul ales in variabila 'zbor' de tip RezervareZbor
 	public void setZborAles(RezervareZbor zbor) {
 		this.zbor = zbor;
 	}
 
+	//genereaza forma
 	public RezervareZborFrame() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 736, 365);
@@ -186,7 +202,7 @@ public class RezervareZborFrame extends JFrame {
 						|| (lst_LocuriDisponibile.getSelectedValuesList().size() != 0
 								&& lst_LocuriDisponibile.getSelectedValuesList()
 										.get(lst_LocuriDisponibile.getSelectedIndex() - 1).equals(""))) {
-					JOptionPane.showMessageDialog(null, "Alegeți un loc");
+					JOptionPane.showMessageDialog(null, "AlegeČ›i un loc");
 				} else if (rezervare == null) {
 					JOptionPane.showMessageDialog(null, "Date zbor incorecte");
 				} else {
@@ -201,7 +217,7 @@ public class RezervareZborFrame extends JFrame {
 		btn_RezervareLoc.setBounds(10, 289, 123, 29);
 		contentPane.add(btn_RezervareLoc);
 
-		JButton btn_CautareZbor = new JButton("Căutare zbor");
+		JButton btn_CautareZbor = new JButton("CÄ�utare zbor");
 		btn_CautareZbor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean err_plecare = false;
@@ -322,11 +338,9 @@ public class RezervareZborFrame extends JFrame {
 
 					rezervare = new RezervareZbor(txt_OrasPlecare.getText(), txt_OrasDestinatie.getText(),
 							combo_TipLoc.getSelectedItem().toString(), combo_Clasa.getSelectedItem().toString(), data1,
-							chk_ZborRetur.isSelected(), data2, 0.0, // price is 0 for the searched flight; or it could
-																	// be the maximum/minimum price desired; will be
-																	// replaced with actual price
-							0.0, // duration will be replaced with actual flight duration at search
-							"N/A" // flight no. will be replaced with actual flight no. at search
+							chk_ZborRetur.isSelected(), data2, 0.0, // pretul initial este 0, pana la cautarea zborului
+							0.0, // durata zborului va fi inlocuita la cautarea efectiva
+							"N/A" // numarul zborului va fi inlocuit la cautarea efectiva
 					);
 
 					zbor = new RezervareZbor("ERROR");
