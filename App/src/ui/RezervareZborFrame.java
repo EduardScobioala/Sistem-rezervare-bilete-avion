@@ -229,12 +229,9 @@ public class RezervareZborFrame extends JFrame {
 		btn_RezervareLoc.setUI(new ButtonFill());
 		contentPane.add(btn_RezervareLoc);
 
-<<<<<<< HEAD
 		JButton btn_CautareZbor = new JButton("Căutare zbor");
 		btn_CautareZbor.setForeground(Color.WHITE);
-=======
-		JButton btn_CautareZbor = new JButton("CÄ�utare zbor");
->>>>>>> 8a6968997276d33ca75478e0a401d586c913f569
+		
 		btn_CautareZbor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean err_plecare = false;

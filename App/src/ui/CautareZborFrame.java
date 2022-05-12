@@ -30,7 +30,6 @@ public class CautareZborFrame extends JFrame {
 	}
 
 	private static CautareZborFrame frame;
-<<<<<<< HEAD
 	/*
 	 * public static void main(RezervareZborFrame initial_frame, String[] args) {
 	 * EventQueue.invokeLater(new Runnable() { public void run() { try { frame = new
@@ -39,13 +38,8 @@ public class CautareZborFrame extends JFrame {
 	 * }
 	 */
 
-	public RezervareZbor getZbor() {
-		return this.ZborAles;
-	}
-
 	// functii utilitare
 
-=======
 	
 	//functia main
 	public static void main(RezervareZborFrame initial_frame, String[] args) {
@@ -69,7 +63,6 @@ public class CautareZborFrame extends JFrame {
 	
 	//functii
 	//generare forma
->>>>>>> 8a6968997276d33ca75478e0a401d586c913f569
 	public CautareZborFrame() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
@@ -104,7 +97,6 @@ public class CautareZborFrame extends JFrame {
 				String aux;
 
 				aux = lst_ZboruriDisponibile.getSelectedValuesList().get(0).toString();
-<<<<<<< HEAD
 				// dev: to parse the above-mentioned RezervareZbor[] structure and find the
 				// selected flight - aux - and return the details of that flight in
 				// the variable 'ZborAles'; do not forget about the price of the ticket
@@ -115,11 +107,9 @@ public class CautareZborFrame extends JFrame {
 				 */
 
 				// frame.dispose();
-=======
 				
 				
 				//frame.dispose();
->>>>>>> 8a6968997276d33ca75478e0a401d586c913f569
 				initial_frame.setZborAles(ZborAles);
 				frame.setVisible(false);
 			}
