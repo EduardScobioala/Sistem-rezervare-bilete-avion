@@ -456,6 +456,7 @@ public class VizualizareZborFrame extends JFrame {
 	}
 
 
+	//verifica daca numele pasagerului este valid
 private boolean numeValid(String nume)
 {
 	if(nume.length()==0) return false;
@@ -468,6 +469,7 @@ private boolean numeValid(String nume)
 	return true;
 }
 
+//verifica daca e-mail-ul dat este valid
 private boolean emailValid(String email)
 {
 	int at=0,dot=0;
@@ -481,6 +483,7 @@ private boolean emailValid(String email)
 	return true;
 }
 
+//verifica daca este valid codul CVC dat
 private boolean CVCValid(String CVC)
 {
 	if(CVC.length()!=3) return false;
@@ -492,6 +495,7 @@ private boolean CVCValid(String CVC)
 	return true;
 }
 
+//verifica daca este valid numarul cardului dat
 private boolean nrCardContValid(String nr, boolean card)
 {
 	if(card==true)
@@ -511,6 +515,7 @@ private boolean nrCardContValid(String nr, boolean card)
 	return true;
 }
 
+//verifica daca nu este expirat cardul dat
 private boolean dataExpirareValida(int[] dataExpirare)
 {
 	Calendar aux = Calendar.getInstance();
@@ -521,6 +526,7 @@ private boolean dataExpirareValida(int[] dataExpirare)
 	return true;
 }
 
+//verifica daca suma inregistrata este valida
 private boolean sumaCashValida(String suma)
 {
 	double d_suma;
@@ -538,6 +544,7 @@ private boolean sumaCashValida(String suma)
 	return true;
 }
 
+//verifica daca numarul de telefon dat este valid
 private boolean nrTelValid(String tel)
 {
 	if(tel.length()!=10) return false;
