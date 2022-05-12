@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.Calendar;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.Font;
 
 public class IntroducereZborFrame extends JFrame {
 
@@ -57,7 +58,7 @@ public class IntroducereZborFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);	
 		setResizable(false);
 		setTitle("Introducere zbor");
-		setBounds(100, 100, 350, 454);
+		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(168, 208, 224)); // the color of the MainFrame #a8d0e6
@@ -67,123 +68,140 @@ public class IntroducereZborFrame extends JFrame {
 		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Aeroport de plecare:");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel.setBounds(10, 11, 136, 14);
+		lblNewLabel.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblNewLabel.setBounds(120, 35, 228, 25);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Aeroport de sosire:");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_1.setBounds(10, 36, 136, 14);
+		lblNewLabel_1.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblNewLabel_1.setBounds(120, 80, 228, 25);
 		contentPane.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Data plec\u0103rii:");
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_2.setBounds(10, 61, 136, 14);
+		lblNewLabel_2.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblNewLabel_2.setBounds(120, 125, 228, 25);
 		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Num\u0103r zbor:");
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_3.setBounds(10, 86, 136, 14);
+		lblNewLabel_3.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblNewLabel_3.setBounds(120, 170, 228, 25);
 		contentPane.add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("Num\u0103r de locuri:");
-		lblNewLabel_4.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_4.setBounds(10, 111, 136, 14);
+		lblNewLabel_4.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblNewLabel_4.setBounds(120, 215, 228, 25);
 		contentPane.add(lblNewLabel_4);
 		
 		JLabel lblNewLabel_5 = new JLabel("Clasa:");
-		lblNewLabel_5.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_5.setBounds(10, 136, 136, 14);
+		lblNewLabel_5.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblNewLabel_5.setBounds(120, 260, 228, 25);
 		contentPane.add(lblNewLabel_5);
 		
 		JLabel lblNewLabel_6 = new JLabel("Pre\u021B:");
-		lblNewLabel_6.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_6.setBounds(10, 161, 136, 14);
+		lblNewLabel_6.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblNewLabel_6.setBounds(120, 305, 228, 25);
 		contentPane.add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_7 = new JLabel("Ora de plecare:");
-		lblNewLabel_7.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_7.setBounds(10, 186, 136, 14);
+		lblNewLabel_7.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblNewLabel_7.setBounds(120, 350, 228, 25);
 		contentPane.add(lblNewLabel_7);
 		
 		JLabel lblNewLabel_8 = new JLabel("Ora de sosire:");
-		lblNewLabel_8.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_8.setBounds(10, 211, 136, 14);
+		lblNewLabel_8.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblNewLabel_8.setBounds(120, 395, 228, 25);
 		contentPane.add(lblNewLabel_8);
 		
 		JLabel lblNewLabel_9 = new JLabel("Traseu complet:");
-		lblNewLabel_9.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_9.setBounds(10, 236, 136, 14);
+		lblNewLabel_9.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblNewLabel_9.setBounds(120, 440, 228, 25);
 		contentPane.add(lblNewLabel_9);
 		
 		JCheckBox chckbxDiscountDusIntors = new JCheckBox("Discount dus-\u00EEntors");
+		chckbxDiscountDusIntors.setFont(new Font("Consolas", Font.PLAIN, 20));
 		chckbxDiscountDusIntors.setBackground(new Color(168, 208, 224));
-		chckbxDiscountDusIntors.setBounds(10, 276, 148, 23);
+		chckbxDiscountDusIntors.setBounds(120, 490, 234, 25);
 		contentPane.add(chckbxDiscountDusIntors);
 		
 		JCheckBox chckbxDiscountLastMinute = new JCheckBox("Discount last-minute");
+		chckbxDiscountLastMinute.setFont(new Font("Consolas", Font.PLAIN, 20));
 		chckbxDiscountLastMinute.setBackground(new Color(168, 208, 224));
-		chckbxDiscountLastMinute.setBounds(160, 276, 148, 23);
+		chckbxDiscountLastMinute.setBounds(375, 490, 254, 25);
 		contentPane.add(chckbxDiscountLastMinute);
 		
 		txtAeroportPlecare = new JTextField();
-		txtAeroportPlecare.setBounds(156, 8, 152, 20);
+		txtAeroportPlecare.setFont(new Font("Consolas", Font.PLAIN, 20));
+		txtAeroportPlecare.setBounds(433, 35, 390, 25);
 		contentPane.add(txtAeroportPlecare);
 		txtAeroportPlecare.setColumns(10);
 		
 		txtAeroportSosire = new JTextField();
-		txtAeroportSosire.setBounds(156, 33, 152, 20);
+		txtAeroportSosire.setFont(new Font("Consolas", Font.PLAIN, 20));
+		txtAeroportSosire.setBounds(433, 79, 390, 25);
 		contentPane.add(txtAeroportSosire);
 		txtAeroportSosire.setColumns(10);
 		
 		txtDataPlecarii = new JTextField();
+		txtDataPlecarii.setFont(new Font("Consolas", Font.PLAIN, 20));
 		txtDataPlecarii.setToolTipText("Introduce\u021Bi data de forma \"zz.ll.aaaa\"");
-		txtDataPlecarii.setBounds(156, 58, 86, 20);
+		txtDataPlecarii.setBounds(433, 124, 390, 25);
 		contentPane.add(txtDataPlecarii);
 		txtDataPlecarii.setColumns(10);
 		
 		txtNumarZbor = new JTextField();
-		txtNumarZbor.setBounds(156, 83, 86, 20);
+		txtNumarZbor.setFont(new Font("Consolas", Font.PLAIN, 20));
+		txtNumarZbor.setBounds(433, 169, 390, 25);
 		contentPane.add(txtNumarZbor);
 		txtNumarZbor.setColumns(10);
 		
 		JSpinner spinnerNrLocuri = new JSpinner();
+		spinnerNrLocuri.setFont(new Font("Consolas", Font.PLAIN, 20));
 		spinnerNrLocuri.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		spinnerNrLocuri.setBounds(156, 108, 61, 20);
+		spinnerNrLocuri.setBounds(433, 214, 390, 25);
 		contentPane.add(spinnerNrLocuri);
 		
 		txtClasa = new JTextField();
-		txtClasa.setBounds(156, 133, 61, 20);
+		txtClasa.setFont(new Font("Consolas", Font.PLAIN, 20));
+		txtClasa.setBounds(433, 259, 390, 25);
 		contentPane.add(txtClasa);
 		txtClasa.setColumns(10);
 		
 		txtOraPlecare = new JTextField();
+		txtOraPlecare.setFont(new Font("Consolas", Font.PLAIN, 20));
 		txtOraPlecare.setToolTipText("Introduce\u021Bi ora de forma \"hh:mm\"");
-		txtOraPlecare.setBounds(156, 183, 86, 20);
+		txtOraPlecare.setBounds(433, 349, 390, 25);
 		contentPane.add(txtOraPlecare);
 		txtOraPlecare.setColumns(10);
 		
 		txtOraSosire = new JTextField();
+		txtOraSosire.setFont(new Font("Consolas", Font.PLAIN, 20));
 		txtOraSosire.setToolTipText("Introduce\u021Bi ora de forma \"hh:mm\"");
-		txtOraSosire.setBounds(156, 208, 86, 20);
+		txtOraSosire.setBounds(433, 394, 390, 25);
 		contentPane.add(txtOraSosire);
 		txtOraSosire.setColumns(10);
 		
 		txtPret = new JTextField();
-		txtPret.setBounds(156, 158, 86, 20);
+		txtPret.setFont(new Font("Consolas", Font.PLAIN, 20));
+		txtPret.setBounds(433, 304, 390, 25);
 		contentPane.add(txtPret);
 		txtPret.setColumns(10);
 		
 		txtTraseuComplet = new JTextField();
-		txtTraseuComplet.setBounds(156, 233, 152, 20);
+		txtTraseuComplet.setFont(new Font("Consolas", Font.PLAIN, 20));
+		txtTraseuComplet.setBounds(433, 439, 390, 25);
 		contentPane.add(txtTraseuComplet);
 		txtTraseuComplet.setColumns(10);
 		
 		JButton btnIntroducereZbor = new JButton("Introducere zbor");
-		btnIntroducereZbor.setForeground(new Color(0, 0, 0));
+		btnIntroducereZbor.setFont(new Font("Consolas", Font.PLAIN, 18));
+		btnIntroducereZbor.setForeground(Color.WHITE);
 		btnIntroducereZbor.setBackground(new Color(55, 71, 133));
 		btnIntroducereZbor.setOpaque(true);
-		btnIntroducereZbor.setBounds(79, 338, 176, 56);
+		btnIntroducereZbor.setBounds(672, 494, 287, 56);
+		//Round the button with radius = 30
+		btnIntroducereZbor.setBorder(new RoundButton(30));
+
+		btnIntroducereZbor.setUI(new ButtonFill());
 		contentPane.add(btnIntroducereZbor);
 		
 		addWindowListener(new WindowAdapter() {

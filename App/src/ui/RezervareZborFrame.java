@@ -30,11 +30,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class RezervareZborFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txt_OrasPlecare;
 	private JTextField txt_OrasDestinatie;
 	static RezervareZborFrame frame;
 
@@ -48,6 +48,7 @@ public class RezervareZborFrame extends JFrame {
 	private RezervareZbor rezervare = null;
 	private RezervareZbor zbor = null;
 	boolean plata_cash = false;
+	private JTextField txt_OrasPlecare;
 
 	// functii utilitare
 
@@ -95,91 +96,96 @@ public class RezervareZborFrame extends JFrame {
 	}
 
 	public RezervareZborFrame() {
+		setTitle("Rezervare Zbor");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 736, 365);
+		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(168, 208, 224));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JLabel lbl_OrasPlecare = new JLabel("Ora\u0219 origine:");
-		lbl_OrasPlecare.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_OrasPlecare.setBounds(10, 10, 98, 21);
+		lbl_OrasPlecare.setFont(new Font("Consolas", Font.PLAIN, 18));
+		lbl_OrasPlecare.setBounds(44, 34, 139, 30);
 		contentPane.add(lbl_OrasPlecare);
 
 		JLabel lbl_OrasSosire = new JLabel("Ora\u0219 destina\u021Bie:");
-		lbl_OrasSosire.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_OrasSosire.setBounds(10, 40, 98, 21);
+		lbl_OrasSosire.setFont(new Font("Consolas", Font.PLAIN, 18));
+		lbl_OrasSosire.setBounds(44, 84, 172, 30);
 		contentPane.add(lbl_OrasSosire);
 
 		JLabel lbl_DataPlecarii = new JLabel("Data plec\u0103rii:");
-		lbl_DataPlecarii.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_DataPlecarii.setBounds(10, 85, 98, 21);
+		lbl_DataPlecarii.setFont(new Font("Consolas", Font.PLAIN, 18));
+		lbl_DataPlecarii.setBounds(44, 138, 148, 30);
 		contentPane.add(lbl_DataPlecarii);
 
 		JLabel lbl_TipLoc = new JLabel("Tip loc:");
-		lbl_TipLoc.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_TipLoc.setBounds(10, 133, 53, 21);
+		lbl_TipLoc.setFont(new Font("Consolas", Font.PLAIN, 18));
+		lbl_TipLoc.setBounds(48, 213, 96, 30);
 		contentPane.add(lbl_TipLoc);
 
 		JLabel lbl_Clasa = new JLabel("Clasa la care se dore\u0219te rezervarea:");
-		lbl_Clasa.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_Clasa.setBounds(10, 211, 222, 21);
+		lbl_Clasa.setFont(new Font("Consolas", Font.PLAIN, 18));
+		lbl_Clasa.setBounds(44, 338, 365, 30);
 		contentPane.add(lbl_Clasa);
 
 		JLabel lbl_DataIntoarcere = new JLabel("Data \u00EEntoarcerii:");
-		lbl_DataIntoarcere.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_DataIntoarcere.setBounds(130, 170, 109, 21);
+		lbl_DataIntoarcere.setFont(new Font("Consolas", Font.PLAIN, 18));
+		lbl_DataIntoarcere.setBounds(169, 268, 177, 30);
 		contentPane.add(lbl_DataIntoarcere);
 
-		txt_OrasPlecare = new JTextField();
-		txt_OrasPlecare.setBounds(118, 13, 96, 19);
-		contentPane.add(txt_OrasPlecare);
-		txt_OrasPlecare.setColumns(10);
-
 		txt_OrasDestinatie = new JTextField();
+		txt_OrasDestinatie.setFont(new Font("Consolas", Font.PLAIN, 18));
 		txt_OrasDestinatie.setColumns(10);
-		txt_OrasDestinatie.setBounds(118, 43, 96, 19);
+		txt_OrasDestinatie.setBounds(245, 84, 222, 30);
 		contentPane.add(txt_OrasDestinatie);
 
 		JSpinner dateTime_DataPlecarii = new JSpinner(new SpinnerDateModel(new Date(1651524853330L),
 				new Date(1651524853330L), new Date(1967144053330L), Calendar.DAY_OF_YEAR));
+		dateTime_DataPlecarii.setFont(new Font("Consolas", Font.PLAIN, 18));
 		JSpinner.DateEditor editor_plecare = new JSpinner.DateEditor(dateTime_DataPlecarii, "dd.MM.yy");
 		dateTime_DataPlecarii.setEditor(editor_plecare);
-		dateTime_DataPlecarii.setBounds(116, 83, 98, 29);
+		dateTime_DataPlecarii.setBounds(245, 138, 222, 30);
 		contentPane.add(dateTime_DataPlecarii);
 
 		JSpinner dateTime_DataIntoarcerii = new JSpinner(new SpinnerDateModel(new Date(1651524884913L),
 				new Date(1651524884913L), new Date(1967144084913L), Calendar.DAY_OF_YEAR));
+		dateTime_DataIntoarcerii.setFont(new Font("Consolas", Font.PLAIN, 18));
 		JSpinner.DateEditor editor_intoarcere = new JSpinner.DateEditor(dateTime_DataIntoarcerii, "dd.MM.yy");
 		dateTime_DataIntoarcerii.setEditor(editor_intoarcere);
-		dateTime_DataIntoarcerii.setBounds(242, 168, 98, 29);
+		dateTime_DataIntoarcerii.setBounds(356, 268, 111, 30);
 		contentPane.add(dateTime_DataIntoarcerii);
 
 		JComboBox combo_TipLoc = new JComboBox();
-		combo_TipLoc.setBounds(73, 135, 123, 21);
+		combo_TipLoc.setFont(new Font("Consolas", Font.PLAIN, 18));
+		combo_TipLoc.setBounds(245, 213, 222, 30);
 		contentPane.add(combo_TipLoc);
 
 		JCheckBox chk_ZborRetur = new JCheckBox("Retur");
-		chk_ZborRetur.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		chk_ZborRetur.setBounds(10, 170, 67, 21);
+		chk_ZborRetur.setBackground(new Color(168, 208, 224));
+		chk_ZborRetur.setHorizontalAlignment(SwingConstants.LEFT);
+		chk_ZborRetur.setFont(new Font("Consolas", Font.PLAIN, 18));
+		chk_ZborRetur.setBounds(44, 268, 100, 30);
 		contentPane.add(chk_ZborRetur);
 
 		JComboBox combo_Clasa = new JComboBox();
-		combo_Clasa.setBounds(242, 213, 123, 21);
+		combo_Clasa.setFont(new Font("Consolas", Font.PLAIN, 18));
+		combo_Clasa.setBounds(245, 379, 222, 30);
 		contentPane.add(combo_Clasa);
 
 		JLabel lbl_ListaLocuri = new JLabel("List\u0103 locuri");
-		lbl_ListaLocuri.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_ListaLocuri.setBounds(539, 10, 98, 21);
+		lbl_ListaLocuri.setFont(new Font("Consolas", Font.PLAIN, 18));
+		lbl_ListaLocuri.setBounds(692, 11, 139, 21);
 		contentPane.add(lbl_ListaLocuri);
 
 		JList lst_LocuriDisponibile = new JList();
-		lst_LocuriDisponibile.setBounds(469, 41, 243, 277);
+		lst_LocuriDisponibile.setBounds(557, 40, 403, 495);
 		contentPane.add(lst_LocuriDisponibile);
 
 		JButton btn_RezervareLoc = new JButton("Rezervare loc");
+		btn_RezervareLoc.setForeground(Color.WHITE);
 		btn_RezervareLoc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (lst_LocuriDisponibile.getComponentCount() == 0
@@ -197,11 +203,18 @@ public class RezervareZborFrame extends JFrame {
 
 			}
 		});
-		btn_RezervareLoc.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btn_RezervareLoc.setBounds(10, 289, 123, 29);
+		btn_RezervareLoc.setFont(new Font("Consolas", Font.PLAIN, 18));
+		btn_RezervareLoc.setBounds(44, 481, 200, 40);
+		btn_RezervareLoc.setBackground(new Color(55, 71, 133));
+		btn_RezervareLoc.setOpaque(true);
+		//Round the button with radius = 30
+		btn_RezervareLoc.setBorder(new RoundButton(30));
+
+		btn_RezervareLoc.setUI(new ButtonFill());
 		contentPane.add(btn_RezervareLoc);
 
 		JButton btn_CautareZbor = new JButton("Căutare zbor");
+		btn_CautareZbor.setForeground(Color.WHITE);
 		btn_CautareZbor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean err_plecare = false;
@@ -339,9 +352,21 @@ public class RezervareZborFrame extends JFrame {
 
 			}
 		});
-		btn_CautareZbor.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btn_CautareZbor.setBounds(316, 289, 123, 29);
+		btn_CautareZbor.setFont(new Font("Consolas", Font.PLAIN, 18));
+		btn_CautareZbor.setBounds(297, 481, 200, 40);
+		btn_CautareZbor.setBackground(new Color(55, 71, 133));
+		btn_CautareZbor.setOpaque(true);
+		//Round the button with radius = 30
+		btn_CautareZbor.setBorder(new RoundButton(30));
+
+		btn_CautareZbor.setUI(new ButtonFill());
 		contentPane.add(btn_CautareZbor);
+		
+		txt_OrasPlecare = new JTextField();
+		txt_OrasPlecare.setFont(new Font("Consolas", Font.PLAIN, 18));
+		txt_OrasPlecare.setColumns(10);
+		txt_OrasPlecare.setBounds(245, 35, 222, 30);
+		contentPane.add(txt_OrasPlecare);
 
 		addWindowListener(new WindowAdapter() {
 			@Override
