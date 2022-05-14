@@ -20,18 +20,12 @@ public class OptiuniStaffFrame extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					OptiuniStaffFrame frame = new OptiuniStaffFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	/*
+	 * public static void main(String[] args) { EventQueue.invokeLater(new
+	 * Runnable() { public void run() { try { OptiuniStaffFrame frame = new
+	 * OptiuniStaffFrame(); frame.setVisible(true); } catch (Exception e) {
+	 * e.printStackTrace(); } } }); }
+	 */
 
 	/**
 	 * Create the frame.
@@ -40,7 +34,7 @@ public class OptiuniStaffFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setTitle("Optiuni disponibile");
 		setResizable(false);
-		setBounds(100, 100, 360, 240);
+		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -58,9 +52,14 @@ public class OptiuniStaffFrame extends JFrame {
 		});
 		btnIntroducere.setOpaque(true);
 		btnIntroducere.setForeground(Color.WHITE);
-		btnIntroducere.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnIntroducere.setFont(new Font("Consolas", Font.PLAIN, 30));
 		btnIntroducere.setBackground(new Color(55, 71, 133));
-		btnIntroducere.setBounds(90, 30, 170, 45);
+		btnIntroducere.setBounds(278, 101, 400, 125);
+		btnIntroducere.setOpaque(true);
+		//Round the button with radius = 30
+		btnIntroducere.setBorder(new RoundButton(30));
+
+		btnIntroducere.setUI(new ButtonFill());
 		contentPane.add(btnIntroducere);
 		
 		JButton btnActualizareZbor = new JButton("Actualizare zbor");
@@ -73,9 +72,14 @@ public class OptiuniStaffFrame extends JFrame {
 		});
 		btnActualizareZbor.setOpaque(true);
 		btnActualizareZbor.setForeground(Color.WHITE);
-		btnActualizareZbor.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnActualizareZbor.setFont(new Font("Consolas", Font.PLAIN, 30));
 		btnActualizareZbor.setBackground(new Color(55, 71, 133));
-		btnActualizareZbor.setBounds(90, 124, 170, 45);
+		btnActualizareZbor.setBounds(278, 338, 400, 125);
+		btnActualizareZbor.setOpaque(true);
+		//Round the button with radius = 30
+		btnActualizareZbor.setBorder(new RoundButton(30));
+
+		btnActualizareZbor.setUI(new ButtonFill());
 		contentPane.add(btnActualizareZbor);
 		
 		addWindowListener(new WindowAdapter() {

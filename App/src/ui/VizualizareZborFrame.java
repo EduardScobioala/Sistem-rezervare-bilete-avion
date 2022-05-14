@@ -54,21 +54,15 @@ public class VizualizareZborFrame extends JFrame {
 
 	static VizualizareZborFrame frame;
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					frame = new VizualizareZborFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				frame.open();
-				
-			}
-		});
-	}
+	/*
+	 * public static void main(String[] args) { EventQueue.invokeLater(new
+	 * Runnable() { public void run() { try { frame = new VizualizareZborFrame();
+	 * frame.setVisible(true); } catch (Exception e) { e.printStackTrace(); }
+	 * 
+	 * frame.open();
+	 * 
+	 * } }); }
+	 */
 	
 	public void open()
 	{
@@ -89,244 +83,206 @@ public class VizualizareZborFrame extends JFrame {
 	}
 	
 	public VizualizareZborFrame() {
+		setTitle("Vizualizare Zbor");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 540, 681);
+		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(168, 208, 224));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 10, 506, 181);
+		panel.setBackground(new Color(168, 208, 224));
+		panel.setBounds(10, 11, 964, 132);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JLabel lbl_DetaliiZborTitlu = new JLabel("Detalii zbor");
 		lbl_DetaliiZborTitlu.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lbl_DetaliiZborTitlu.setBounds(194, 10, 114, 38);
+		lbl_DetaliiZborTitlu.setBounds(407, 0, 114, 38);
 		panel.add(lbl_DetaliiZborTitlu);
 		
 		JLabel lbl_OrasPlecare = new JLabel("Origine:");
-		lbl_OrasPlecare.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_OrasPlecare.setBounds(10, 51, 78, 23);
+		lbl_OrasPlecare.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_OrasPlecare.setBounds(24, 43, 70, 20);
 		panel.add(lbl_OrasPlecare);
 		
 		JLabel lbl_OrasDestinatie = new JLabel("Destina\u021Bie:");
-		lbl_OrasDestinatie.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_OrasDestinatie.setBounds(10, 95, 78, 23);
+		lbl_OrasDestinatie.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_OrasDestinatie.setBounds(643, 43, 114, 20);
 		panel.add(lbl_OrasDestinatie);
 		
 		JLabel lbl_NrZbor = new JLabel("Num\u0103r zbor:");
-		lbl_NrZbor.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_NrZbor.setBounds(10, 139, 78, 23);
+		lbl_NrZbor.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_NrZbor.setBounds(302, 85, 114, 20);
 		panel.add(lbl_NrZbor);
 		
 		JLabel lbl_DurataZbor = new JLabel("Durat\u0103 zbor:");
-		lbl_DurataZbor.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_DurataZbor.setBounds(230, 58, 78, 23);
+		lbl_DurataZbor.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_DurataZbor.setBounds(302, 43, 105, 20);
 		panel.add(lbl_DurataZbor);
 		
 		JLabel lbl_DataPlecare = new JLabel("Dat\u0103:");
-		lbl_DataPlecare.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_DataPlecare.setBounds(230, 102, 78, 23);
+		lbl_DataPlecare.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_DataPlecare.setBounds(24, 85, 70, 20);
 		panel.add(lbl_DataPlecare);
 		
 		JLabel lbl_Pret = new JLabel("Pre\u021B:");
-		lbl_Pret.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_Pret.setBounds(230, 146, 78, 23);
+		lbl_Pret.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_Pret.setBounds(643, 85, 78, 20);
 		panel.add(lbl_Pret);
 		
 		JLabel lbl_RON_ReadOnly = new JLabel("RON");
-		lbl_RON_ReadOnly.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_RON_ReadOnly.setBounds(450, 146, 45, 23);
+		lbl_RON_ReadOnly.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_RON_ReadOnly.setBounds(909, 85, 45, 20);
 		panel.add(lbl_RON_ReadOnly);
 		
 		JLabel lbl_DurataZbor_ore = new JLabel("ore");
-		lbl_DurataZbor_ore.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_DurataZbor_ore.setBounds(450, 58, 30, 23);
+		lbl_DurataZbor_ore.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_DurataZbor_ore.setBounds(574, 43, 30, 20);
 		panel.add(lbl_DurataZbor_ore);
 		
 		txt_OrasPlecare = new JTextField();
 		txt_OrasPlecare.setEditable(false);
-		txt_OrasPlecare.setBounds(98, 58, 122, 19);
+		txt_OrasPlecare.setBounds(117, 42, 140, 20);
 		panel.add(txt_OrasPlecare);
 		txt_OrasPlecare.setColumns(10);
 		
 		txt_OrasDestinatie = new JTextField();
 		txt_OrasDestinatie.setEditable(false);
 		txt_OrasDestinatie.setColumns(10);
-		txt_OrasDestinatie.setBounds(98, 99, 122, 19);
+		txt_OrasDestinatie.setBounds(755, 42, 140, 20);
 		panel.add(txt_OrasDestinatie);
 		
 		txt_NrZbor = new JTextField();
 		txt_NrZbor.setEditable(false);
 		txt_NrZbor.setColumns(10);
-		txt_NrZbor.setBounds(98, 143, 122, 19);
+		txt_NrZbor.setBounds(424, 84, 140, 20);
 		panel.add(txt_NrZbor);
 		
 		txt_Durata = new JTextField();
 		txt_Durata.setEditable(false);
 		txt_Durata.setColumns(10);
-		txt_Durata.setBounds(318, 62, 122, 19);
+		txt_Durata.setBounds(424, 42, 140, 20);
 		panel.add(txt_Durata);
 		
 		txt_Pret = new JTextField();
 		txt_Pret.setEditable(false);
 		txt_Pret.setColumns(10);
-		txt_Pret.setBounds(318, 143, 122, 19);
+		txt_Pret.setBounds(755, 84, 140, 20);
 		panel.add(txt_Pret);
 		
 		dateTime_DataZbor = new JTextField();
 		dateTime_DataZbor.setEditable(false);
 		dateTime_DataZbor.setColumns(10);
-		dateTime_DataZbor.setBounds(318, 106, 122, 19);
+		dateTime_DataZbor.setBounds(117, 84, 140, 20);
 		panel.add(dateTime_DataZbor);
 		
-		JLabel lbl_RezervareTitlu = new JLabel("Rezervare");
-		lbl_RezervareTitlu.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lbl_RezervareTitlu.setBounds(202, 201, 114, 38);
-		contentPane.add(lbl_RezervareTitlu);
-		
-		JLabel lbl_Nume = new JLabel("Nume:");
-		lbl_Nume.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_Nume.setBounds(31, 246, 68, 23);
-		contentPane.add(lbl_Nume);
-		
-		JLabel lbl_Prenume = new JLabel("Prenume:");
-		lbl_Prenume.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_Prenume.setBounds(31, 279, 68, 23);
-		contentPane.add(lbl_Prenume);
-		
-		JLabel lbl_Varsta = new JLabel("V\u00E2rst\u0103:");
-		lbl_Varsta.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_Varsta.setBounds(31, 312, 68, 23);
-		contentPane.add(lbl_Varsta);
-		
-		JLabel lbl_Email = new JLabel("E-mail:");
-		lbl_Email.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_Email.setBounds(269, 246, 59, 23);
-		contentPane.add(lbl_Email);
-		
-		JLabel lbl_Telefon = new JLabel("Telefon:");
-		lbl_Telefon.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_Telefon.setBounds(269, 279, 59, 23);
-		contentPane.add(lbl_Telefon);
-		
-		txt_Nume = new JTextField();
-		txt_Nume.setColumns(10);
-		txt_Nume.setBounds(124, 250, 122, 19);
-		contentPane.add(txt_Nume);
-		
-		txt_Prenume = new JTextField();
-		txt_Prenume.setColumns(10);
-		txt_Prenume.setBounds(124, 283, 122, 19);
-		contentPane.add(txt_Prenume);
-		
-		txt_Telefon = new JTextField();
-		txt_Telefon.setColumns(10);
-		txt_Telefon.setBounds(334, 283, 122, 19);
-		contentPane.add(txt_Telefon);
-		
-		txt_Email = new JTextField();
-		txt_Email.setColumns(10);
-		txt_Email.setBounds(334, 250, 122, 19);
-		contentPane.add(txt_Email);
-		
-		JSpinner spinner_Varsta = new JSpinner();
-		spinner_Varsta.setBounds(124, 316, 122, 20);
-		contentPane.add(spinner_Varsta);
-		
 		JPanel groupBox_PlataBanca = new JPanel();
-		groupBox_PlataBanca.setBounds(10, 350, 326, 223);
+		groupBox_PlataBanca.setBackground(new Color(168, 208, 224));
+		groupBox_PlataBanca.setBounds(10, 334, 644, 132);
 		contentPane.add(groupBox_PlataBanca);
 		groupBox_PlataBanca.setLayout(null);
 		
 		JLabel lbl_ModalitatePlata = new JLabel("Modalitate plat\u0103:");
-		lbl_ModalitatePlata.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_ModalitatePlata.setBounds(10, 10, 113, 23);
+		lbl_ModalitatePlata.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_ModalitatePlata.setBounds(10, 10, 147, 23);
 		groupBox_PlataBanca.add(lbl_ModalitatePlata);
 		
 		JRadioButton radio_Card = new JRadioButton("Card");
 		radio_Card.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		radio_Card.setBounds(129, 13, 55, 21);
+		radio_Card.setBounds(177, 8, 55, 20);
 		groupBox_PlataBanca.add(radio_Card);
 		
 		JRadioButton radio_ViramentBancar = new JRadioButton("Virament bancar");
 		radio_ViramentBancar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		radio_ViramentBancar.setBounds(186, 13, 127, 21);
+		radio_ViramentBancar.setBounds(276, 8, 127, 20);
 		groupBox_PlataBanca.add(radio_ViramentBancar);
 		
 		JLabel lbl_NrCard_sau_Cont = new JLabel("Num\u0103r card/cont:");
-		lbl_NrCard_sau_Cont.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_NrCard_sau_Cont.setBounds(10, 56, 127, 23);
+		lbl_NrCard_sau_Cont.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_NrCard_sau_Cont.setBounds(10, 56, 140, 20);
 		groupBox_PlataBanca.add(lbl_NrCard_sau_Cont);
 		
 		JLabel lbl_DataExpirareCard = new JLabel("Dat\u0103 expirare card:");
-		lbl_DataExpirareCard.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_DataExpirareCard.setBounds(10, 89, 127, 23);
+		lbl_DataExpirareCard.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_DataExpirareCard.setBounds(343, 57, 159, 20);
 		groupBox_PlataBanca.add(lbl_DataExpirareCard);
 		
 		JLabel lbl_NumeTitular = new JLabel("Nume titular:");
-		lbl_NumeTitular.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_NumeTitular.setBounds(10, 122, 127, 23);
+		lbl_NumeTitular.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_NumeTitular.setBounds(10, 90, 147, 20);
 		groupBox_PlataBanca.add(lbl_NumeTitular);
 		
 		JLabel lbl_CodCVC = new JLabel("Cod CVC:");
-		lbl_CodCVC.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_CodCVC.setBounds(10, 155, 127, 23);
+		lbl_CodCVC.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_CodCVC.setBounds(343, 91, 92, 20);
 		groupBox_PlataBanca.add(lbl_CodCVC);
 		
 		txt_NrCard = new JTextField();
 		txt_NrCard.setColumns(10);
-		txt_NrCard.setBounds(157, 60, 122, 19);
+		txt_NrCard.setBounds(165, 56, 160, 20);
 		groupBox_PlataBanca.add(txt_NrCard);
 		
 		txt_NumeTitular = new JTextField();
 		txt_NumeTitular.setColumns(10);
-		txt_NumeTitular.setBounds(157, 126, 122, 19);
+		txt_NumeTitular.setBounds(165, 90, 159, 20);
 		groupBox_PlataBanca.add(txt_NumeTitular);
 		
 		txt_CVC = new JTextField();
 		txt_CVC.setColumns(10);
-		txt_CVC.setBounds(157, 159, 122, 19);
+		txt_CVC.setBounds(512, 90, 122, 20);
 		groupBox_PlataBanca.add(txt_CVC);
 		
 		JSpinner dateTime_ExpirareCard = new JSpinner();
-		dateTime_ExpirareCard.setBounds(157, 93, 122, 20);
+		dateTime_ExpirareCard.setBounds(512, 56, 122, 20);
 		groupBox_PlataBanca.add(dateTime_ExpirareCard);
 		
 		JPanel groupBox_PlataCash = new JPanel();
-		groupBox_PlataCash.setBounds(344, 425, 270, 105);
+		groupBox_PlataCash.setBackground(new Color(168, 208, 224));
+		groupBox_PlataCash.setBounds(664, 361, 270, 80);
 		contentPane.add(groupBox_PlataCash);
 		groupBox_PlataCash.setLayout(null);
 		
 		JLabel lbl_PlataCashTitlu = new JLabel("Plat\u0103 cash");
-		lbl_PlataCashTitlu.setBounds(10, 10, 73, 17);
-		lbl_PlataCashTitlu.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lbl_PlataCashTitlu.setBounds(10, 10, 122, 20);
+		lbl_PlataCashTitlu.setFont(new Font("Consolas", Font.PLAIN, 15));
 		groupBox_PlataCash.add(lbl_PlataCashTitlu);
 		
 		JLabel lbl_PlataCashSuma = new JLabel("Suma:");
-		lbl_PlataCashSuma.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_PlataCashSuma.setBounds(10, 37, 49, 17);
+		lbl_PlataCashSuma.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_PlataCashSuma.setBounds(10, 37, 49, 20);
 		groupBox_PlataCash.add(lbl_PlataCashSuma);
 		
 		txt_PlataCashSuma = new JTextField();
 		txt_PlataCashSuma.setColumns(10);
-		txt_PlataCashSuma.setBounds(60, 37, 122, 19);
+		txt_PlataCashSuma.setBounds(60, 37, 136, 20);
 		groupBox_PlataCash.add(txt_PlataCashSuma);
 		
 		JLabel lbl_RON = new JLabel("RON");
-		lbl_RON.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_RON.setBounds(192, 41, 45, 23);
+		lbl_RON.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_RON.setBounds(215, 37, 45, 20);
 		groupBox_PlataCash.add(lbl_RON);
 		
 		JLabel lbl_ErrData = new JLabel("#ERROR#");
-		lbl_ErrData.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lbl_ErrData.setBounds(361, 607, 68, 23);
+		lbl_ErrData.setFont(new Font("Consolas", Font.PLAIN, 16));
+		lbl_ErrData.setBounds(866, 523, 68, 25);
 		contentPane.add(lbl_ErrData);
 		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(168, 208, 224));
+		panel_1.setBounds(10, 170, 964, 132);
+		contentPane.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JSpinner spinner_Varsta = new JSpinner();
+		spinner_Varsta.setBounds(448, 44, 160, 20);
+		panel_1.add(spinner_Varsta);
+		
 		JButton btn_RezervaLocul = new JButton("Rezerv\u0103 locul");
+		btn_RezervaLocul.setForeground(Color.WHITE);
 		btn_RezervaLocul.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean err_nume=false;
@@ -473,18 +429,65 @@ public class VizualizareZborFrame extends JFrame {
 			
 			}
 		});
-		btn_RezervaLocul.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btn_RezervaLocul.setBounds(202, 603, 133, 31);
+		btn_RezervaLocul.setFont(new Font("Consolas", Font.PLAIN, 16));
+		btn_RezervaLocul.setBounds(366, 500, 240, 50);
+		btn_RezervaLocul.setBackground(new Color(55, 71, 133));
+		btn_RezervaLocul.setOpaque(true);
+		//Round the button with radius = 30
+		btn_RezervaLocul.setBorder(new RoundButton(30));
+
+		btn_RezervaLocul.setUI(new ButtonFill());
 		contentPane.add(btn_RezervaLocul);
 		
-		JButton btn_Iesire = new JButton("\u00CEnapoi");
-		btn_Iesire.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btn_Iesire.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btn_Iesire.setBounds(10, 603, 133, 31);
-		contentPane.add(btn_Iesire);
+		JLabel lbl_RezervareTitlu = new JLabel("Rezervare");
+		lbl_RezervareTitlu.setBounds(425, 11, 89, 25);
+		panel_1.add(lbl_RezervareTitlu);
+		lbl_RezervareTitlu.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		
+		JLabel lbl_Email = new JLabel("E-mail:");
+		lbl_Email.setBounds(640, 60, 59, 23);
+		panel_1.add(lbl_Email);
+		lbl_Email.setFont(new Font("Consolas", Font.PLAIN, 15));
+		
+		JLabel lbl_Prenume = new JLabel("Prenume:");
+		lbl_Prenume.setBounds(31, 78, 68, 23);
+		panel_1.add(lbl_Prenume);
+		lbl_Prenume.setFont(new Font("Consolas", Font.PLAIN, 15));
+		
+		txt_Prenume = new JTextField();
+		txt_Prenume.setBounds(448, 78, 160, 20);
+		panel_1.add(txt_Prenume);
+		txt_Prenume.setColumns(10);
+		
+		JLabel lbl_Varsta = new JLabel("V\u00E2rst\u0103:");
+		lbl_Varsta.setBounds(356, 44, 68, 23);
+		panel_1.add(lbl_Varsta);
+		lbl_Varsta.setFont(new Font("Consolas", Font.PLAIN, 15));
+		
+		JLabel lbl_Nume = new JLabel("Nume:");
+		lbl_Nume.setBounds(31, 44, 68, 23);
+		panel_1.add(lbl_Nume);
+		lbl_Nume.setFont(new Font("Consolas", Font.PLAIN, 15));
+		
+		txt_Nume = new JTextField();
+		txt_Nume.setBounds(125, 44, 160, 20);
+		panel_1.add(txt_Nume);
+		txt_Nume.setColumns(10);
+		
+		txt_Email = new JTextField();
+		txt_Email.setBounds(125, 78, 160, 20);
+		panel_1.add(txt_Email);
+		txt_Email.setColumns(10);
+		
+		txt_Telefon = new JTextField();
+		txt_Telefon.setBounds(709, 60, 225, 20);
+		panel_1.add(txt_Telefon);
+		txt_Telefon.setColumns(10);
+		
+		JLabel lbl_Telefon = new JLabel("Telefon:");
+		lbl_Telefon.setBounds(356, 78, 73, 23);
+		panel_1.add(lbl_Telefon);
+		lbl_Telefon.setFont(new Font("Consolas", Font.PLAIN, 15));
 	}
 
 

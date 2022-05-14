@@ -26,18 +26,12 @@ public class ActualizareZborFrame extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ActualizareZborFrame frame = new ActualizareZborFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	/*
+	 * public static void main(String[] args) { EventQueue.invokeLater(new
+	 * Runnable() { public void run() { try { ActualizareZborFrame frame = new
+	 * ActualizareZborFrame(); frame.setVisible(true); } catch (Exception e) {
+	 * e.printStackTrace(); } } }); }
+	 */
 
 	/**
 	 * Create the frame.
@@ -46,7 +40,7 @@ public class ActualizareZborFrame extends JFrame {
 		setTitle("Actualizare zbor");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 600, 400);
+		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -57,18 +51,19 @@ public class ActualizareZborFrame extends JFrame {
 		
 		JLabel lblNrZbor = new JLabel("Numar zbor:");
 		lblNrZbor.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblNrZbor.setBounds(116, 28, 130, 24);
+		lblNrZbor.setBounds(234, 28, 130, 25);
 		contentPane.add(lblNrZbor);
 		
 		txtNrZbor = new JTextField();
-		txtNrZbor.setFont(new Font("Consolas", Font.PLAIN, 14));
-		txtNrZbor.setBounds(249, 28, 199, 22);
+		txtNrZbor.setFont(new Font("Consolas", Font.PLAIN, 20));
+		txtNrZbor.setBounds(391, 27, 415, 25);
 		contentPane.add(txtNrZbor);
 		txtNrZbor.setColumns(10);
 		
 		JList listaZboruri = new JList();
+		listaZboruri.setBackground(new Color(220, 220, 220));
 		listaZboruri.setFont(new Font("Consolas", Font.PLAIN, 16));
-		listaZboruri.setBounds(10, 131, 566, 222);
+		listaZboruri.setBounds(10, 155, 964, 395);
 		contentPane.add(listaZboruri);
 		
 		JButton btnCautare = new JButton("Cautare");
@@ -83,20 +78,24 @@ public class ActualizareZborFrame extends JFrame {
 				}
 			}
 		});
-		btnCautare.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnCautare.setBounds(10, 76, 148, 45);
+		btnCautare.setFont(new Font("Consolas", Font.PLAIN, 20));
+		btnCautare.setBounds(58, 85, 189, 45);
 		btnCautare.setForeground(Color.WHITE);
 		btnCautare.setBackground(new Color(55, 71, 133));
 		btnCautare.setOpaque(true);
+		//Round the button with radius = 30
+		btnCautare.setBorder(new RoundButton(30));
+		btnCautare.setUI(new ButtonFill());
 		contentPane.add(btnCautare);
 		
 		JButton btnActualizare = new JButton("Actualizare");
-		btnActualizare.setEnabled(false);
-		btnActualizare.setForeground(Color.WHITE);
-		btnActualizare.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnActualizare.setBounds(428, 76, 148, 45);
-		btnActualizare.setBackground(new Color(55, 71, 133));
 		btnActualizare.setOpaque(true);
+		btnActualizare.setForeground(Color.WHITE);
+		btnActualizare.setFont(new Font("Consolas", Font.PLAIN, 20));
+		btnActualizare.setBorder(new RoundButton(30));
+		btnActualizare.setUI(new ButtonFill());
+		btnActualizare.setBackground(new Color(55, 71, 133));
+		btnActualizare.setBounds(744, 85, 189, 45);
 		contentPane.add(btnActualizare);
 		
 		addWindowListener(new WindowAdapter() {

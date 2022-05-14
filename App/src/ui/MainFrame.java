@@ -42,7 +42,7 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 550);
+		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(168, 208, 224));
@@ -59,9 +59,9 @@ public class MainFrame extends JFrame {
 				rezervareZbor.setVisible(true);
 			}
 		});
-		btnRezervare.setFont(new Font("Consolas", Font.PLAIN, 17));
+		btnRezervare.setFont(new Font("Consolas", Font.PLAIN, 20));
 		btnRezervare.setForeground(Color.WHITE);
-		btnRezervare.setBounds(306, 343, 231, 56);
+		btnRezervare.setBounds(364, 380, 246, 66);
 		btnRezervare.setBackground(new Color(55, 71, 133));
 		btnRezervare.setOpaque(true);
 		//Round the button with radius = 30
@@ -73,8 +73,8 @@ public class MainFrame extends JFrame {
 		JLabel lblSalutare = new JLabel();
 		lblSalutare.setForeground(Color.DARK_GRAY);
 		lblSalutare.setText("Buna ...");
-		lblSalutare.setFont(new Font("Consolas", Font.PLAIN, 26));
-		lblSalutare.setBounds(269, 40, 324, 56);
+		lblSalutare.setFont(new Font("Consolas", Font.PLAIN, 30));
+		lblSalutare.setBounds(318, 50, 324, 56);
 		
 		String lblText = "Buna ";
 		DateTimeFormatter oraFormatter = DateTimeFormatter.ofPattern("hh a");
@@ -95,8 +95,8 @@ public class MainFrame extends JFrame {
 		
 		JLabel lblOra = new JLabel("Ora: --/--");
 		lblOra.setForeground(Color.WHITE);
-		lblOra.setFont(new Font("Consolas", Font.PLAIN, 26));
-		lblOra.setBounds(335, 149, 231, 56);
+		lblOra.setFont(new Font("Consolas", Font.PLAIN, 30));
+		lblOra.setBounds(383, 161, 318, 56);
         
 		// 
 		Timer t = new Timer(500, new ActionListener() {
@@ -116,8 +116,8 @@ public class MainFrame extends JFrame {
 		
 		JLabel lblDataCurenta = new JLabel("Data curenta: --/--/--");
 		lblDataCurenta.setForeground(Color.WHITE);
-		lblDataCurenta.setFont(new Font("Consolas", Font.PLAIN, 26));
-		lblDataCurenta.setBounds(252, 107, 364, 56);
+		lblDataCurenta.setFont(new Font("Consolas", Font.PLAIN, 30));
+		lblDataCurenta.setBounds(282, 117, 470, 56);
 		
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter dataFormatter = DateTimeFormatter.ofPattern("dd MMMM uuuu", new Locale("ro", "RO"));
@@ -128,8 +128,8 @@ public class MainFrame extends JFrame {
 		
 		JLabel lblMultumimCaAlegeti = new JLabel("Multumim ca alegeti serviciile noastre !");
 		lblMultumimCaAlegeti.setForeground(Color.DARK_GRAY);
-		lblMultumimCaAlegeti.setFont(new Font("Consolas", Font.PLAIN, 26));
-		lblMultumimCaAlegeti.setBounds(179, 214, 586, 56);
+		lblMultumimCaAlegeti.setFont(new Font("Consolas", Font.PLAIN, 30));
+		lblMultumimCaAlegeti.setBounds(169, 251, 685, 56);
 		contentPane.add(lblMultumimCaAlegeti);
 		
 		
@@ -143,15 +143,15 @@ public class MainFrame extends JFrame {
 				loginStaff.setVisible(true);
 			}
 		});
-		lblLogin.setFont(new Font("Consolas", Font.PLAIN, 13));
-		lblLogin.setBounds(378, 474, 83, 14);
+		lblLogin.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lblLogin.setBounds(435, 514, 109, 19);
 		contentPane.add(lblLogin);
 		
 		JButton btnHelp = new JButton("Help");
 		btnHelp.setForeground(Color.WHITE);
 		btnHelp.setFont(new Font("Consolas", Font.PLAIN, 12));
 		btnHelp.setBackground(new Color(55, 71, 133));
-		btnHelp.setBounds(785, 445, 89, 43);
+		btnHelp.setBounds(869, 490, 89, 43);
 		btnHelp.setOpaque(true);
 		//Round the button with radius = 30
 		btnHelp.setBorder(new RoundButton(30));
