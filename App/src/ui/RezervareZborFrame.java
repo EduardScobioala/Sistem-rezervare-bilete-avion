@@ -96,11 +96,12 @@ public class RezervareZborFrame extends JFrame {
 		
 		if (data1[2] > data2[2])
 			return false;
-		else if (data1[1] > data2[1])
+		else if (data1[2]==data2[2] && data1[1] > data2[1])
 			return false;
-		else if (data1[0] > data2[0])
+		else if (data1[2]==data2[2] && data1[1]==data2[1] && data1[0] > data2[0])
 			return false;
 
+		//System.out.println(data1[0]+" "+data1[1]+" "+data1[2]);
 		return true;
 	}
 	

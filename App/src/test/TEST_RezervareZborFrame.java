@@ -336,7 +336,7 @@ class TEST_RezervareZborFrame extends RezervareZborFrame{
 		int[] data1 = {2,1,2022};
 		int[] data2 = {1,1,2022};
 		
-		assertEquals(this.dateValide(data1,data2),true);
+		assertEquals(this.dateValide(data1,data2),false);
 	}
 	
 	@Test
@@ -344,7 +344,7 @@ class TEST_RezervareZborFrame extends RezervareZborFrame{
 		int[] data1 = {1,2,2022};
 		int[] data2 = {1,1,2022};
 		
-		assertEquals(this.dateValide(data1,data2),true);
+		assertEquals(this.dateValide(data1,data2),false);
 	}
 	
 	@Test
@@ -352,7 +352,7 @@ class TEST_RezervareZborFrame extends RezervareZborFrame{
 		int[] data1 = {1,1,2023};
 		int[] data2 = {1,1,2022};
 		
-		assertEquals(this.dateValide(data1,data2),true);
+		assertEquals(this.dateValide(data1,data2),false);
 	}
 	
 	//date corecte

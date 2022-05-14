@@ -22,6 +22,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 
 public class VizualizareZborFrame extends JFrame {
@@ -396,6 +397,40 @@ public class VizualizareZborFrame extends JFrame {
 				}
 				
 				int[] date=new int[4];
+				SimpleDateFormat form = new SimpleDateFormat("dd/MM/yy");
+				
+				// data plecare
+				String[] buf = form.format(dateTime_ExpirareCard.getValue()).split("/");
+				date[0] = Integer.parseInt(buf[2]);
+
+				if (buf[1].equals("Jan"))
+					date[1] = 1;
+				else if (buf[1].equals("Feb"))
+					date[1] = 2;
+				else if (buf[1].equals("Mar"))
+					date[1] = 3;
+				else if (buf[1].equals("Apr"))
+					date[1] = 4;
+				else if (buf[1].equals("May"))
+					date[1] = 5;
+				else if (buf[1].equals("Jun"))
+					date[1] = 6;
+				else if (buf[1].equals("Jul"))
+					date[1] = 7;
+				else if (buf[1].equals("Aug"))
+					date[1] = 8;
+				else if (buf[1].equals("Sep"))
+					date[1] = 9;
+				else if (buf[1].equals("Oct"))
+					date[1] = 10;
+				else if (buf[1].equals("Nov"))
+					date[1] = 11;
+				else if (buf[1].equals("Dec"))
+					date[1] = 12;
+
+				date[2] = Integer.parseInt(buf[5]);
+
+				
 				
 				if(!dataExpirareValida(date))
 				{
@@ -453,10 +488,10 @@ public class VizualizareZborFrame extends JFrame {
 	}
 
 
-	//verifica daca numele pasagerului este valid
-private boolean numeValid(String nume)
+//verifica daca numele pasagerului este valid (fiecare cuvant din nume, fara spatii)
+protected boolean numeValid(String nume)
 {
-	if(nume.length()==0) return false;
+	if(nume==null || nume.length()==0) return false;
 	
 	for(int i=0;i<nume.length();i++)
 	{
@@ -467,13 +502,15 @@ private boolean numeValid(String nume)
 }
 
 //verifica daca e-mail-ul dat este valid
-private boolean emailValid(String email)
+protected boolean emailValid(String email)
 {
+	if(email==null || email.equals("")) return false;
 	int at=0,dot=0;
 	for(int i=0;i<email.length();i++)
 	{
 		if(email.charAt(i)=='@') at++;
 		if(email.charAt(i)=='.') dot++;
+		if(email.charAt(i)==' ') return false;
 	}
 	if(at!=1 || dot!=1) return false;
 	
@@ -481,9 +518,9 @@ private boolean emailValid(String email)
 }
 
 //verifica daca este valid codul CVC dat
-private boolean CVCValid(String CVC)
+protected boolean CVCValid(String CVC)
 {
-	if(CVC.length()!=3) return false;
+	if(CVC==null || CVC.length()!=3) return false;
 	for(int i=0;i<CVC.length();i++)
 	{
 		if(CVC.charAt(i)<'0' || CVC.charAt(i)>'9') return false;
@@ -493,8 +530,11 @@ private boolean CVCValid(String CVC)
 }
 
 //verifica daca este valid numarul cardului dat
-private boolean nrCardContValid(String nr, boolean card)
+protected boolean nrCardContValid(String nr, boolean card)
 {
+	boolean err=false;
+	
+	if(nr==null || nr=="") return false;
 	if(card==true)
 	{
 		if(nr.length()!=16) return false;
@@ -506,45 +546,61 @@ private boolean nrCardContValid(String nr, boolean card)
 	}else {
 		if(nr.length()!=24) return false;
 		if(nr.charAt(0)<'A' || nr.charAt(0)>'Z' || nr.charAt(1)<'A' || nr.charAt(1)>'Z') return false;
-		//more checks should be implemented here
+		
+		for(int i=0;i<nr.length();i++)
+		{
+			if(nr.charAt(i)<'0') err=true;
+			if(nr.charAt(i)>'9' && nr.charAt(i)<'A') err=true;
+			if(nr.charAt(i)>'Z') err=true;
+			
+		}
+		
+		//more checks should be implemented here (realistically)
 	}
-	
-	return true;
+	return !err;
 }
 
 //verifica daca nu este expirat cardul dat
-private boolean dataExpirareValida(int[] dataExpirare)
+protected boolean dataExpirareValida(int[] dataExpirare)
 {
+	if(dataExpirare==null) return false;
+	
+	if(dataExpirare[0]<=0 || dataExpirare[0]>31) return false;
+	if(dataExpirare[1]<=0 || dataExpirare[1]>12) return false;
+	if(dataExpirare[2]<2020) return false;
+	
 	Calendar aux = Calendar.getInstance();
+	
 	if(dataExpirare[2]<aux.get(Calendar.YEAR)) return false;
-	if(dataExpirare[1]<aux.get(Calendar.MONTH)) return false;
-	if(dataExpirare[0]<aux.get(Calendar.DAY_OF_MONTH)) return false;
+	else if(dataExpirare[2]==aux.get(Calendar.YEAR) && dataExpirare[1]<aux.get(Calendar.MONTH)+1) return false;
+	else if(dataExpirare[2]==aux.get(Calendar.YEAR) && dataExpirare[1]==(aux.get(Calendar.MONTH)+1) && dataExpirare[0]<aux.get(Calendar.DAY_OF_MONTH)) return false;
 	
 	return true;
 }
 
 //verifica daca suma inregistrata este valida
-private boolean sumaCashValida(String suma)
+protected boolean sumaCashValida(String suma)
 {
+	boolean dot=false;
 	double d_suma;
-	if(suma.equals("")) return false;
+	if(suma==null || suma.equals("")) return false;
 	
 	for(int i=0;i<suma.length();i++)
 	{
 		if((suma.charAt(i)<'0' || suma.charAt(i)>'9') && suma.charAt(i)!='.') return false;
+		if(suma.charAt(i)=='.') dot=true;
 	}
 	
+	if(!dot) return false;
 	d_suma = Double.parseDouble(suma);
-	
-	if(d_suma<0) return false; //maybe even implement a maximum sum ?
 	
 	return true;
 }
 
 //verifica daca numarul de telefon dat este valid
-private boolean nrTelValid(String tel)
+protected boolean nrTelValid(String tel)
 {
-	if(tel.length()!=10) return false;
+	if(tel == null || tel.length()!=10) return false;
 	
 	for(int i=0;i<tel.length();i++)
 	{
