@@ -1,4 +1,4 @@
-package logic;
+package functionalities;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

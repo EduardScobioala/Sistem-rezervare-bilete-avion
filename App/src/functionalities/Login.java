@@ -1,4 +1,4 @@
-package logic;
+package functionalities;
 
 import java.io.IOException;
 import java.nio.file.Files;

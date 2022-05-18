@@ -1,7 +1,5 @@
 package ui;
 
-import logic.RezervareZbor;
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -13,6 +11,9 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JList;
 import javax.swing.event.ListSelectionListener;
+
+import functionalities.RezervareZbor;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.AbstractListModel;
 import java.awt.Color;

@@ -1,6 +1,5 @@
 package ui;
 
-import logic.RezervareZbor;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -8,6 +7,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import functionalities.RezervareZbor;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;

@@ -1,4 +1,4 @@
-package logic;
+package functionalities;
 
 public class LoginCredentials {
 	private String username;

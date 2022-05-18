@@ -1,4 +1,4 @@
-package logic;
+package functionalities;
 
 public class RezervareZbor {
 	String origine,destinatie, clasa, tipLoc, nr;

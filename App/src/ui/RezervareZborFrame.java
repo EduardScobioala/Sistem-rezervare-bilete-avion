@@ -1,11 +1,12 @@
 package ui;
 
-import logic.RezervareZbor;
-
 import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import functionalities.RezervareZbor;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.io.BufferedReader;
