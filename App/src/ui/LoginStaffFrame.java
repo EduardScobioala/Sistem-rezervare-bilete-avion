@@ -3,9 +3,21 @@ package ui;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import logic.Login;
+import logic.LoginCredentials;
+
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,8 +31,8 @@ import java.awt.event.MouseEvent;
 public class LoginStaffFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textUsername;
+	private JTextField textPassword;
 
 	/**
 	 * Launch the application.
@@ -64,25 +76,38 @@ public class LoginStaffFrame extends JFrame {
 		lblNewLabel_1.setBounds(93, 117, 110, 29);
 		contentPane.add(lblNewLabel_1);
 
-		textField = new JTextField();
-		textField.setFont(new Font("Consolas", Font.PLAIN, 20));
-		textField.setBounds(213, 59, 277, 30);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textUsername = new JTextField();
+		textUsername.setFont(new Font("Consolas", Font.PLAIN, 20));
+		textUsername.setBounds(213, 59, 277, 30);
+		contentPane.add(textUsername);
+		textUsername.setColumns(10);
 
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Consolas", Font.PLAIN, 20));
-		textField_1.setBounds(213, 116, 277, 30);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		textPassword = new JTextField();
+		textPassword.setFont(new Font("Consolas", Font.PLAIN, 20));
+		textPassword.setBounds(213, 116, 277, 30);
+		contentPane.add(textPassword);
+		textPassword.setColumns(10);
 
+		JLabel lblLoginFailed = new JLabel("");
+		lblLoginFailed.setForeground(new Color(255, 0, 0));
+		lblLoginFailed.setFont(new Font("Consolas", Font.PLAIN, 12));
+		lblLoginFailed.setBounds(427, 208, 130, 14);
+		contentPane.add(lblLoginFailed);
+		
 		JButton btnLogin = new JButton("Logare");
 		btnLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				dispose();
-				OptiuniStaffFrame optiuniStaff = new OptiuniStaffFrame();
-				optiuniStaff.setVisible(true);
+				if (new Login(textUsername.getText(), textPassword.getText()).tryLogin())
+			    {
+			    	lblLoginFailed.setText("");
+			    	dispose();
+					OptiuniStaffFrame optiuniStaff = new OptiuniStaffFrame();
+					optiuniStaff.setVisible(true);
+			    }
+			    else {
+			    	lblLoginFailed.setText("Wrong credentials!");
+			    }
 			}
 		});
 		
@@ -94,6 +119,7 @@ public class LoginStaffFrame extends JFrame {
 		btnLogin.setBorder(new RoundButton(30));
 		btnLogin.setUI(new ButtonFill());
 		contentPane.add(btnLogin);
+		
 
 		addWindowListener(new WindowAdapter() {
 			@Override
