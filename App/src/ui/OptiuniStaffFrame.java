@@ -41,7 +41,7 @@ public class OptiuniStaffFrame extends JFrame {
 		contentPane.setBackground(new Color(168, 208, 224)); // the color of the MainFrame #a8d0e6
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JButton btnIntroducere = new JButton("Introducere curse");
 		btnIntroducere.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -56,12 +56,12 @@ public class OptiuniStaffFrame extends JFrame {
 		btnIntroducere.setBackground(new Color(55, 71, 133));
 		btnIntroducere.setBounds(278, 101, 400, 125);
 		btnIntroducere.setOpaque(true);
-		//Round the button with radius = 30
+		// Round the button with radius = 30
 		btnIntroducere.setBorder(new RoundButton(30));
 
 		btnIntroducere.setUI(new ButtonFill());
 		contentPane.add(btnIntroducere);
-		
+
 		JButton btnActualizareZbor = new JButton("Actualizare zbor");
 		btnActualizareZbor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -76,12 +76,12 @@ public class OptiuniStaffFrame extends JFrame {
 		btnActualizareZbor.setBackground(new Color(55, 71, 133));
 		btnActualizareZbor.setBounds(278, 338, 400, 125);
 		btnActualizareZbor.setOpaque(true);
-		//Round the button with radius = 30
+		// Round the button with radius = 30
 		btnActualizareZbor.setBorder(new RoundButton(30));
 
 		btnActualizareZbor.setUI(new ButtonFill());
 		contentPane.add(btnActualizareZbor);
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

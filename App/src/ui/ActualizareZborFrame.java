@@ -48,33 +48,36 @@ public class ActualizareZborFrame extends JFrame {
 		contentPane.setForeground(Color.WHITE);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblNrZbor = new JLabel("Numar zbor:");
 		lblNrZbor.setFont(new Font("Consolas", Font.PLAIN, 20));
 		lblNrZbor.setBounds(234, 28, 130, 25);
 		contentPane.add(lblNrZbor);
-		
+
 		txtNrZbor = new JTextField();
 		txtNrZbor.setFont(new Font("Consolas", Font.PLAIN, 20));
 		txtNrZbor.setBounds(391, 27, 415, 25);
 		contentPane.add(txtNrZbor);
 		txtNrZbor.setColumns(10);
-		
+
 		JList listaZboruri = new JList();
 		listaZboruri.setBackground(new Color(220, 220, 220));
 		listaZboruri.setFont(new Font("Consolas", Font.PLAIN, 16));
 		listaZboruri.setBounds(10, 155, 964, 395);
 		contentPane.add(listaZboruri);
-		
+
 		JButton btnCautare = new JButton("Cautare");
 		btnCautare.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(txtNrZbor.getText().trim().equals(""))
-					JOptionPane.showMessageDialog(null, "Introduceti numarul zborului!", "Cautare invalida",JOptionPane.WARNING_MESSAGE);
+				if (txtNrZbor.getText().trim().equals(""))
+					JOptionPane.showMessageDialog(null, "Introduceti numarul zborului!", "Cautare invalida",
+							JOptionPane.WARNING_MESSAGE);
 				else {
-					//verificare daca numarul zborului din caseta coincide cu vreunul din lista de zboruri
-					//in caz afirmativ, butonul "Actualizare" devine Enabled iar in JList apare zborul respectiv cu toate detaliile
-					//daca nu s-a gasit zborul, se afiseaza un mesaj corespunzator
+					// verificare daca numarul zborului din caseta coincide cu vreunul din lista de
+					// zboruri
+					// in caz afirmativ, butonul "Actualizare" devine Enabled iar in JList apare
+					// zborul respectiv cu toate detaliile
+					// daca nu s-a gasit zborul, se afiseaza un mesaj corespunzator
 				}
 			}
 		});
@@ -83,11 +86,11 @@ public class ActualizareZborFrame extends JFrame {
 		btnCautare.setForeground(Color.WHITE);
 		btnCautare.setBackground(new Color(55, 71, 133));
 		btnCautare.setOpaque(true);
-		//Round the button with radius = 30
+		// Round the button with radius = 30
 		btnCautare.setBorder(new RoundButton(30));
 		btnCautare.setUI(new ButtonFill());
 		contentPane.add(btnCautare);
-		
+
 		JButton btnActualizare = new JButton("Actualizare");
 		btnActualizare.setOpaque(true);
 		btnActualizare.setForeground(Color.WHITE);
@@ -97,7 +100,7 @@ public class ActualizareZborFrame extends JFrame {
 		btnActualizare.setBackground(new Color(55, 71, 133));
 		btnActualizare.setBounds(744, 85, 189, 45);
 		contentPane.add(btnActualizare);
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

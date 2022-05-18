@@ -41,14 +41,13 @@ public class CautareZborFrame extends JFrame {
 
 	// functii utilitare
 
-	
-	//functia main
+	// functia main
 	public static void main(RezervareZborFrame initial_frame, String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					frame = new CautareZborFrame();
-					frame.initial_frame=initial_frame;
+					frame.initial_frame = initial_frame;
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,14 +55,13 @@ public class CautareZborFrame extends JFrame {
 			}
 		});
 	}
-	
-	public RezervareZbor getZbor()
-	{
+
+	public RezervareZbor getZbor() {
 		return this.ZborAles;
 	}
-	
-	//functii
-	//generare forma
+
+	// functii
+	// generare forma
 	public CautareZborFrame() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
@@ -108,9 +106,8 @@ public class CautareZborFrame extends JFrame {
 				 */
 
 				// frame.dispose();
-				
-				
-				//frame.dispose();
+
+				// frame.dispose();
 				initial_frame.setZborAles(ZborAles);
 				frame.setVisible(false);
 			}

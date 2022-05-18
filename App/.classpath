@@ -8,5 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="lib" path="F:/__Universitatea_Politehnica/Anul II/Semestrul II/Fundamente_Inginirie_Sofware/Sistem-rezervare-bilete-avion/gson-2.9.0.jar"/>
+	<classpathentry kind="lib" path="F:/__Universitatea_Politehnica/Anul II/Semestrul II/Fundamente_Inginirie_Sofware/Sistem-rezervare-bilete-avion/JPlanner.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -52,9 +52,8 @@ public class RezervareZborFrame extends JFrame {
 	private JTextField txt_OrasPlecare;
 
 	// functii utilitare
-	
-	
-	//verifica daca numele orasului este valid
+
+	// verifica daca numele orasului este valid
 	protected boolean numeOrasValid(String oras) {
 		java.util.List<String> orase = new ArrayList<String>();
 		BufferedReader read = null;
@@ -83,36 +82,43 @@ public class RezervareZborFrame extends JFrame {
 		return gasit;
 	}
 
-	//verifica daca datele de plecare (data1) si intoarcere (data2) sunt valide
+	// verifica daca datele de plecare (data1) si intoarcere (data2) sunt valide
 	protected boolean dateValide(int[] data1, int[] data2) {
-		
-		if(data1.length!=3 || data2.length!=3) return false;
-		
-		if(data1[0]<=0 || data1[0]>31) return false;
-		if(data1[1]<=0 || data1[1]>12) return false;
-		if(data1[2]<2022) return false;
-		
-		if(data2[0]<=0 || data2[0]>31) return false;
-		if(data2[1]<=0 || data2[1]>12) return false;
-		if(data2[2]<2022) return false;
-		
-		if (data1[2] > data2[2])
-			return false;
-		else if (data1[2]==data2[2] && data1[1] > data2[1])
-			return false;
-		else if (data1[2]==data2[2] && data1[1]==data2[1] && data1[0] > data2[0])
+
+		if (data1.length != 3 || data2.length != 3)
 			return false;
 
-		//System.out.println(data1[0]+" "+data1[1]+" "+data1[2]);
+		if (data1[0] <= 0 || data1[0] > 31)
+			return false;
+		if (data1[1] <= 0 || data1[1] > 12)
+			return false;
+		if (data1[2] < 2022)
+			return false;
+
+		if (data2[0] <= 0 || data2[0] > 31)
+			return false;
+		if (data2[1] <= 0 || data2[1] > 12)
+			return false;
+		if (data2[2] < 2022)
+			return false;
+
+		if (data1[2] > data2[2])
+			return false;
+		else if (data1[2] == data2[2] && data1[1] > data2[1])
+			return false;
+		else if (data1[2] == data2[2] && data1[1] == data2[1] && data1[0] > data2[0])
+			return false;
+
+		// System.out.println(data1[0]+" "+data1[1]+" "+data1[2]);
 		return true;
 	}
-	
-	//seteaza zborul ales in variabila 'zbor' de tip RezervareZbor
+
+	// seteaza zborul ales in variabila 'zbor' de tip RezervareZbor
 	public void setZborAles(RezervareZbor zbor) {
 		this.zbor = zbor;
 	}
 
-	//genereaza forma
+	// genereaza forma
 	public RezervareZborFrame() {
 		setTitle("Rezervare Zbor");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -160,13 +166,13 @@ public class RezervareZborFrame extends JFrame {
 		txt_OrasDestinatie.setBounds(245, 84, 222, 30);
 		contentPane.add(txt_OrasDestinatie);
 
-		JSpinner dateTime_DataPlecarii = new JSpinner(new SpinnerDateModel(new Date(1651524853330L),
+		JSpinner dateTimeDataPlecarii = new JSpinner(new SpinnerDateModel(new Date(1651524853330L),
 				new Date(1651524853330L), new Date(1967144053330L), Calendar.DAY_OF_YEAR));
-		dateTime_DataPlecarii.setFont(new Font("Consolas", Font.PLAIN, 18));
-		JSpinner.DateEditor editor_plecare = new JSpinner.DateEditor(dateTime_DataPlecarii, "dd.MM.yy");
-		dateTime_DataPlecarii.setEditor(editor_plecare);
-		dateTime_DataPlecarii.setBounds(245, 138, 222, 30);
-		contentPane.add(dateTime_DataPlecarii);
+		dateTimeDataPlecarii.setFont(new Font("Consolas", Font.PLAIN, 18));
+		JSpinner.DateEditor de_dateTimeDataPlecarii = new JSpinner.DateEditor(dateTimeDataPlecarii, "dd.MM.yy");
+		dateTimeDataPlecarii.setEditor(de_dateTimeDataPlecarii);
+		dateTimeDataPlecarii.setBounds(245, 138, 222, 30);
+		contentPane.add(dateTimeDataPlecarii);
 
 		JSpinner dateTime_DataIntoarcerii = new JSpinner(new SpinnerDateModel(new Date(1651524884913L),
 				new Date(1651524884913L), new Date(1967144084913L), Calendar.DAY_OF_YEAR));
@@ -225,7 +231,7 @@ public class RezervareZborFrame extends JFrame {
 		btn_RezervareLoc.setBounds(44, 481, 200, 40);
 		btn_RezervareLoc.setBackground(new Color(55, 71, 133));
 		btn_RezervareLoc.setOpaque(true);
-		//Round the button with radius = 30
+		// Round the button with radius = 30
 		btn_RezervareLoc.setBorder(new RoundButton(30));
 
 		btn_RezervareLoc.setUI(new ButtonFill());
@@ -233,7 +239,7 @@ public class RezervareZborFrame extends JFrame {
 
 		JButton btn_CautareZbor = new JButton("Căutare zbor");
 		btn_CautareZbor.setForeground(Color.WHITE);
-		
+
 		btn_CautareZbor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				boolean err_plecare = false;
@@ -268,7 +274,7 @@ public class RezervareZborFrame extends JFrame {
 					err = true;
 					err_date = true;
 
-					dateTime_DataPlecarii.setBackground(c_err);
+					dateTimeDataPlecarii.setBackground(c_err);
 					dateTime_DataIntoarcerii.setBackground(c_err);
 				}
 
@@ -291,7 +297,7 @@ public class RezervareZborFrame extends JFrame {
 					SimpleDateFormat form = new SimpleDateFormat("dd/MM/yy");
 
 					// data plecare
-					buf = form.format(dateTime_DataPlecarii.getValue()).split("/");
+					buf = form.format(dateTimeDataPlecarii.getValue()).split("/");
 					data1[0] = Integer.parseInt(buf[2]);
 
 					if (buf[1].equals("Jan"))
@@ -373,12 +379,12 @@ public class RezervareZborFrame extends JFrame {
 		btn_CautareZbor.setBounds(297, 481, 200, 40);
 		btn_CautareZbor.setBackground(new Color(55, 71, 133));
 		btn_CautareZbor.setOpaque(true);
-		//Round the button with radius = 30
+		// Round the button with radius = 30
 		btn_CautareZbor.setBorder(new RoundButton(30));
 
 		btn_CautareZbor.setUI(new ButtonFill());
 		contentPane.add(btn_CautareZbor);
-		
+
 		txt_OrasPlecare = new JTextField();
 		txt_OrasPlecare.setFont(new Font("Consolas", Font.PLAIN, 18));
 		txt_OrasPlecare.setColumns(10);

@@ -88,30 +88,28 @@ public class LoginStaffFrame extends JFrame {
 		passwordField.setFont(new Font("Consolas", Font.PLAIN, 20));
 		passwordField.setBounds(213, 116, 277, 30);
 		contentPane.add(passwordField);
-		
+
 		JLabel lblLoginFailed = new JLabel("");
 		lblLoginFailed.setForeground(new Color(255, 0, 0));
 		lblLoginFailed.setFont(new Font("Consolas", Font.PLAIN, 12));
 		lblLoginFailed.setBounds(427, 208, 130, 14);
 		contentPane.add(lblLoginFailed);
-		
+
 		JButton btnLogin = new JButton("Logare");
 		btnLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (new Login(textUsername.getText(), String.valueOf(passwordField.getPassword())).tryLogin())
-			    {
-			    	lblLoginFailed.setText("");
-			    	dispose();
+				if (new Login(textUsername.getText(), String.valueOf(passwordField.getPassword())).tryLogin()) {
+					lblLoginFailed.setText("");
+					dispose();
 					OptiuniStaffFrame optiuniStaff = new OptiuniStaffFrame();
 					optiuniStaff.setVisible(true);
-			    }
-			    else {
-			    	lblLoginFailed.setText("Wrong credentials!");
-			    }
+				} else {
+					lblLoginFailed.setText("Wrong credentials!");
+				}
 			}
 		});
-		
+
 		btnLogin.setFont(new Font("Consolas", Font.PLAIN, 15));
 		btnLogin.setBackground(new Color(55, 71, 133));
 		btnLogin.setForeground(Color.WHITE);
@@ -120,9 +118,6 @@ public class LoginStaffFrame extends JFrame {
 		btnLogin.setBorder(new RoundButton(30));
 		btnLogin.setUI(new ButtonFill());
 		contentPane.add(btnLogin);
-		
-		
-		
 
 		addWindowListener(new WindowAdapter() {
 			@Override

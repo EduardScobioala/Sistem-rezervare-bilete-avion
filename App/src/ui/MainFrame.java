@@ -49,7 +49,7 @@ public class MainFrame extends JFrame {
 		contentPane.setBorder(null);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JButton btnRezervare = new JButton("Rezervare zbor");
 		btnRezervare.addMouseListener(new MouseAdapter() {
 			@Override
@@ -64,75 +64,78 @@ public class MainFrame extends JFrame {
 		btnRezervare.setBounds(364, 380, 246, 66);
 		btnRezervare.setBackground(new Color(55, 71, 133));
 		btnRezervare.setOpaque(true);
-		//Round the button with radius = 30
+		// Round the button with radius = 30
 		btnRezervare.setBorder(new RoundButton(30));
 
 		btnRezervare.setUI(new ButtonFill());
 		contentPane.add(btnRezervare);
-		
+
 		JLabel lblSalutare = new JLabel();
 		lblSalutare.setForeground(Color.DARK_GRAY);
 		lblSalutare.setText("Buna ...");
 		lblSalutare.setFont(new Font("Consolas", Font.PLAIN, 30));
 		lblSalutare.setBounds(318, 50, 324, 56);
-		
+
 		String lblText = "Buna ";
 		DateTimeFormatter oraFormatter = DateTimeFormatter.ofPattern("hh a");
-    	String rawOra = oraFormatter.format(LocalDateTime.now());
-    	String[] dataOra = rawOra.split(" ");
-    	
-    	if (dataOra[1].equals("AM")) {
-    		if (Integer.parseInt(dataOra[0]) < 10) lblText += "dimineata";
-    		else lblText += "ziua";
-    	} else {
-    		if (Integer.parseInt(dataOra[0]) < 18) lblText += "ziua";
-    		else lblText += "seara";
-    	}
-		
-    	lblSalutare.setText(lblText);
+		String rawOra = oraFormatter.format(LocalDateTime.now());
+		String[] dataOra = rawOra.split(" ");
+
+		if (dataOra[1].equals("AM")) {
+			if (Integer.parseInt(dataOra[0]) < 10)
+				lblText += "dimineata";
+			else
+				lblText += "ziua";
+		} else {
+			if (Integer.parseInt(dataOra[0]) < 18)
+				lblText += "ziua";
+			else
+				lblText += "seara";
+		}
+
+		lblSalutare.setText(lblText);
 		lblSalutare.setHorizontalAlignment(JLabel.CENTER);
 		contentPane.add(lblSalutare);
-		
+
 		JLabel lblOra = new JLabel("Ora: --/--");
 		lblOra.setForeground(Color.WHITE);
 		lblOra.setFont(new Font("Consolas", Font.PLAIN, 30));
 		lblOra.setBounds(383, 161, 318, 56);
-        
-		// 
+
+		//
 		Timer t = new Timer(500, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	DateTimeFormatter oraFormatter = DateTimeFormatter.ofPattern("hh:mm:ss", new Locale("ro", "RO"));
-            	String ora = oraFormatter.format(LocalDateTime.now());
-            	lblOra.setText("Ora: " + ora);
-            }
-         });
-         t.setRepeats(true);
-         t.setCoalesce(true);
-         t.setInitialDelay(0);
-         t.start();
-		
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DateTimeFormatter oraFormatter = DateTimeFormatter.ofPattern("hh:mm:ss", new Locale("ro", "RO"));
+				String ora = oraFormatter.format(LocalDateTime.now());
+				lblOra.setText("Ora: " + ora);
+			}
+		});
+		t.setRepeats(true);
+		t.setCoalesce(true);
+		t.setInitialDelay(0);
+		t.start();
+
 		contentPane.add(lblOra);
-		
+
 		JLabel lblDataCurenta = new JLabel("Data curenta: --/--/--");
 		lblDataCurenta.setForeground(Color.WHITE);
 		lblDataCurenta.setFont(new Font("Consolas", Font.PLAIN, 30));
 		lblDataCurenta.setBounds(282, 117, 470, 56);
-		
+
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter dataFormatter = DateTimeFormatter.ofPattern("dd MMMM uuuu", new Locale("ro", "RO"));
-        String data = dataFormatter.format(now);
-        
+		String data = dataFormatter.format(now);
+
 		lblDataCurenta.setText("Data curenta: " + data);
 		contentPane.add(lblDataCurenta);
-		
+
 		JLabel lblMultumimCaAlegeti = new JLabel("Multumim ca alegeti serviciile noastre !");
 		lblMultumimCaAlegeti.setForeground(Color.DARK_GRAY);
 		lblMultumimCaAlegeti.setFont(new Font("Consolas", Font.PLAIN, 30));
 		lblMultumimCaAlegeti.setBounds(169, 251, 685, 56);
 		contentPane.add(lblMultumimCaAlegeti);
-		
-		
+
 		// Login button
 		JLabel lblLogin = new JLabel("<HTML><U>Login Staff</U></HTML>");
 		lblLogin.addMouseListener(new MouseAdapter() {
@@ -146,14 +149,14 @@ public class MainFrame extends JFrame {
 		lblLogin.setFont(new Font("Consolas", Font.PLAIN, 15));
 		lblLogin.setBounds(435, 514, 109, 19);
 		contentPane.add(lblLogin);
-		
+
 		JButton btnHelp = new JButton("Help");
 		btnHelp.setForeground(Color.WHITE);
 		btnHelp.setFont(new Font("Consolas", Font.PLAIN, 12));
 		btnHelp.setBackground(new Color(55, 71, 133));
 		btnHelp.setBounds(869, 490, 89, 43);
 		btnHelp.setOpaque(true);
-		//Round the button with radius = 30
+		// Round the button with radius = 30
 		btnHelp.setBorder(new RoundButton(30));
 
 		btnHelp.setUI(new ButtonFill());
