@@ -7,6 +7,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import functionalities.CursaZbor;
+import functionalities.ManagementCurseZbor;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -21,7 +25,7 @@ import java.awt.event.WindowEvent;
 public class ActualizareZborFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtNrZbor;
+	private JTextField txtCodCursa;
 
 	/**
 	 * Launch the application.
@@ -49,56 +53,41 @@ public class ActualizareZborFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNrZbor = new JLabel("Numar zbor:");
-		lblNrZbor.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblNrZbor.setBounds(234, 28, 130, 25);
+		JLabel lblNrZbor = new JLabel("Cod Cursa:");
+		lblNrZbor.setFont(new Font("Consolas", Font.PLAIN, 40));
+		lblNrZbor.setBounds(356, 93, 262, 50);
 		contentPane.add(lblNrZbor);
 
-		txtNrZbor = new JTextField();
-		txtNrZbor.setFont(new Font("Consolas", Font.PLAIN, 20));
-		txtNrZbor.setBounds(391, 27, 415, 25);
-		contentPane.add(txtNrZbor);
-		txtNrZbor.setColumns(10);
+		txtCodCursa = new JTextField();
+		txtCodCursa.setHorizontalAlignment(JTextField.CENTER);
+		txtCodCursa.setFont(new Font("Consolas", Font.PLAIN, 40));
+		txtCodCursa.setBounds(168, 197, 630, 60);
+		contentPane.add(txtCodCursa);
+		txtCodCursa.setColumns(10);
 
-		JList listaZboruri = new JList();
-		listaZboruri.setBackground(new Color(220, 220, 220));
-		listaZboruri.setFont(new Font("Consolas", Font.PLAIN, 16));
-		listaZboruri.setBounds(10, 155, 964, 395);
-		contentPane.add(listaZboruri);
-
-		JButton btnCautare = new JButton("Cautare");
-		btnCautare.addActionListener(new ActionListener() {
+		JButton btnActualizare = new JButton("Actualizare");
+		btnActualizare.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (txtNrZbor.getText().trim().equals(""))
-					JOptionPane.showMessageDialog(null, "Introduceti numarul zborului!", "Cautare invalida",
-							JOptionPane.WARNING_MESSAGE);
-				else {
-					// verificare daca numarul zborului din caseta coincide cu vreunul din lista de
-					// zboruri
-					// in caz afirmativ, butonul "Actualizare" devine Enabled iar in JList apare
-					// zborul respectiv cu toate detaliile
-					// daca nu s-a gasit zborul, se afiseaza un mesaj corespunzator
+				ManagementCurseZbor manager = new ManagementCurseZbor();
+				
+				CursaZbor cursa = manager.findCursa(txtCodCursa.getText());
+				
+				if (cursa != null) {
+					dispose();
+					EditareCursaFrame editareCursa = new EditareCursaFrame(cursa);
+					editareCursa.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Codul de Cursa nu a fost gasit!");
 				}
 			}
 		});
-		btnCautare.setFont(new Font("Consolas", Font.PLAIN, 20));
-		btnCautare.setBounds(58, 85, 189, 45);
-		btnCautare.setForeground(Color.WHITE);
-		btnCautare.setBackground(new Color(55, 71, 133));
-		btnCautare.setOpaque(true);
-		// Round the button with radius = 30
-		btnCautare.setBorder(new RoundButton(30));
-		btnCautare.setUI(new ButtonFill());
-		contentPane.add(btnCautare);
-
-		JButton btnActualizare = new JButton("Actualizare");
 		btnActualizare.setOpaque(true);
 		btnActualizare.setForeground(Color.WHITE);
-		btnActualizare.setFont(new Font("Consolas", Font.PLAIN, 20));
+		btnActualizare.setFont(new Font("Consolas", Font.PLAIN, 40));
 		btnActualizare.setBorder(new RoundButton(30));
 		btnActualizare.setUI(new ButtonFill());
 		btnActualizare.setBackground(new Color(55, 71, 133));
-		btnActualizare.setBounds(744, 85, 189, 45);
+		btnActualizare.setBounds(278, 378, 400, 100);
 		contentPane.add(btnActualizare);
 
 		addWindowListener(new WindowAdapter() {

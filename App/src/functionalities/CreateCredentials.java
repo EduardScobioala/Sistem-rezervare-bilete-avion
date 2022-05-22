@@ -30,7 +30,7 @@ public class CreateCredentials {
 		Gson obj = new Gson();
 
 		// Write to file
-		BufferedWriter writer = new BufferedWriter(new FileWriter("file.json"));
+		BufferedWriter writer = new BufferedWriter(new FileWriter("credentials.json"));
 		writer.write(obj.toJson(credentials));
 
 		writer.close();

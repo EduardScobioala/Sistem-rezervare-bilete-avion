@@ -182,7 +182,8 @@ public class RezervareZborFrame extends JFrame {
 		dateTime_DataIntoarcerii.setBounds(356, 268, 111, 30);
 		contentPane.add(dateTime_DataIntoarcerii);
 
-		JComboBox combo_TipLoc = new JComboBox();
+		String[] tipLoc = { "Adult", "Copil" };
+		JComboBox combo_TipLoc = new JComboBox(tipLoc);
 		combo_TipLoc.setFont(new Font("Consolas", Font.PLAIN, 18));
 		combo_TipLoc.setBounds(245, 213, 222, 30);
 		contentPane.add(combo_TipLoc);
@@ -194,7 +195,8 @@ public class RezervareZborFrame extends JFrame {
 		chk_ZborRetur.setBounds(44, 268, 100, 30);
 		contentPane.add(chk_ZborRetur);
 
-		JComboBox combo_Clasa = new JComboBox();
+		String[] clasaBilet = { "Econom", "Business", "Premium" };
+		JComboBox combo_Clasa = new JComboBox(clasaBilet);
 		combo_Clasa.setFont(new Font("Consolas", Font.PLAIN, 18));
 		combo_Clasa.setBounds(245, 379, 222, 30);
 		contentPane.add(combo_Clasa);

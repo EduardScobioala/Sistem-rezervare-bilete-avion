@@ -19,7 +19,7 @@ public class Login {
 		this.password = password;
 	}
 
-	static String readFile(String path) throws IOException {
+	private String readFile(String path) throws IOException {
 		byte[] data = Files.readAllBytes(Paths.get(path));
 		return new String(data);
 	}
@@ -29,14 +29,14 @@ public class Login {
 		String jsonFileContent = null;
 
 		try {
-			jsonFileContent = readFile("file.json");
+			jsonFileContent = readFile("credentials.json");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 
-		java.lang.reflect.Type componentsListType = new TypeToken<ArrayList<LoginCredentials>>() {
+		java.lang.reflect.Type credentialsListType = new TypeToken<ArrayList<LoginCredentials>>() {
 		}.getType();
-		List<LoginCredentials> _credentials = new Gson().fromJson(jsonFileContent, componentsListType);
+		List<LoginCredentials> _credentials = new Gson().fromJson(jsonFileContent, credentialsListType);
 
 		return !_credentials.stream()
 				.filter(login -> login.getUsername().equals(username) && login.getPassword().equals(password)).findAny()

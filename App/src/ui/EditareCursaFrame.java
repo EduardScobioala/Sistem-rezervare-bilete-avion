@@ -36,7 +36,7 @@ import java.awt.Font;
 import javax.swing.JList;
 import javax.swing.JComboBox;
 
-public class IntroducereZborFrame extends JFrame {
+public class EditareCursaFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtAeroportPlecare;
@@ -49,8 +49,9 @@ public class IntroducereZborFrame extends JFrame {
 	JSpinner spinnerEconomy, spinnerBusiness, spinnerPremium;
 	JSpinner spinnerPretEconomy, spinnerPretBusiness, spinnerPretPremium;
 	ManagementCurseZbor introducereZbor;
-	int[] zileOperare, locuriDisponibile, locuriRezervate = new int[]{0, 0, 0};
+	int[] zileOperare, locuriDisponibile;
 	float[] pretClase;
+	private JLabel lblNumeCompanie;
 	private JTextField txtNumeCompanie;
 
 	/**
@@ -72,10 +73,10 @@ public class IntroducereZborFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IntroducereZborFrame() {
+	public EditareCursaFrame(CursaZbor cursaZbor) {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
-		setTitle("Introducere zbor");
+		setTitle("Editare cursa zbor");
 		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
@@ -85,7 +86,7 @@ public class IntroducereZborFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNumeCompanie = new JLabel("Nume Companie:");
+		lblNumeCompanie = new JLabel("Nume Companie:");
 		lblNumeCompanie.setFont(new Font("Consolas", Font.PLAIN, 20));
 		lblNumeCompanie.setBounds(200, 20, 160, 25);
 		contentPane.add(lblNumeCompanie);
@@ -222,7 +223,7 @@ public class IntroducereZborFrame extends JFrame {
 		textCodCursa = new JTextField();
 		textCodCursa.setFont(new Font("Consolas", Font.PLAIN, 20));
 		textCodCursa.setColumns(10);
-		textCodCursa.setBounds(203, 360, 270, 25);
+		textCodCursa.setBounds(208, 360, 270, 25);
 		contentPane.add(textCodCursa);
 		
 		textTipAvion = new JTextField();
@@ -250,7 +251,7 @@ public class IntroducereZborFrame extends JFrame {
 		spinnerBusiness = new JSpinner();
 		spinnerBusiness.setModel(new SpinnerNumberModel(0, 0, 30, 1));
 		spinnerBusiness.setFont(new Font("Consolas", Font.PLAIN, 20));
-		spinnerBusiness.setBounds(542, 250, 100, 25);
+		spinnerBusiness.setBounds(544, 250, 100, 25);
 		contentPane.add(spinnerBusiness);
 		
 		JLabel lblPremium = new JLabel("Premium -");
@@ -292,7 +293,7 @@ public class IntroducereZborFrame extends JFrame {
 		lblPret_2.setBounds(423, 300, 80, 25);
 		contentPane.add(lblPret_2);
 		
-		JButton btnIntroducereZbor = new JButton("Introducere zbor");
+		JButton btnIntroducereZbor = new JButton("Actualizare zbor");
 		btnIntroducereZbor.setFont(new Font("Consolas", Font.PLAIN, 18));
 		btnIntroducereZbor.setForeground(Color.WHITE);
 		btnIntroducereZbor.setBackground(new Color(55, 71, 133));
@@ -304,21 +305,19 @@ public class IntroducereZborFrame extends JFrame {
 		
 		btnIntroducereZbor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ManagementCurseZbor manager = new ManagementCurseZbor();
+				
 				zileOperare = getZileOperare();
 				pretClase = getPretClase();
 				locuriDisponibile = getLocuriDisponibile();
 				
-				introducereZbor = new ManagementCurseZbor(txtNumeCompanie.getText(), txtAeroportPlecare.getText(), txtAeroportSosire.getText(), txtOraPlecare.getText(),
-						txtOraSosire.getText(), zileOperare, pretClase, locuriDisponibile, locuriRezervate, textCodCursa.getText(), textTipAvion.getText(),
+				CursaZbor newCursaZbor = new CursaZbor(txtNumeCompanie.getText(), txtAeroportPlecare.getText(), txtAeroportSosire.getText(), txtOraPlecare.getText(),
+						txtOraSosire.getText(), zileOperare, pretClase, locuriDisponibile, cursaZbor.getLocuriRezervate(), textCodCursa.getText(), textTipAvion.getText(),
 						chckbxDiscountDusIntors.isSelected(), chckbxDiscountLastMinute.isSelected());
 				
-				try {
-					introducereZbor.saveCursaZbor();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				manager.actualizareCurseZbor(cursaZbor.getCodCursa(), newCursaZbor);
 				
-				// cursa adaugata, reintoarcere pe pagina anterioara
+				// cursa actualizata, reintoarcere pe pagina anterioara
 				dispose();
 				OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame();
 				optiuni_staff.setVisible(true);
@@ -326,7 +325,31 @@ public class IntroducereZborFrame extends JFrame {
 		});
 		
 		contentPane.add(btnIntroducereZbor);
-
+		
+		// Add the prevoius data to the Frame
+		txtNumeCompanie.setText(cursaZbor.getNumeCompanie());
+		txtAeroportPlecare.setText(cursaZbor.getAeroportPlecare());
+		txtAeroportSosire.setText(cursaZbor.getAeroportSosire());
+		txtOraPlecare.setText(cursaZbor.getOraPlecare());
+		txtOraSosire.setText(cursaZbor.getOraSosire());
+		chboxLuni.setSelected(cursaZbor.getZileOperare()[0] == 1 ? true : false);
+		chboxMarti.setSelected(cursaZbor.getZileOperare()[1] == 1 ? true : false);
+		chboxMiercuri.setSelected(cursaZbor.getZileOperare()[2] == 1 ? true : false);
+		chboxJoi.setSelected(cursaZbor.getZileOperare()[3] == 1 ? true : false);
+		chboxVineri.setSelected(cursaZbor.getZileOperare()[4] == 1 ? true : false);
+		chboxSambata.setSelected(cursaZbor.getZileOperare()[5] == 1 ? true : false);
+		chboxDuminica.setSelected(cursaZbor.getZileOperare()[6] == 1 ? true : false);
+		spinnerEconomy.setValue(cursaZbor.getLocuriDisponibile()[0]);
+		spinnerBusiness.setValue(cursaZbor.getLocuriDisponibile()[1]);
+		spinnerPremium.setValue(cursaZbor.getLocuriDisponibile()[2]);
+		spinnerPretEconomy.setValue(cursaZbor.getPretClase()[0]);
+		spinnerPretBusiness.setValue(cursaZbor.getPretClase()[1]);
+		spinnerPretPremium.setValue(cursaZbor.getPretClase()[2]);
+		textCodCursa.setText(cursaZbor.getCodCursa());
+		textTipAvion.setText(cursaZbor.getTipAvion());
+		chckbxDiscountDusIntors.setSelected(cursaZbor.isDiscountDusIntors());
+		chckbxDiscountLastMinute.setSelected(cursaZbor.isDiscountLastMinute());
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -370,4 +393,5 @@ public class IntroducereZborFrame extends JFrame {
 		
 		return locuriDisponibile;
 	}
+
 }

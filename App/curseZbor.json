@@ -1,0 +1,37 @@
+[
+	{
+		"numeCompanie": "AAA airlines",
+		"aeroportPlecare": "AAA",
+		"aeroportSosire": "BBB",
+		"oraPlecare": "11:00",
+		"oraSosire": "12:00",
+		"zileOperare": [
+			1,
+			1,
+			1,
+			1,
+			1,
+			0,
+			0
+		],
+		"locuriDisponibile": [
+			10,
+			5,
+			3
+		],
+		"locuriRezervate": [
+			0,
+			0,
+			0
+		],
+		"pretClase": [
+			100.0,
+			250.0,
+			500.0
+		],
+		"codCursa": "qwerty",
+		"tipAvion": "AT X134",
+		"discountDusIntors": true,
+		"discountLastMinute": true
+	}
+]
