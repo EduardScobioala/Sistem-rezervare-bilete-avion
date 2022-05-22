@@ -73,10 +73,7 @@ public class VizualizareZborFrame extends JFrame {
 		} else {
 			txt_OrasPlecare.setText(zbor.getOrigine());
 			txt_OrasDestinatie.setText(zbor.getDestinatie());
-			txt_Durata.setText("" + zbor.getDurata());
-			txt_Pret.setText("" + zbor.getPret());
 			// dateTime_DataZbor.setData(zbor.getData());
-			txt_NrZbor.setText(zbor.getNr());
 		}
 	}
 

@@ -231,10 +231,10 @@ public class IntroducereZborFrame extends JFrame {
 		textTipAvion.setBounds(637, 360, 270, 25);
 		contentPane.add(textTipAvion);
 		
-		JLabel lblEconomy = new JLabel("Economy -");
-		lblEconomy.setFont(new Font("Consolas", Font.PLAIN, 20));
-		lblEconomy.setBounds(150, 250, 100, 25);
-		contentPane.add(lblEconomy);
+		JLabel lblEconom = new JLabel("Econom -");
+		lblEconom.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblEconom.setBounds(150, 250, 100, 25);
+		contentPane.add(lblEconom);
 		
 		spinnerEconomy = new JSpinner();
 		spinnerEconomy.setModel(new SpinnerNumberModel(0, 0, 40, 1));

@@ -1,33 +1,38 @@
 package functionalities;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 public class RezervareZbor {
-	String origine, destinatie, clasa, tipLoc, nr;
-	int[] data_plecare, data_intoarcere;
+	private String origine;
+	private String destinatie;
+	private Date dataPlecare;
+	private int nrBilete;
+	private String tipLoc;
+	private String clasa;
+	private Date dataIntoarcere;
 	boolean retur;
-	double pret, durata;
 
-	public RezervareZbor(String origine) {
-		this.origine = origine;
-	}
-
-	public RezervareZbor(String origine, String destinatie, String tipLoc, String clasa, int[] data_plecare,
-			boolean retur, int[] data_intoarcere, double pret, double durata, String nr) {
+	public RezervareZbor(String origine, String destinatie, Date dataPlecare, int nrBilete, String tipLoc,
+			String clasa, boolean retur, Date dataIntoarcere) {
 		super();
 		this.origine = origine;
 		this.destinatie = destinatie;
-		this.clasa = clasa;
-		this.data_plecare = data_plecare;
-		this.data_intoarcere = data_intoarcere;
-		this.retur = retur;
+		this.dataPlecare = dataPlecare;
+		this.nrBilete = nrBilete;
 		this.tipLoc = tipLoc;
-		this.durata = durata;
-		this.nr = nr;
-	}
-
-	@Override
-	public String toString() {
-		return "RezervareZbor [origine=" + origine + ", destinatie=" + destinatie + ", clasa=" + clasa
-				+ ", data_plecare=" + data_plecare + ", data_sosire=" + data_intoarcere + ", retur=" + retur + "]";
+		this.clasa = clasa;
+		this.dataIntoarcere = dataIntoarcere;
+		this.retur = retur;
 	}
 
 	public String getOrigine() {
@@ -46,6 +51,30 @@ public class RezervareZbor {
 		this.destinatie = destinatie;
 	}
 
+	public Date getDataPlecare() {
+		return dataPlecare;
+	}
+
+	public void setDataPlecare(Date dataPlecare) {
+		this.dataPlecare = dataPlecare;
+	}
+
+	public int getNrBilete() {
+		return nrBilete;
+	}
+
+	public void setNrBilete(int nrBilete) {
+		this.nrBilete = nrBilete;
+	}
+
+	public String getTipLoc() {
+		return tipLoc;
+	}
+
+	public void setTipLoc(String tipLoc) {
+		this.tipLoc = tipLoc;
+	}
+
 	public String getClasa() {
 		return clasa;
 	}
@@ -54,20 +83,12 @@ public class RezervareZbor {
 		this.clasa = clasa;
 	}
 
-	public int[] getData_plecare() {
-		return data_plecare;
+	public Date getDataIntoarcere() {
+		return dataIntoarcere;
 	}
 
-	public void setData_plecare(int[] data_plecare) {
-		this.data_plecare = data_plecare;
-	}
-
-	public int[] getData_intoarcere() {
-		return data_intoarcere;
-	}
-
-	public void setData_intoarcere(int[] data_intoarcere) {
-		this.data_intoarcere = data_intoarcere;
+	public void setDataIntoarcere(Date data_intoarcere) {
+		this.dataIntoarcere = data_intoarcere;
 	}
 
 	public boolean isRetur() {
@@ -78,28 +99,68 @@ public class RezervareZbor {
 		this.retur = retur;
 	}
 
-	public void setPret(double pret) {
-		this.pret = pret;
+	private String readFile(String path) throws IOException {
+		byte[] data = Files.readAllBytes(Paths.get(path));
+		return new String(data);
 	}
+	
+	private List<CursaZbor> getData(String filename) {
+		String jsonFileContent = null;
 
-	public double getPret() {
-		return this.pret;
+		try {
+			jsonFileContent = readFile(filename);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		java.lang.reflect.Type curseZborListType = new TypeToken<ArrayList<CursaZbor>>() {
+		}.getType();
+		List<CursaZbor> _curseZbor = new Gson().fromJson(jsonFileContent, curseZborListType);
+
+		return _curseZbor;
 	}
+	
+	private boolean gotCursaLaData(CursaZbor cursaZbor, Date dateForChecking) {
+		boolean flag = false;
+		
+		int[] zileOperare = cursaZbor.getZileOperare();
 
-	public void setNr(String nr) {
-		this.nr = nr;
+		LocalDate date = dateForChecking.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		
+		if (zileOperare[date.getDayOfWeek().getValue() - 1] == 1) flag = true;
+		
+		return flag;
 	}
-
-	public String getNr() {
-		return this.nr;
+	
+	private boolean meetRequirements(CursaZbor cursaZbor) {
+		boolean flag = true;
+		
+		// verificare datele de pornire/sosire
+		if (!cursaZbor.getAeroportPlecare().toLowerCase().equals(origine.toLowerCase())) flag = false;
+		if (!cursaZbor.getAeroportSosire().toLowerCase().equals(destinatie.toLowerCase())) flag = false;
+		// verificare existenta a rutei pentru o anumita data
+		if (!gotCursaLaData(cursaZbor, dataPlecare)) flag = false;
+		// verificare suficienta bilete pentru anumita clasa
+		if (clasa.equals("Econom"))
+			if(!(cursaZbor.getLocuriDisponibile()[0] >= cursaZbor.getLocuriRezervate()[0] + nrBilete)) flag = false;
+		else if (clasa.equals("Business"))
+			if(!(cursaZbor.getLocuriDisponibile()[1] >= cursaZbor.getLocuriRezervate()[1] + nrBilete)) flag = false;
+		else
+			if(!(cursaZbor.getLocuriDisponibile()[2] >= cursaZbor.getLocuriRezervate()[2] + nrBilete)) flag = false;
+		
+		return flag;
 	}
-
-	public void setDurata(double durata) {
-		this.durata = durata;
+	
+	public List<CursaZbor> getCurseZborDisponibile(String filename) {
+		List<CursaZbor> curseZborDisponibile = new ArrayList<CursaZbor>();
+		List<CursaZbor> curseZbor = getData(filename);
+		
+		int index = -1;
+		for(var cursa : curseZbor) {
+			index++;
+			if (meetRequirements(cursa)) curseZborDisponibile.add(cursa);
+		}
+		
+		return curseZborDisponibile;
 	}
-
-	public double getDurata() {
-		return this.durata;
-	}
-
 }

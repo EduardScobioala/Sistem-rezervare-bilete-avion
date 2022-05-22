@@ -1,7 +1,5 @@
 package ui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -9,9 +7,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.List;
+
 import javax.swing.JList;
 import javax.swing.event.ListSelectionListener;
 
+import functionalities.CursaZbor;
 import functionalities.RezervareZbor;
 
 import javax.swing.event.ListSelectionEvent;
@@ -26,35 +29,18 @@ public class CautareZborFrame extends JFrame {
 	RezervareZbor ZborAles = null;
 	private RezervareZborFrame initial_frame;
 
-	public CautareZborFrame(RezervareZbor rezervare) {
-		this.rezervare = rezervare;
-	}
-
-	private static CautareZborFrame frame;
-	/*
-	 * public static void main(RezervareZborFrame initial_frame, String[] args) {
-	 * EventQueue.invokeLater(new Runnable() { public void run() { try { frame = new
-	 * CautareZborFrame(); frame.initial_frame=initial_frame;
-	 * frame.setVisible(true); } catch (Exception e) { e.printStackTrace(); } } });
-	 * }
-	 */
+	// private static CautareZborFrame frame;
 
 	// functii utilitare
 
 	// functia main
-	public static void main(RezervareZborFrame initial_frame, String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					frame = new CautareZborFrame();
-					frame.initial_frame = initial_frame;
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	/*
+	 * public static void main(RezervareZborFrame initial_frame, String[] args) {
+	 * EventQueue.invokeLater(new Runnable() { public void run() { try { frame = new
+	 * CautareZborFrame(); frame.initial_frame = initial_frame;
+	 * frame.setVisible(true); } catch (Exception e) { e.printStackTrace(); } } });
+	 * }
+	 */
 
 	public RezervareZbor getZbor() {
 		return this.ZborAles;
@@ -62,7 +48,8 @@ public class CautareZborFrame extends JFrame {
 
 	// functii
 	// generare forma
-	public CautareZborFrame() {
+	@SuppressWarnings("unchecked")
+	public CautareZborFrame(List<CursaZbor> curseZborDisponibile) {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
@@ -72,16 +59,15 @@ public class CautareZborFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lbl_ZboruriDisponibile = new JLabel("Zboruri disponibile");
-		lbl_ZboruriDisponibile.setFont(new Font("Consolas", Font.PLAIN, 22));
-		lbl_ZboruriDisponibile.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_ZboruriDisponibile.setBounds(351, 9, 256, 42);
-		contentPane.add(lbl_ZboruriDisponibile);
+		JLabel lblZboruriDisponibile = new JLabel("Zboruri disponibile");
+		lblZboruriDisponibile.setFont(new Font("Consolas", Font.PLAIN, 22));
+		lblZboruriDisponibile.setHorizontalAlignment(SwingConstants.CENTER);
+		lblZboruriDisponibile.setBounds(351, 9, 256, 42);
+		contentPane.add(lblZboruriDisponibile);
 
-		JList lst_ZboruriDisponibile = new JList();
-		lst_ZboruriDisponibile.setBackground(new Color(220, 220, 220));
-		lst_ZboruriDisponibile.setModel(new AbstractListModel() {
-			String[] values = new String[] { "item1", "item2" };
+		JList lstZboruriDisponibile = new JList();
+		lstZboruriDisponibile.setModel(new AbstractListModel() {
+			String[] values = getInfoCurse(curseZborDisponibile);
 
 			public int getSize() {
 				return values.length;
@@ -91,29 +77,83 @@ public class CautareZborFrame extends JFrame {
 				return values[index];
 			}
 		});
-		lst_ZboruriDisponibile.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				String aux;
-
-				aux = lst_ZboruriDisponibile.getSelectedValuesList().get(0).toString();
-				// dev: to parse the above-mentioned RezervareZbor[] structure and find the
-				// selected flight - aux - and return the details of that flight in
-				// the variable 'ZborAles'; do not forget about the price of the ticket
-				/*
-				 * for(;;) {
-				 * 
-				 * }
-				 */
-
-				// frame.dispose();
-
-				// frame.dispose();
-				initial_frame.setZborAles(ZborAles);
-				frame.setVisible(false);
+		lstZboruriDisponibile.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lstZboruriDisponibile.setBackground(new Color(220, 220, 220));
+		/*
+		 * lstZboruriDisponibile.addListSelectionListener(new ListSelectionListener() {
+		 * public void valueChanged(ListSelectionEvent e) { String aux;
+		 * 
+		 * aux = lstZboruriDisponibile.getSelectedValuesList().get(0).toString(); //
+		 * dev: to parse the above-mentioned RezervareZbor[] structure and find the //
+		 * selected flight - aux - and return the details of that flight in // the
+		 * variable 'ZborAles'; do not forget about the price of the ticket
+		 * 
+		 * for(;;) {
+		 * 
+		 * }
+		 * 
+		 * 
+		 * // frame.dispose();
+		 * 
+		 * // frame.dispose(); initial_frame.setZborAles(ZborAles);
+		 * //frame.setVisible(false); } });
+		 */
+		lstZboruriDisponibile.setBounds(10, 62, 964, 465);
+		contentPane.add(lstZboruriDisponibile);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				dispose();
+				RezervareZborFrame rezervareZbor = new RezervareZborFrame();
+				rezervareZbor.setVisible(true);;
 			}
 		});
-		lst_ZboruriDisponibile.setBounds(10, 62, 964, 465);
-		contentPane.add(lst_ZboruriDisponibile);
 	}
 
+	private String getZileOperare(CursaZbor cursa) {
+		int[] zileOperare = cursa.getZileOperare();
+		String zile = "";
+
+		if (zileOperare[0] == 1)
+			zile += "Lu, ";
+		if (zileOperare[1] == 1)
+			zile += "Ma, ";
+		if (zileOperare[2] == 1)
+			zile += "Mi, ";
+		if (zileOperare[3] == 1)
+			zile += "Jo, ";
+		if (zileOperare[4] == 1)
+			zile += "Vi, ";
+		if (zileOperare[5] == 1)
+			zile += "Sa, ";
+		if (zileOperare[6] == 1)
+			zile += "Du, ";
+
+		zile = (String) zile.subSequence(0, zile.length() - 2);
+
+		return zile;
+	}
+
+	private float getPret(CursaZbor cursa) {
+		float pret = 1000;
+		
+		// inplementation
+		
+		return pret;
+	}
+	
+	private String[] getInfoCurse(List<CursaZbor> curseZborDisponibile) {
+		String[] infoCurse = new String[curseZborDisponibile.size()];
+
+		int index = -1;
+		for (var cursa : curseZborDisponibile) {
+			index++;
+			infoCurse[index] = cursa.getNumeCompanie() + " : " + cursa.getCodCursa()
+					+ ", Zile de Operare: " + getZileOperare(cursa) + ", Orar: " + cursa.getOraPlecare()
+					+ "-" + cursa.getOraSosire() + ", "+ "Pret: " + String.valueOf(getPret(cursa)) + " RON";
+		}
+
+		return infoCurse;
+	}
 }

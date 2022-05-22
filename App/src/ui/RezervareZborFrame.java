@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import functionalities.CursaZbor;
 import functionalities.RezervareZbor;
 
 import javax.swing.JLabel;
@@ -14,12 +15,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
 import java.util.Date;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JComboBox;
@@ -32,11 +35,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+import javax.swing.SpinnerNumberModel;
 
 public class RezervareZborFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txt_OrasDestinatie;
+	private JTextField txtOrasDestinatie;
 	static RezervareZborFrame frame;
 
 	/*
@@ -49,7 +55,8 @@ public class RezervareZborFrame extends JFrame {
 	private RezervareZbor rezervare = null;
 	private RezervareZbor zbor = null;
 	boolean plata_cash = false;
-	private JTextField txt_OrasPlecare;
+	private JTextField txtOrasPlecare;
+	private JLabel lblNrBilete;
 
 	// functii utilitare
 
@@ -130,121 +137,126 @@ public class RezervareZborFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lbl_OrasPlecare = new JLabel("Ora\u0219 origine:");
-		lbl_OrasPlecare.setFont(new Font("Consolas", Font.PLAIN, 18));
-		lbl_OrasPlecare.setBounds(44, 34, 139, 30);
-		contentPane.add(lbl_OrasPlecare);
+		JLabel lblOrasPlecare = new JLabel("Ora\u0219 origine:");
+		lblOrasPlecare.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblOrasPlecare.setBounds(153, 42, 161, 30);
+		contentPane.add(lblOrasPlecare);
 
-		JLabel lbl_OrasSosire = new JLabel("Ora\u0219 destina\u021Bie:");
-		lbl_OrasSosire.setFont(new Font("Consolas", Font.PLAIN, 18));
-		lbl_OrasSosire.setBounds(44, 84, 172, 30);
-		contentPane.add(lbl_OrasSosire);
+		JLabel lblOrasSosire = new JLabel("Ora\u0219 destina\u021Bie:");
+		lblOrasSosire.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblOrasSosire.setBounds(153, 83, 187, 30);
+		contentPane.add(lblOrasSosire);
 
-		JLabel lbl_DataPlecarii = new JLabel("Data plec\u0103rii:");
-		lbl_DataPlecarii.setFont(new Font("Consolas", Font.PLAIN, 18));
-		lbl_DataPlecarii.setBounds(44, 138, 148, 30);
-		contentPane.add(lbl_DataPlecarii);
+		JLabel lblDataPlecarii = new JLabel("Data plec\u0103rii:");
+		lblDataPlecarii.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblDataPlecarii.setBounds(202, 145, 161, 30);
+		contentPane.add(lblDataPlecarii);
 
-		JLabel lbl_TipLoc = new JLabel("Tip loc:");
-		lbl_TipLoc.setFont(new Font("Consolas", Font.PLAIN, 18));
-		lbl_TipLoc.setBounds(48, 213, 96, 30);
-		contentPane.add(lbl_TipLoc);
+		JLabel lblTipLoc = new JLabel("Tip loc:");
+		lblTipLoc.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblTipLoc.setBounds(202, 255, 100, 30);
+		contentPane.add(lblTipLoc);
 
-		JLabel lbl_Clasa = new JLabel("Clasa la care se dore\u0219te rezervarea:");
-		lbl_Clasa.setFont(new Font("Consolas", Font.PLAIN, 18));
-		lbl_Clasa.setBounds(44, 338, 365, 30);
-		contentPane.add(lbl_Clasa);
+		JLabel lblClasa = new JLabel("Clasa la care se dore\u0219te rezervarea:");
+		lblClasa.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblClasa.setBounds(107, 400, 407, 30);
+		contentPane.add(lblClasa);
 
-		JLabel lbl_DataIntoarcere = new JLabel("Data \u00EEntoarcerii:");
-		lbl_DataIntoarcere.setFont(new Font("Consolas", Font.PLAIN, 18));
-		lbl_DataIntoarcere.setBounds(169, 268, 177, 30);
-		contentPane.add(lbl_DataIntoarcere);
+		JLabel lblDataIntoarcere = new JLabel("Data \u00EEntoarcerii:");
+		lblDataIntoarcere.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblDataIntoarcere.setBounds(361, 320, 199, 30);
+		contentPane.add(lblDataIntoarcere);
 
-		txt_OrasDestinatie = new JTextField();
-		txt_OrasDestinatie.setFont(new Font("Consolas", Font.PLAIN, 18));
-		txt_OrasDestinatie.setColumns(10);
-		txt_OrasDestinatie.setBounds(245, 84, 222, 30);
-		contentPane.add(txt_OrasDestinatie);
+		txtOrasDestinatie = new JTextField();
+		txtOrasDestinatie.setFont(new Font("Consolas", Font.PLAIN, 20));
+		txtOrasDestinatie.setColumns(10);
+		txtOrasDestinatie.setBounds(362, 83, 420, 30);
+		contentPane.add(txtOrasDestinatie);
 
 		JSpinner dateTimeDataPlecarii = new JSpinner(new SpinnerDateModel(new Date(1651524853330L),
 				new Date(1651524853330L), new Date(1967144053330L), Calendar.DAY_OF_YEAR));
-		dateTimeDataPlecarii.setFont(new Font("Consolas", Font.PLAIN, 18));
+		dateTimeDataPlecarii.setFont(new Font("Consolas", Font.PLAIN, 20));
 		JSpinner.DateEditor de_dateTimeDataPlecarii = new JSpinner.DateEditor(dateTimeDataPlecarii, "dd.MM.yy");
 		dateTimeDataPlecarii.setEditor(de_dateTimeDataPlecarii);
-		dateTimeDataPlecarii.setBounds(245, 138, 222, 30);
+		dateTimeDataPlecarii.setBounds(437, 145, 249, 30);
 		contentPane.add(dateTimeDataPlecarii);
 
-		JSpinner dateTime_DataIntoarcerii = new JSpinner(new SpinnerDateModel(new Date(1651524884913L),
+		JSpinner dateTimeDataIntoarcerii = new JSpinner(new SpinnerDateModel(new Date(1651524884913L),
 				new Date(1651524884913L), new Date(1967144084913L), Calendar.DAY_OF_YEAR));
-		dateTime_DataIntoarcerii.setFont(new Font("Consolas", Font.PLAIN, 18));
-		JSpinner.DateEditor editor_intoarcere = new JSpinner.DateEditor(dateTime_DataIntoarcerii, "dd.MM.yy");
-		dateTime_DataIntoarcerii.setEditor(editor_intoarcere);
-		dateTime_DataIntoarcerii.setBounds(356, 268, 111, 30);
-		contentPane.add(dateTime_DataIntoarcerii);
+		dateTimeDataIntoarcerii.setFont(new Font("Consolas", Font.PLAIN, 20));
+		JSpinner.DateEditor de_dateTimeDataIntoarcerii = new JSpinner.DateEditor(dateTimeDataIntoarcerii, "dd.MM.yy");
+		dateTimeDataIntoarcerii.setEditor(de_dateTimeDataIntoarcerii);
+		dateTimeDataIntoarcerii.setBounds(652, 320, 130, 30);
+		dateTimeDataIntoarcerii.setEnabled(false);
+		contentPane.add(dateTimeDataIntoarcerii);
 
 		String[] tipLoc = { "Adult", "Copil" };
-		JComboBox combo_TipLoc = new JComboBox(tipLoc);
-		combo_TipLoc.setFont(new Font("Consolas", Font.PLAIN, 18));
-		combo_TipLoc.setBounds(245, 213, 222, 30);
-		contentPane.add(combo_TipLoc);
+		JComboBox comboTipLoc = new JComboBox(tipLoc);
+		comboTipLoc.setFont(new Font("Consolas", Font.PLAIN, 20));
+		comboTipLoc.setBounds(437, 255, 249, 30);
+		contentPane.add(comboTipLoc);
 
-		JCheckBox chk_ZborRetur = new JCheckBox("Retur");
-		chk_ZborRetur.setBackground(new Color(168, 208, 224));
-		chk_ZborRetur.setHorizontalAlignment(SwingConstants.LEFT);
-		chk_ZborRetur.setFont(new Font("Consolas", Font.PLAIN, 18));
-		chk_ZborRetur.setBounds(44, 268, 100, 30);
-		contentPane.add(chk_ZborRetur);
-
-		String[] clasaBilet = { "Econom", "Business", "Premium" };
-		JComboBox combo_Clasa = new JComboBox(clasaBilet);
-		combo_Clasa.setFont(new Font("Consolas", Font.PLAIN, 18));
-		combo_Clasa.setBounds(245, 379, 222, 30);
-		contentPane.add(combo_Clasa);
-
-		JLabel lbl_ListaLocuri = new JLabel("List\u0103 locuri");
-		lbl_ListaLocuri.setFont(new Font("Consolas", Font.PLAIN, 18));
-		lbl_ListaLocuri.setBounds(692, 11, 139, 21);
-		contentPane.add(lbl_ListaLocuri);
-
-		JList lst_LocuriDisponibile = new JList();
-		lst_LocuriDisponibile.setBounds(557, 40, 403, 495);
-		contentPane.add(lst_LocuriDisponibile);
-
-		JButton btn_RezervareLoc = new JButton("Rezervare loc");
-		btn_RezervareLoc.setForeground(Color.WHITE);
-		btn_RezervareLoc.addActionListener(new ActionListener() {
+		JCheckBox chkZborRetur = new JCheckBox("Retur");
+		chkZborRetur.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (lst_LocuriDisponibile.getComponentCount() == 0
-						|| (lst_LocuriDisponibile.getSelectedValuesList().size() != 0
-								&& lst_LocuriDisponibile.getSelectedValuesList()
-										.get(lst_LocuriDisponibile.getSelectedIndex() - 1).equals(""))) {
-					JOptionPane.showMessageDialog(null, "AlegeČ›i un loc");
-				} else if (rezervare == null) {
-					JOptionPane.showMessageDialog(null, "Date zbor incorecte");
-				} else {
-					// deschidere pagina vizualizare zbor
-					// VizualizareZborFrame.main(null);
-
-				}
-
+				dateTimeDataIntoarcerii.setEnabled(chkZborRetur.isSelected() ? true : false);
 			}
 		});
-		btn_RezervareLoc.setFont(new Font("Consolas", Font.PLAIN, 18));
-		btn_RezervareLoc.setBounds(44, 481, 200, 40);
-		btn_RezervareLoc.setBackground(new Color(55, 71, 133));
-		btn_RezervareLoc.setOpaque(true);
-		// Round the button with radius = 30
-		btn_RezervareLoc.setBorder(new RoundButton(30));
+		chkZborRetur.setBackground(new Color(168, 208, 224));
+		chkZborRetur.setHorizontalAlignment(SwingConstants.LEFT);
+		chkZborRetur.setFont(new Font("Consolas", Font.PLAIN, 20));
+		chkZborRetur.setBounds(153, 320, 112, 30);
+		contentPane.add(chkZborRetur);
 
-		btn_RezervareLoc.setUI(new ButtonFill());
-		contentPane.add(btn_RezervareLoc);
+		String[] clasaBilet = { "Econom", "Business", "Premium" };
+		JComboBox comboClasa = new JComboBox(clasaBilet);
+		comboClasa.setFont(new Font("Consolas", Font.PLAIN, 20));
+		comboClasa.setBounds(598, 400, 222, 30);
+		contentPane.add(comboClasa);
 
-		JButton btn_CautareZbor = new JButton("Căutare zbor");
-		btn_CautareZbor.setForeground(Color.WHITE);
-
-		btn_CautareZbor.addActionListener(new ActionListener() {
+		txtOrasPlecare = new JTextField();
+		txtOrasPlecare.setFont(new Font("Consolas", Font.PLAIN, 20));
+		txtOrasPlecare.setColumns(10);
+		txtOrasPlecare.setBounds(363, 42, 419, 30);
+		contentPane.add(txtOrasPlecare);
+		
+		lblNrBilete = new JLabel("Numar bilete:");
+		lblNrBilete.setFont(new Font("Consolas", Font.PLAIN, 20));
+		lblNrBilete.setBounds(202, 200, 154, 30);
+		contentPane.add(lblNrBilete);
+		
+		JSpinner spinnerNrBilete = new JSpinner();
+		spinnerNrBilete.setModel(new SpinnerNumberModel(0, 0, 10, 1));
+		spinnerNrBilete.setFont(new Font("Consolas", Font.PLAIN, 20));
+		spinnerNrBilete.setBounds(437, 200, 249, 25);
+		contentPane.add(spinnerNrBilete);
+		
+		JButton btnCautareZbor = new JButton("Căutare cursa de Zbor");
+		btnCautareZbor.setForeground(Color.WHITE);
+		btnCautareZbor.setFont(new Font("Consolas", Font.PLAIN, 18));
+		btnCautareZbor.setBounds(318, 475, 310, 49);
+		btnCautareZbor.setBackground(new Color(55, 71, 133));
+		btnCautareZbor.setOpaque(true);
+		btnCautareZbor.setBorder(new RoundButton(30));
+		btnCautareZbor.setUI(new ButtonFill());
+		
+		btnCautareZbor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean err_plecare = false;
+				
+				rezervare = new RezervareZbor(txtOrasPlecare.getText(), txtOrasDestinatie.getText(),
+						(Date)dateTimeDataPlecarii.getValue(), (int)spinnerNrBilete.getValue(),
+						(String)comboTipLoc.getSelectedItem(), (String)comboClasa.getSelectedItem(),chkZborRetur.isSelected(),
+						chkZborRetur.isSelected() ? (Date)dateTimeDataIntoarcerii.getValue() : null);
+				
+				List<CursaZbor> curseZborDisponibile = new ArrayList<CursaZbor>();
+				curseZborDisponibile = rezervare.getCurseZborDisponibile("curseZbor.json");
+				
+				CautareZborFrame cautareZbor = new CautareZborFrame(curseZborDisponibile);
+				cautareZbor.setVisible(true);
+				dispose();
+				
+				/////////////////////////////////////////////////
+				/*boolean err_plecare = false;
 				boolean err_destinatie = false;
 				boolean err_date = false;
 				boolean err_retur = false;
@@ -258,18 +270,18 @@ public class RezervareZborFrame extends JFrame {
 				String[] buf;
 
 				// functii de verificare
-				if (!numeOrasValid(txt_OrasPlecare.getText())) {
+				if (!numeOrasValid(txtOrasPlecare.getText())) {
 					err = true;
 					err_plecare = true;
 
-					txt_OrasPlecare.setBackground(c_err);
+					txtOrasPlecare.setBackground(c_err);
 				}
 
-				if (!numeOrasValid(txt_OrasDestinatie.getText())) {
+				if (!numeOrasValid(txtOrasDestinatie.getText())) {
 					err = true;
 					err_destinatie = true;
 
-					txt_OrasDestinatie.setBackground(c_err);
+					txtOrasDestinatie.setBackground(c_err);
 				}
 
 				if (!dateValide(data1, data2)) {
@@ -277,21 +289,21 @@ public class RezervareZborFrame extends JFrame {
 					err_date = true;
 
 					dateTimeDataPlecarii.setBackground(c_err);
-					dateTime_DataIntoarcerii.setBackground(c_err);
+					dateTimeDataIntoarcerii.setBackground(c_err);
 				}
 
-				if (combo_TipLoc.getSelectedItem() == null) {
+				if (comboTipLoc.getSelectedItem() == null) {
 					err = true;
 					err_tipLoc = true;
 
-					combo_TipLoc.setBackground(c_err);
+					comboTipLoc.setBackground(c_err);
 				}
 
-				if (combo_Clasa.getSelectedItem() == null) {
+				if (comboClasa.getSelectedItem() == null) {
 					err = true;
 					err_clasa = true;
 
-					combo_Clasa.setBackground(c_err);
+					comboClasa.setBackground(c_err);
 				}
 
 				if (!err) {
@@ -330,7 +342,7 @@ public class RezervareZborFrame extends JFrame {
 					data1[2] = Integer.parseInt(buf[5]);
 
 					// data intoarcere
-					buf = form.format(dateTime_DataIntoarcerii.getValue()).split("/");
+					buf = form.format(dateTimeDataIntoarcerii.getValue()).split("/");
 					data2[0] = Integer.parseInt(buf[2]);
 
 					if (buf[1].equals("Jan"))
@@ -360,39 +372,16 @@ public class RezervareZborFrame extends JFrame {
 
 					data2[2] = Integer.parseInt(buf[5]);
 
-					rezervare = new RezervareZbor(txt_OrasPlecare.getText(), txt_OrasDestinatie.getText(),
-							combo_TipLoc.getSelectedItem().toString(), combo_Clasa.getSelectedItem().toString(), data1,
-							chk_ZborRetur.isSelected(), data2, 0.0, // pretul initial este 0, pana la cautarea zborului
-							0.0, // durata zborului va fi inlocuita la cautarea efectiva
-							"N/A" // numarul zborului va fi inlocuit la cautarea efectiva
-					);
-
-					zbor = new RezervareZbor("ERROR");
+					//zbor = new RezervareZbor("ERROR");
 					// deschidere pagina cautare zbor
 					// CautareZbor_page3_main.main(frame,null);
-
-				} else {
-					JOptionPane.showMessageDialog(null, "Date zbor incorecte");
-				}
-
-			}
+*/
+			} /*
+				 * else { JOptionPane.showMessageDialog(null, "Date zbor incorecte"); }
+				 */
 		});
-		btn_CautareZbor.setFont(new Font("Consolas", Font.PLAIN, 18));
-		btn_CautareZbor.setBounds(297, 481, 200, 40);
-		btn_CautareZbor.setBackground(new Color(55, 71, 133));
-		btn_CautareZbor.setOpaque(true);
-		// Round the button with radius = 30
-		btn_CautareZbor.setBorder(new RoundButton(30));
-
-		btn_CautareZbor.setUI(new ButtonFill());
-		contentPane.add(btn_CautareZbor);
-
-		txt_OrasPlecare = new JTextField();
-		txt_OrasPlecare.setFont(new Font("Consolas", Font.PLAIN, 18));
-		txt_OrasPlecare.setColumns(10);
-		txt_OrasPlecare.setBounds(245, 35, 222, 30);
-		contentPane.add(txt_OrasPlecare);
-
+		contentPane.add(btnCautareZbor);
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
