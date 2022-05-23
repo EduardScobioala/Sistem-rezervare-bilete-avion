@@ -72,7 +72,7 @@ public class IntroducereZborFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public IntroducereZborFrame() {
+	public IntroducereZborFrame(boolean staffOnly) {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
 		setTitle("Introducere zbor");
@@ -320,7 +320,7 @@ public class IntroducereZborFrame extends JFrame {
 				
 				// cursa adaugata, reintoarcere pe pagina anterioara
 				dispose();
-				OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame();
+				OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame(staffOnly);
 				optiuni_staff.setVisible(true);
 			}
 		});
@@ -331,7 +331,7 @@ public class IntroducereZborFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				dispose();
-				OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame();
+				OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame(staffOnly);
 				optiuni_staff.setVisible(true);
 			}
 		});

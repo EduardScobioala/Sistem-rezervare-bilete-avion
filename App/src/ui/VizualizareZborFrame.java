@@ -81,7 +81,7 @@ public class VizualizareZborFrame extends JFrame {
 	 * dateTime_DataZbor.setData(zbor.getData()); } }
 	 */
 
-	public VizualizareZborFrame(CursaZbor cursaZbor, RezervareZbor rezervare, float pret) {
+	public VizualizareZborFrame(CursaZbor cursaZbor, RezervareZbor rezervare, float pret, boolean staffOnly) {
 		setTitle("Vizualizare Zbor");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
@@ -535,7 +535,7 @@ public class VizualizareZborFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				dispose();
-				RezervareZborFrame rezervareZbor = new RezervareZborFrame();
+				RezervareZborFrame rezervareZbor = new RezervareZborFrame(staffOnly);
 				rezervareZbor.setVisible(true);;
 			}
 		});

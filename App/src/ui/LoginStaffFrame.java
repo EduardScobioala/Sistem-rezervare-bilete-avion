@@ -55,7 +55,7 @@ public class LoginStaffFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public LoginStaffFrame() {
+	public LoginStaffFrame(boolean staffOnly) {
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 600, 300);
@@ -102,7 +102,7 @@ public class LoginStaffFrame extends JFrame {
 				if (new Login(textUsername.getText(), String.valueOf(passwordField.getPassword())).tryLogin()) {
 					lblLoginFailed.setText("");
 					dispose();
-					OptiuniStaffFrame optiuniStaff = new OptiuniStaffFrame();
+					OptiuniStaffFrame optiuniStaff = new OptiuniStaffFrame(staffOnly);
 					optiuniStaff.setVisible(true);
 				} else {
 					lblLoginFailed.setText("Wrong credentials!");
@@ -123,7 +123,7 @@ public class LoginStaffFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				dispose();
-				MainFrame mainFrame = new MainFrame();
+				MainFrame mainFrame = new MainFrame(staffOnly);
 				mainFrame.setVisible(true);
 			}
 		});

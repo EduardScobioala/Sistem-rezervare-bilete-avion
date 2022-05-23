@@ -40,7 +40,7 @@ public class ActualizareZborFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ActualizareZborFrame() {
+	public ActualizareZborFrame(boolean staffOnly) {
 		setTitle("Actualizare zbor");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -74,7 +74,7 @@ public class ActualizareZborFrame extends JFrame {
 				
 				if (cursa != null) {
 					dispose();
-					EditareCursaFrame editareCursa = new EditareCursaFrame(cursa);
+					EditareCursaFrame editareCursa = new EditareCursaFrame(cursa, staffOnly);
 					editareCursa.setVisible(true);
 				} else {
 					JOptionPane.showMessageDialog(null, "Codul de Cursa nu a fost gasit!");
@@ -94,7 +94,7 @@ public class ActualizareZborFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				dispose();
-				OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame();
+				OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame(staffOnly);
 				optiuni_staff.setVisible(true);
 			}
 		});

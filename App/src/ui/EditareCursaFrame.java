@@ -73,7 +73,7 @@ public class EditareCursaFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public EditareCursaFrame(CursaZbor cursaZbor) {
+	public EditareCursaFrame(CursaZbor cursaZbor, boolean staffOnly) {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
 		setTitle("Editare cursa zbor");
@@ -319,7 +319,7 @@ public class EditareCursaFrame extends JFrame {
 				
 				// cursa actualizata, reintoarcere pe pagina anterioara
 				dispose();
-				OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame();
+				OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame(staffOnly);
 				optiuni_staff.setVisible(true);
 			}
 		});
@@ -354,7 +354,7 @@ public class EditareCursaFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				dispose();
-				OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame();
+				OptiuniStaffFrame optiuni_staff = new OptiuniStaffFrame(staffOnly);
 				optiuni_staff.setVisible(true);
 			}
 		});

@@ -19,7 +19,6 @@ import java.util.Locale;
 public class MainFrame extends JFrame {
 
 	private JPanel contentPane;
-	public static boolean staffOnly = false;
 
 	/**
 	 * Launch the application.
@@ -28,7 +27,7 @@ public class MainFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainFrame frame = new MainFrame();
+					MainFrame frame = new MainFrame(false);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,7 +39,7 @@ public class MainFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainFrame() {
+	public MainFrame(boolean staffOnly) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
@@ -56,7 +55,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				dispose();
-				RezervareZborFrame rezervareZbor = new RezervareZborFrame();
+				RezervareZborFrame rezervareZbor = new RezervareZborFrame(false);
 				rezervareZbor.setVisible(true);
 			}
 		});
@@ -143,7 +142,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				dispose();
-				LoginStaffFrame loginStaff = new LoginStaffFrame();
+				LoginStaffFrame loginStaff = new LoginStaffFrame(false);
 				loginStaff.setVisible(true);
 			}
 		});
@@ -162,9 +161,5 @@ public class MainFrame extends JFrame {
 
 		btnHelp.setUI(new ButtonFill());
 		contentPane.add(btnHelp);
-	}
-	
-	public static void setStaffOnly(boolean value) {
-		staffOnly = value;
 	}
 }

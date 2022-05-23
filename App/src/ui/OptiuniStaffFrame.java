@@ -30,7 +30,7 @@ public class OptiuniStaffFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public OptiuniStaffFrame() {
+	public OptiuniStaffFrame(boolean staffOnly) {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setTitle("Optiuni disponibile");
 		setResizable(false);
@@ -45,7 +45,7 @@ public class OptiuniStaffFrame extends JFrame {
 		JButton btnIntroducere = new JButton("Introducere curse");
 		btnIntroducere.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				IntroducereZborFrame form_introducere = new IntroducereZborFrame();
+				IntroducereZborFrame form_introducere = new IntroducereZborFrame(staffOnly);
 				form_introducere.setVisible(true);
 				setVisible(false);
 			}
@@ -75,7 +75,7 @@ public class OptiuniStaffFrame extends JFrame {
 		
 		btnActualizareZbor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ActualizareZborFrame form_actualizare = new ActualizareZborFrame();
+				ActualizareZborFrame form_actualizare = new ActualizareZborFrame(staffOnly);
 				form_actualizare.setVisible(true);
 				setVisible(false);
 			}
@@ -95,7 +95,7 @@ public class OptiuniStaffFrame extends JFrame {
 		btnCautareZbor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				RezervareZborFrame rezervareZbor = new RezervareZborFrame();
+				RezervareZborFrame rezervareZbor = new RezervareZborFrame(staffOnly);
 				rezervareZbor.setVisible(true);
 			}
 		});
@@ -106,7 +106,7 @@ public class OptiuniStaffFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				dispose();
-				MainFrame mainFrame = new MainFrame();
+				MainFrame mainFrame = new MainFrame(staffOnly);
 				mainFrame.setVisible(true);
 			}
 		});

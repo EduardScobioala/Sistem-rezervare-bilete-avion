@@ -126,7 +126,7 @@ public class RezervareZborFrame extends JFrame {
 	}
 
 	// genereaza forma
-	public RezervareZborFrame() {
+	public RezervareZborFrame(boolean staffOnly) {
 		setTitle("Rezervare Zbor");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
@@ -251,7 +251,7 @@ public class RezervareZborFrame extends JFrame {
 				List<CursaZbor> curseZborDisponibile = new ArrayList<CursaZbor>();
 				curseZborDisponibile = rezervare.getCurseZborDisponibile("curseZbor.json");
 				
-				CautareZborFrame cautareZbor = new CautareZborFrame(curseZborDisponibile, rezervare);
+				CautareZborFrame cautareZbor = new CautareZborFrame(curseZborDisponibile, rezervare, false);
 				cautareZbor.setVisible(true);
 				dispose();
 				
@@ -386,7 +386,7 @@ public class RezervareZborFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				dispose();
-				MainFrame mainFrame = new MainFrame();
+				MainFrame mainFrame = new MainFrame(false);
 				mainFrame.setVisible(true);
 			}
 		});

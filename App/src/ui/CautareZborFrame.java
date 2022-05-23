@@ -59,7 +59,7 @@ public class CautareZborFrame extends JFrame {
 	// functii
 	// generare forma
 	@SuppressWarnings("unchecked")
-	public CautareZborFrame(List<CursaZbor> curseZborDisponibile, RezervareZbor rezervare) {
+	public CautareZborFrame(List<CursaZbor> curseZborDisponibile, RezervareZbor rezervare, boolean staffOnly) {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
@@ -131,7 +131,7 @@ public class CautareZborFrame extends JFrame {
 						if (gotCursa(cursa, rezervare)) curseZborValide.add(cursa);
 					}
 					
-					VizualizareZborFrame vizualizareZborFrame = new VizualizareZborFrame(curseZborValide.get(index), rezervare, getPret(curseZborValide.get(index), rezervare));
+					VizualizareZborFrame vizualizareZborFrame = new VizualizareZborFrame(curseZborValide.get(index), rezervare, getPret(curseZborValide.get(index), rezervare), staffOnly);
 					vizualizareZborFrame.setVisible(true);
 					dispose();
 					
@@ -147,7 +147,7 @@ public class CautareZborFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				dispose();
-				RezervareZborFrame rezervareZbor = new RezervareZborFrame();
+				RezervareZborFrame rezervareZbor = new RezervareZborFrame(staffOnly);
 				rezervareZbor.setVisible(true);
 			}
 		});
