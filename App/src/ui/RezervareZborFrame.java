@@ -61,7 +61,7 @@ public class RezervareZborFrame extends JFrame {
 	// functii utilitare
 
 	// verifica daca numele orasului este valid
-	protected boolean numeOrasValid(String oras) {
+	public boolean numeOrasValid(String oras) {
 		java.util.List<String> orase = new ArrayList<String>();
 		BufferedReader read = null;
 		boolean gasit = false;
@@ -90,7 +90,7 @@ public class RezervareZborFrame extends JFrame {
 	}
 
 	// verifica daca datele de plecare (data1) si intoarcere (data2) sunt valide
-	protected boolean dateValide(int[] data1, int[] data2) {
+	public boolean dateValide(int[] data1, int[] data2) {
 
 		if (data1.length != 3 || data2.length != 3)
 			return false;
@@ -124,7 +124,9 @@ public class RezervareZborFrame extends JFrame {
 	public void setZborAles(RezervareZbor zbor) {
 		this.zbor = zbor;
 	}
-
+	public RezervareZborFrame() {
+		
+	}
 	// genereaza forma
 	public RezervareZborFrame(boolean staffOnly) {
 		setTitle("Rezervare Zbor");

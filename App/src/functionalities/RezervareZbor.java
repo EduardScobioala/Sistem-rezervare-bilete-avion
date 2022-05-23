@@ -30,7 +30,7 @@ public class RezervareZbor {
 		this.dataPlecare = dataPlecare;
 		this.nrBilete = nrBilete;
 		this.tipLoc = tipLoc;
-		this.clasa = clasa;
+		this.clasa = clasa; //Econom, Business, Premium
 		this.dataIntoarcere = dataIntoarcere;
 		this.retur = retur;
 	}
@@ -99,12 +99,17 @@ public class RezervareZbor {
 		this.retur = retur;
 	}
 
-	private String readFile(String path) throws IOException {
+	public String readFile(String path) throws IOException {
+		if(path==null || path.equals("")) throw new IOException();
+		
 		byte[] data = Files.readAllBytes(Paths.get(path));
 		return new String(data);
 	}
 	
-	private List<CursaZbor> getData(String filename) {
+	public List<CursaZbor> getData(String filename) {
+		
+		if(filename==null || filename.equals("")) return null;
+		
 		String jsonFileContent = null;
 
 		try {
@@ -120,8 +125,10 @@ public class RezervareZbor {
 		return _curseZbor;
 	}
 	
-	private boolean gotCursaLaData(CursaZbor cursaZbor, Date dateForChecking) {
+	public boolean gotCursaLaData(CursaZbor cursaZbor, Date dateForChecking) {
 		boolean flag = false;
+		
+		if(dateForChecking.before(new Date())) return flag=false;
 		
 		int[] zileOperare = cursaZbor.getZileOperare();
 
@@ -132,8 +139,22 @@ public class RezervareZbor {
 		return flag;
 	}
 	
-	private boolean meetRequirements(CursaZbor cursaZbor) {
+	public boolean meetRequirements(CursaZbor cursaZbor) {
 		boolean flag = true;
+		if(cursaZbor==null) return flag=false;
+		
+		if (cursaZbor.getAeroportPlecare() == null) return flag = false;
+		if (cursaZbor.getAeroportSosire() == null) return flag = false;
+		if (cursaZbor.getClass() == null) return flag = false;
+		if (cursaZbor.getCodCursa() == null) return flag = false;
+		if (cursaZbor.getLocuriDisponibile() == null) return flag = false;
+		if (cursaZbor.getLocuriRezervate() == null) return flag = false;
+		if (cursaZbor.getNumeCompanie() == null) return flag = false;
+		if (cursaZbor.getOraPlecare() == null) return flag = false;
+		if (cursaZbor.getOraSosire() == null) return flag = false;
+		if (cursaZbor.getPretClase() == null) return flag = false;
+		if (cursaZbor.getTipAvion() == null) return flag = false;
+		if (cursaZbor.getZileOperare() == null) return flag = false;
 		
 		// verificare datele de pornire/sosire
 		if (!cursaZbor.getAeroportPlecare().toLowerCase().equals(origine.toLowerCase())) flag = false;
@@ -142,11 +163,18 @@ public class RezervareZbor {
 		if (!gotCursaLaData(cursaZbor, dataPlecare)) flag = false;
 		// verificare suficienta bilete pentru anumita clasa
 		if (clasa.equals("Econom"))
-			if(!(cursaZbor.getLocuriDisponibile()[0] >= cursaZbor.getLocuriRezervate()[0] + nrBilete)) flag = false;
+			{
+				if(!(cursaZbor.getLocuriDisponibile()[0] >= cursaZbor.getLocuriRezervate()[0] + nrBilete)) flag = false;
+			}
 		else if (clasa.equals("Business"))
-			if(!(cursaZbor.getLocuriDisponibile()[1] >= cursaZbor.getLocuriRezervate()[1] + nrBilete)) flag = false;
-		else
+			{
+				if(!(cursaZbor.getLocuriDisponibile()[1] >= cursaZbor.getLocuriRezervate()[1] + nrBilete)) flag = false;
+			}
+		else if(clasa.equals("Premium"))
+		{
 			if(!(cursaZbor.getLocuriDisponibile()[2] >= cursaZbor.getLocuriRezervate()[2] + nrBilete)) flag = false;
+		}
+		else flag=false;
 		
 		return flag;
 	}

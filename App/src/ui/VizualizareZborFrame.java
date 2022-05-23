@@ -541,8 +541,11 @@ public class VizualizareZborFrame extends JFrame {
 		});
 	}
 
-//verifica daca numele pasagerului este valid (fiecare cuvant din nume, fara spatii)
-	protected boolean numeValid(String nume) {
+public VizualizareZborFrame() {
+	}
+
+	//verifica daca numele pasagerului este valid (fiecare cuvant din nume, fara spatii)
+	public boolean numeValid(String nume) {
 		if (nume == null || nume.length() == 0)
 			return false;
 
@@ -556,7 +559,7 @@ public class VizualizareZborFrame extends JFrame {
 	}
 
 //verifica daca e-mail-ul dat este valid
-	protected boolean emailValid(String email) {
+	public boolean emailValid(String email) {
 		if (email == null || email.equals(""))
 			return false;
 		int at = 0, dot = 0;
@@ -575,7 +578,7 @@ public class VizualizareZborFrame extends JFrame {
 	}
 
 //verifica daca este valid codul CVC dat
-	protected boolean CVCValid(String CVC) {
+	public boolean CVCValid(String CVC) {
 		if (CVC == null || CVC.length() != 3)
 			return false;
 		for (int i = 0; i < CVC.length(); i++) {
@@ -587,7 +590,7 @@ public class VizualizareZborFrame extends JFrame {
 	}
 
 //verifica daca este valid numarul cardului dat
-	protected boolean nrCardContValid(String nr, boolean card) {
+	public boolean nrCardContValid(String nr, boolean card) {
 		boolean err = false;
 
 		if (nr == null || nr == "")
@@ -622,7 +625,7 @@ public class VizualizareZborFrame extends JFrame {
 	}
 
 //verifica daca nu este expirat cardul dat
-	protected boolean dataExpirareValida(int[] dataExpirare) {
+	public boolean dataExpirareValida(int[] dataExpirare) {
 		if (dataExpirare == null)
 			return false;
 
@@ -647,7 +650,7 @@ public class VizualizareZborFrame extends JFrame {
 	}
 
 //verifica daca suma inregistrata este valida
-	protected boolean sumaCashValida(String suma) {
+	public boolean sumaCashValida(String suma) {
 		boolean dot = false;
 		double d_suma;
 		if (suma == null || suma.equals(""))
@@ -668,7 +671,7 @@ public class VizualizareZborFrame extends JFrame {
 	}
 
 //verifica daca numarul de telefon dat este valid
-	protected boolean nrTelValid(String tel) {
+	public boolean nrTelValid(String tel) {
 		if (tel == null || tel.length() != 10)
 			return false;
 

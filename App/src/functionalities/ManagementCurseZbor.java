@@ -62,6 +62,8 @@ public class ManagementCurseZbor {
 	public CursaZbor findCursa(String codCursa) {
 		CursaZbor cursaZbor = null;
 		
+		if(codCursa==null || codCursa.equals("")) return null;
+		
 		for(var cursa : curseZbor)
 			if (cursa.getCodCursa().equals(codCursa)) {
 				cursaZbor = cursa;

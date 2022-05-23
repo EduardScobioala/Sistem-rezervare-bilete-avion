@@ -19,6 +19,9 @@ public class Login {
 		this.password = password;
 	}
 
+	public Login() {
+	}
+
 	private String readFile(String path) throws IOException {
 		byte[] data = Files.readAllBytes(Paths.get(path));
 		return new String(data);
