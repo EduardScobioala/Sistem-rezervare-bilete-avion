@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import functionalities.CursaZbor;
 import functionalities.RezervareZbor;
 
 import javax.swing.JLabel;
@@ -23,7 +24,10 @@ import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.awt.event.ActionEvent;
 
 public class VizualizareZborFrame extends JFrame {
@@ -33,8 +37,8 @@ public class VizualizareZborFrame extends JFrame {
 	private RezervareZbor zbor;
 	private JTextField txt_OrasPlecare;
 	private JTextField txt_OrasDestinatie;
-	private JTextField txt_NrZbor;
-	private JTextField txt_Durata;
+	private JTextField txt_NrBilete;
+	private JTextField txtOrarZbor;
 	private JTextField txt_Pret;
 	private JTextField dateTime_DataZbor;
 	private JTextField txt_Nume;
@@ -46,13 +50,17 @@ public class VizualizareZborFrame extends JFrame {
 	private JTextField txt_CVC;
 	private JTextField txt_PlataCashSuma;
 	private boolean plata_cash;
+	private JTextField textClasaBilete;
+	private JTextField textTipBilet;
 
-	public VizualizareZborFrame(RezervareZbor zbor, boolean plata_cash) {
-		this.zbor = zbor;
-		this.plata_cash = plata_cash;
-	}
-
-	static VizualizareZborFrame frame;
+	
+	/*
+	 * public VizualizareZborFrame(RezervareZbor zbor, boolean plata_cash) {
+	 * this.zbor = zbor; this.plata_cash = plata_cash; }
+	 * 
+	 * static VizualizareZborFrame frame;
+	 */
+	 
 
 	/*
 	 * public static void main(String[] args) { EventQueue.invokeLater(new
@@ -64,20 +72,16 @@ public class VizualizareZborFrame extends JFrame {
 	 * } }); }
 	 */
 
-	public void open() {
-		// load selected flight details
-		if (zbor == null) {
-			boolean ok = false;
-			JOptionPane.showMessageDialog(null, "Eroare �nc�rcare detalii zbor ales");
-			frame.dispose();
-		} else {
-			txt_OrasPlecare.setText(zbor.getOrigine());
-			txt_OrasDestinatie.setText(zbor.getDestinatie());
-			// dateTime_DataZbor.setData(zbor.getData());
-		}
-	}
+	/*
+	 * public void open() { // load selected flight details if (zbor == null) {
+	 * boolean ok = false; JOptionPane.showMessageDialog(null,
+	 * "Eroare �nc�rcare detalii zbor ales"); frame.dispose(); } else {
+	 * txt_OrasPlecare.setText(zbor.getOrigine());
+	 * txt_OrasDestinatie.setText(zbor.getDestinatie()); //
+	 * dateTime_DataZbor.setData(zbor.getData()); } }
+	 */
 
-	public VizualizareZborFrame() {
+	public VizualizareZborFrame(CursaZbor cursaZbor, RezervareZbor rezervare, float pret) {
 		setTitle("Vizualizare Zbor");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
@@ -90,7 +94,7 @@ public class VizualizareZborFrame extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(168, 208, 224));
-		panel.setBounds(10, 11, 964, 132);
+		panel.setBounds(10, 11, 964, 148);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -106,73 +110,74 @@ public class VizualizareZborFrame extends JFrame {
 
 		JLabel lbl_OrasDestinatie = new JLabel("Destina\u021Bie:");
 		lbl_OrasDestinatie.setFont(new Font("Consolas", Font.PLAIN, 15));
-		lbl_OrasDestinatie.setBounds(643, 43, 114, 20);
+		lbl_OrasDestinatie.setBounds(339, 43, 114, 20);
 		panel.add(lbl_OrasDestinatie);
 
-		JLabel lbl_NrZbor = new JLabel("Num\u0103r zbor:");
-		lbl_NrZbor.setFont(new Font("Consolas", Font.PLAIN, 15));
-		lbl_NrZbor.setBounds(302, 85, 114, 20);
-		panel.add(lbl_NrZbor);
+		JLabel lbl_NrBilete = new JLabel("Număr bilete:");
+		lbl_NrBilete.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_NrBilete.setBounds(176, 120, 114, 20);
+		panel.add(lbl_NrBilete);
 
-		JLabel lbl_DurataZbor = new JLabel("Durat\u0103 zbor:");
+		JLabel lbl_DurataZbor = new JLabel("Orar zbor:");
 		lbl_DurataZbor.setFont(new Font("Consolas", Font.PLAIN, 15));
-		lbl_DurataZbor.setBounds(302, 43, 105, 20);
+		lbl_DurataZbor.setBounds(24, 84, 105, 20);
 		panel.add(lbl_DurataZbor);
 
 		JLabel lbl_DataPlecare = new JLabel("Dat\u0103:");
 		lbl_DataPlecare.setFont(new Font("Consolas", Font.PLAIN, 15));
-		lbl_DataPlecare.setBounds(24, 85, 70, 20);
+		lbl_DataPlecare.setBounds(679, 43, 70, 20);
 		panel.add(lbl_DataPlecare);
 
 		JLabel lbl_Pret = new JLabel("Pre\u021B:");
 		lbl_Pret.setFont(new Font("Consolas", Font.PLAIN, 15));
-		lbl_Pret.setBounds(643, 85, 78, 20);
+		lbl_Pret.setBounds(528, 120, 78, 20);
 		panel.add(lbl_Pret);
 
 		JLabel lbl_RON_ReadOnly = new JLabel("RON");
 		lbl_RON_ReadOnly.setFont(new Font("Consolas", Font.PLAIN, 15));
-		lbl_RON_ReadOnly.setBounds(909, 85, 45, 20);
+		lbl_RON_ReadOnly.setBounds(745, 120, 45, 20);
 		panel.add(lbl_RON_ReadOnly);
 
-		JLabel lbl_DurataZbor_ore = new JLabel("ore");
-		lbl_DurataZbor_ore.setFont(new Font("Consolas", Font.PLAIN, 15));
-		lbl_DurataZbor_ore.setBounds(574, 43, 30, 20);
-		panel.add(lbl_DurataZbor_ore);
-
 		txt_OrasPlecare = new JTextField();
+		txt_OrasPlecare.setFont(new Font("Consolas", Font.PLAIN, 13));
 		txt_OrasPlecare.setEditable(false);
-		txt_OrasPlecare.setBounds(117, 42, 140, 20);
+		txt_OrasPlecare.setBounds(117, 43, 140, 20);
 		panel.add(txt_OrasPlecare);
 		txt_OrasPlecare.setColumns(10);
 
 		txt_OrasDestinatie = new JTextField();
+		txt_OrasDestinatie.setFont(new Font("Consolas", Font.PLAIN, 13));
 		txt_OrasDestinatie.setEditable(false);
 		txt_OrasDestinatie.setColumns(10);
-		txt_OrasDestinatie.setBounds(755, 42, 140, 20);
+		txt_OrasDestinatie.setBounds(450, 43, 140, 20);
 		panel.add(txt_OrasDestinatie);
 
-		txt_NrZbor = new JTextField();
-		txt_NrZbor.setEditable(false);
-		txt_NrZbor.setColumns(10);
-		txt_NrZbor.setBounds(424, 84, 140, 20);
-		panel.add(txt_NrZbor);
+		txt_NrBilete = new JTextField();
+		txt_NrBilete.setFont(new Font("Consolas", Font.PLAIN, 13));
+		txt_NrBilete.setEditable(false);
+		txt_NrBilete.setColumns(10);
+		txt_NrBilete.setBounds(300, 120, 140, 20);
+		panel.add(txt_NrBilete);
 
-		txt_Durata = new JTextField();
-		txt_Durata.setEditable(false);
-		txt_Durata.setColumns(10);
-		txt_Durata.setBounds(424, 42, 140, 20);
-		panel.add(txt_Durata);
+		txtOrarZbor = new JTextField();
+		txtOrarZbor.setFont(new Font("Consolas", Font.PLAIN, 13));
+		txtOrarZbor.setEditable(false);
+		txtOrarZbor.setColumns(10);
+		txtOrarZbor.setBounds(117, 84, 140, 20);
+		panel.add(txtOrarZbor);
 
 		txt_Pret = new JTextField();
+		txt_Pret.setFont(new Font("Consolas", Font.PLAIN, 13));
 		txt_Pret.setEditable(false);
 		txt_Pret.setColumns(10);
-		txt_Pret.setBounds(755, 84, 140, 20);
+		txt_Pret.setBounds(593, 120, 140, 20);
 		panel.add(txt_Pret);
 
 		dateTime_DataZbor = new JTextField();
+		dateTime_DataZbor.setFont(new Font("Consolas", Font.PLAIN, 13));
 		dateTime_DataZbor.setEditable(false);
 		dateTime_DataZbor.setColumns(10);
-		dateTime_DataZbor.setBounds(117, 84, 140, 20);
+		dateTime_DataZbor.setBounds(751, 43, 140, 20);
 		panel.add(dateTime_DataZbor);
 
 		JPanel groupBox_PlataBanca = new JPanel();
@@ -217,21 +222,25 @@ public class VizualizareZborFrame extends JFrame {
 		groupBox_PlataBanca.add(lbl_CodCVC);
 
 		txt_NrCard = new JTextField();
+		txt_NrCard.setFont(new Font("Consolas", Font.PLAIN, 13));
 		txt_NrCard.setColumns(10);
 		txt_NrCard.setBounds(165, 56, 160, 20);
 		groupBox_PlataBanca.add(txt_NrCard);
 
 		txt_NumeTitular = new JTextField();
+		txt_NumeTitular.setFont(new Font("Consolas", Font.PLAIN, 13));
 		txt_NumeTitular.setColumns(10);
 		txt_NumeTitular.setBounds(165, 90, 159, 20);
 		groupBox_PlataBanca.add(txt_NumeTitular);
 
 		txt_CVC = new JTextField();
+		txt_CVC.setFont(new Font("Consolas", Font.PLAIN, 13));
 		txt_CVC.setColumns(10);
 		txt_CVC.setBounds(512, 90, 122, 20);
 		groupBox_PlataBanca.add(txt_CVC);
 
 		JSpinner dateTime_ExpirareCard = new JSpinner();
+		dateTime_ExpirareCard.setFont(new Font("Consolas", Font.PLAIN, 13));
 		dateTime_ExpirareCard.setBounds(512, 56, 122, 20);
 		groupBox_PlataBanca.add(dateTime_ExpirareCard);
 
@@ -252,6 +261,7 @@ public class VizualizareZborFrame extends JFrame {
 		groupBox_PlataCash.add(lbl_PlataCashSuma);
 
 		txt_PlataCashSuma = new JTextField();
+		txt_PlataCashSuma.setFont(new Font("Consolas", Font.PLAIN, 13));
 		txt_PlataCashSuma.setColumns(10);
 		txt_PlataCashSuma.setBounds(60, 37, 136, 20);
 		groupBox_PlataCash.add(txt_PlataCashSuma);
@@ -273,6 +283,7 @@ public class VizualizareZborFrame extends JFrame {
 		panel_1.setLayout(null);
 
 		JSpinner spinner_Varsta = new JSpinner();
+		spinner_Varsta.setFont(new Font("Consolas", Font.PLAIN, 13));
 		spinner_Varsta.setBounds(448, 44, 160, 20);
 		panel_1.add(spinner_Varsta);
 
@@ -437,6 +448,7 @@ public class VizualizareZborFrame extends JFrame {
 		lbl_Prenume.setFont(new Font("Consolas", Font.PLAIN, 15));
 
 		txt_Prenume = new JTextField();
+		txt_Prenume.setFont(new Font("Consolas", Font.PLAIN, 13));
 		txt_Prenume.setBounds(448, 78, 160, 20);
 		panel_1.add(txt_Prenume);
 		txt_Prenume.setColumns(10);
@@ -452,16 +464,19 @@ public class VizualizareZborFrame extends JFrame {
 		lbl_Nume.setFont(new Font("Consolas", Font.PLAIN, 15));
 
 		txt_Nume = new JTextField();
+		txt_Nume.setFont(new Font("Consolas", Font.PLAIN, 13));
 		txt_Nume.setBounds(125, 44, 160, 20);
 		panel_1.add(txt_Nume);
 		txt_Nume.setColumns(10);
 
 		txt_Email = new JTextField();
+		txt_Email.setFont(new Font("Consolas", Font.PLAIN, 13));
 		txt_Email.setBounds(125, 78, 160, 20);
 		panel_1.add(txt_Email);
 		txt_Email.setColumns(10);
 
 		txt_Telefon = new JTextField();
+		txt_Telefon.setFont(new Font("Consolas", Font.PLAIN, 13));
 		txt_Telefon.setBounds(709, 60, 225, 20);
 		panel_1.add(txt_Telefon);
 		txt_Telefon.setColumns(10);
@@ -470,6 +485,60 @@ public class VizualizareZborFrame extends JFrame {
 		lbl_Telefon.setBounds(356, 78, 73, 23);
 		panel_1.add(lbl_Telefon);
 		lbl_Telefon.setFont(new Font("Consolas", Font.PLAIN, 15));
+		
+		JLabel lbl_ClasaBilete = new JLabel("Clasa:");
+		lbl_ClasaBilete.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_ClasaBilete.setBounds(679, 84, 70, 20);
+		panel.add(lbl_ClasaBilete);
+		
+		textClasaBilete = new JTextField();
+		textClasaBilete.setText("<dynamic> - <dynamic>");
+		textClasaBilete.setFont(new Font("Consolas", Font.PLAIN, 13));
+		textClasaBilete.setEditable(false);
+		textClasaBilete.setColumns(10);
+		textClasaBilete.setBounds(751, 84, 140, 20);
+		panel.add(textClasaBilete);
+		
+		JLabel lbl_OrasDestinatie_1 = new JLabel("Tip bilet:");
+		lbl_OrasDestinatie_1.setFont(new Font("Consolas", Font.PLAIN, 15));
+		lbl_OrasDestinatie_1.setBounds(339, 84, 114, 20);
+		panel.add(lbl_OrasDestinatie_1);
+		
+		textTipBilet = new JTextField();
+		textTipBilet.setText((String) null);
+		textTipBilet.setFont(new Font("Consolas", Font.PLAIN, 13));
+		textTipBilet.setEditable(false);
+		textTipBilet.setColumns(10);
+		textTipBilet.setBounds(450, 84, 140, 20);
+		panel.add(textTipBilet);
+		
+		// add the previous data
+		txt_OrasPlecare.setText(cursaZbor.getAeroportPlecare());
+		txt_OrasPlecare.setEditable(false);
+		txt_OrasDestinatie.setText(cursaZbor.getAeroportSosire());
+		txt_OrasDestinatie.setEditable(false);
+		dateTime_DataZbor.setText(rezervare.getDataPlecare().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString());
+		dateTime_DataZbor.setEditable(false);
+		txtOrarZbor.setText(cursaZbor.getOraPlecare() + " - " + cursaZbor.getOraSosire());
+		txtOrarZbor.setEditable(false);
+		txt_NrBilete.setText("" + rezervare.getNrBilete());
+		txt_NrBilete.setEditable(false);
+		txt_Pret.setText(Float. toString(pret));
+		txt_Pret.setEditable(false);
+		textTipBilet.setText(rezervare.getTipLoc());
+		textTipBilet.setEditable(false);
+		textClasaBilete.setText(rezervare.getClasa());
+		textClasaBilete.setEditable(false);
+		
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				dispose();
+				RezervareZborFrame rezervareZbor = new RezervareZborFrame();
+				rezervareZbor.setVisible(true);;
+			}
+		});
 	}
 
 //verifica daca numele pasagerului este valid (fiecare cuvant din nume, fara spatii)

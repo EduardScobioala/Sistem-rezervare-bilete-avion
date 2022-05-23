@@ -19,6 +19,7 @@ import java.util.Locale;
 public class MainFrame extends JFrame {
 
 	private JPanel contentPane;
+	public static boolean staffOnly = false;
 
 	/**
 	 * Launch the application.
@@ -161,5 +162,9 @@ public class MainFrame extends JFrame {
 
 		btnHelp.setUI(new ButtonFill());
 		contentPane.add(btnHelp);
+	}
+	
+	public static void setStaffOnly(boolean value) {
+		staffOnly = value;
 	}
 }

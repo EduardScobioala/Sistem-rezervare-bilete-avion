@@ -9,9 +9,16 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionListener;
 
 import functionalities.CursaZbor;
@@ -20,6 +27,9 @@ import functionalities.RezervareZbor;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.AbstractListModel;
 import java.awt.Color;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CautareZborFrame extends JFrame {
 
@@ -49,7 +59,7 @@ public class CautareZborFrame extends JFrame {
 	// functii
 	// generare forma
 	@SuppressWarnings("unchecked")
-	public CautareZborFrame(List<CursaZbor> curseZborDisponibile) {
+	public CautareZborFrame(List<CursaZbor> curseZborDisponibile, RezervareZbor rezervare) {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
@@ -67,7 +77,7 @@ public class CautareZborFrame extends JFrame {
 
 		JList lstZboruriDisponibile = new JList();
 		lstZboruriDisponibile.setModel(new AbstractListModel() {
-			String[] values = getInfoCurse(curseZborDisponibile);
+			String[] values = getInfoCurse(curseZborDisponibile, rezervare);
 
 			public int getSize() {
 				return values.length;
@@ -98,60 +108,96 @@ public class CautareZborFrame extends JFrame {
 		 * // frame.dispose(); initial_frame.setZborAles(ZborAles);
 		 * //frame.setVisible(false); } });
 		 */
-		lstZboruriDisponibile.setBounds(10, 62, 964, 465);
+		lstZboruriDisponibile.setBounds(10, 62, 964, 420);
 		contentPane.add(lstZboruriDisponibile);
+		
+		JButton btnRezerva = new JButton("Rezerva");
+		btnRezerva.setForeground(Color.WHITE);
+		btnRezerva.setFont(new Font("Consolas", Font.PLAIN, 20));
+		btnRezerva.setBounds(376, 507, 232, 43);
+		btnRezerva.setBackground(new Color(55, 71, 133));
+		btnRezerva.setOpaque(true);
+		btnRezerva.setBorder(new RoundButton(30));
+		btnRezerva.setUI(new ButtonFill());
+		
+		btnRezerva.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int index = lstZboruriDisponibile.getSelectedIndex();
+				
+				if (index != -1) {
+					List<CursaZbor> curseZborValide = new ArrayList<CursaZbor>();
+					
+					for (var cursa : curseZborDisponibile) {
+						if (gotCursa(cursa, rezervare)) curseZborValide.add(cursa);
+					}
+					
+					VizualizareZborFrame vizualizareZborFrame = new VizualizareZborFrame(curseZborValide.get(index), rezervare, getPret(curseZborValide.get(index), rezervare));
+					vizualizareZborFrame.setVisible(true);
+					dispose();
+					
+				} else {
+					JOptionPane.showMessageDialog(null, "Nici un zbor selectat!");
+				}
+			}
+		});
+		
+		contentPane.add(btnRezerva);
 		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				dispose();
 				RezervareZborFrame rezervareZbor = new RezervareZborFrame();
-				rezervareZbor.setVisible(true);;
+				rezervareZbor.setVisible(true);
 			}
 		});
 	}
-
-	private String getZileOperare(CursaZbor cursa) {
-		int[] zileOperare = cursa.getZileOperare();
-		String zile = "";
-
-		if (zileOperare[0] == 1)
-			zile += "Lu, ";
-		if (zileOperare[1] == 1)
-			zile += "Ma, ";
-		if (zileOperare[2] == 1)
-			zile += "Mi, ";
-		if (zileOperare[3] == 1)
-			zile += "Jo, ";
-		if (zileOperare[4] == 1)
-			zile += "Vi, ";
-		if (zileOperare[5] == 1)
-			zile += "Sa, ";
-		if (zileOperare[6] == 1)
-			zile += "Du, ";
-
-		zile = (String) zile.subSequence(0, zile.length() - 2);
-
-		return zile;
-	}
-
-	private float getPret(CursaZbor cursa) {
-		float pret = 1000;
+	
+	private float getPret(CursaZbor cursa, RezervareZbor rezervare) {
+		int index = 0;
+		if (rezervare.getClasa().equals("Business")) index = 1;
+		if (rezervare.getClasa().equals("Premium")) index = 2;
 		
-		// inplementation
+		float pret = cursa.getPretClase()[index] * rezervare.getNrBilete();
+		
+		// discount last-minute
+		LocalDate rezervareDate = rezervare.getDataPlecare().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate todayDate = LocalDate.now();
+		
+		if (todayDate.isEqual(rezervareDate)) pret = pret * 0.5f;
+		
+		// discount tur retur
+		if (rezervare.isRetur()) pret = pret * 0.8f;
 		
 		return pret;
 	}
 	
-	private String[] getInfoCurse(List<CursaZbor> curseZborDisponibile) {
-		String[] infoCurse = new String[curseZborDisponibile.size()];
+	private boolean gotCursa(CursaZbor cursa, RezervareZbor rezervare) {
+		boolean flag = false;
+		
+		LocalDate rezervareDate = rezervare.getDataPlecare().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		
+		if(cursa.getZileOperare()[rezervareDate.getDayOfWeek().getValue()-1] == 1) flag = true;
+		
+		return flag;
+	}
+	
+	private String[] getInfoCurse(List<CursaZbor> curseZborDisponibile, RezervareZbor rezervare) {
+		List<String> rawInfoCurse = new ArrayList<String>();
 
-		int index = -1;
 		for (var cursa : curseZborDisponibile) {
-			index++;
-			infoCurse[index] = cursa.getNumeCompanie() + " : " + cursa.getCodCursa()
-					+ ", Zile de Operare: " + getZileOperare(cursa) + ", Orar: " + cursa.getOraPlecare()
-					+ "-" + cursa.getOraSosire() + ", "+ "Pret: " + String.valueOf(getPret(cursa)) + " RON";
+			if (gotCursa(cursa, rezervare)) {
+				rawInfoCurse.add(cursa.getNumeCompanie() + " : " + cursa.getCodCursa()
+				+ ", Data: " + rezervare.getDataPlecare().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() +
+				", Orar: " + cursa.getOraPlecare() + "-" + cursa.getOraSosire() + ", "+ rezervare.getNrBilete() + " bilete, "
+				+ "Pret: " + String.valueOf(getPret(cursa, rezervare)) + " RON");
+			}
+		}
+		
+		String[] infoCurse = new String[rawInfoCurse.size()];
+		
+		for (int i = 0; i < rawInfoCurse.size(); i++) {
+			infoCurse[i] = rawInfoCurse.get(i);
 		}
 
 		return infoCurse;

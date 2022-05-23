@@ -251,7 +251,7 @@ public class RezervareZborFrame extends JFrame {
 				List<CursaZbor> curseZborDisponibile = new ArrayList<CursaZbor>();
 				curseZborDisponibile = rezervare.getCurseZborDisponibile("curseZbor.json");
 				
-				CautareZborFrame cautareZbor = new CautareZborFrame(curseZborDisponibile);
+				CautareZborFrame cautareZbor = new CautareZborFrame(curseZborDisponibile, rezervare);
 				cautareZbor.setVisible(true);
 				dispose();
 				
