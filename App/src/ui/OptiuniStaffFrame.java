@@ -54,7 +54,7 @@ public class OptiuniStaffFrame extends JFrame {
 		btnIntroducere.setForeground(Color.WHITE);
 		btnIntroducere.setFont(new Font("Consolas", Font.PLAIN, 30));
 		btnIntroducere.setBackground(new Color(55, 71, 133));
-		btnIntroducere.setBounds(278, 41, 400, 125);
+		btnIntroducere.setBounds(278, 125, 400, 125);
 		btnIntroducere.setOpaque(true);
 		// Round the button with radius = 30
 		btnIntroducere.setBorder(new RoundButton(30));
@@ -67,7 +67,7 @@ public class OptiuniStaffFrame extends JFrame {
 		btnActualizareZbor.setForeground(Color.WHITE);
 		btnActualizareZbor.setFont(new Font("Consolas", Font.PLAIN, 30));
 		btnActualizareZbor.setBackground(new Color(55, 71, 133));
-		btnActualizareZbor.setBounds(278, 219, 400, 125);
+		btnActualizareZbor.setBounds(278, 333, 400, 125);
 		btnActualizareZbor.setOpaque(true);
 		// Round the button with radius = 30
 		btnActualizareZbor.setBorder(new RoundButton(30));
@@ -82,25 +82,6 @@ public class OptiuniStaffFrame extends JFrame {
 		});
 		
 		contentPane.add(btnActualizareZbor);
-		
-		JButton btnCautareZbor = new JButton("Cautare Zbor");
-		btnCautareZbor.setOpaque(true);
-		btnCautareZbor.setForeground(Color.WHITE);
-		btnCautareZbor.setFont(new Font("Consolas", Font.PLAIN, 30));
-		btnCautareZbor.setBackground(new Color(55, 71, 133));
-		btnCautareZbor.setBounds(278, 394, 400, 125);
-		btnCautareZbor.setBorder(new RoundButton(30));
-		btnCautareZbor.setUI(new ButtonFill());
-		
-		btnCautareZbor.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				RezervareZborFrame rezervareZbor = new RezervareZborFrame(true);
-				rezervareZbor.setVisible(true);
-			}
-		});
-		
-		contentPane.add(btnCautareZbor);
 
 		addWindowListener(new WindowAdapter() {
 			@Override

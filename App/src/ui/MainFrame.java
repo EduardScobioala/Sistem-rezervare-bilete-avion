@@ -7,6 +7,8 @@ import javax.swing.Timer;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -151,6 +153,18 @@ public class MainFrame extends JFrame {
 		contentPane.add(lblLogin);
 
 		JButton btnHelp = new JButton("Help");
+		btnHelp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "<html>"
+						+ "<ul>"
+						+ "  <li>pentru a rezerva un bilet apasati pe butonul 'Rezervare Zbor'</li>"
+						+ "  <li>daca sunteti lucrator de aeroport intrati in sectiunea de logare si "
+						+ "introduceti credentialele oferite de administrator</li>"
+						+ "<li>daca sunteti functionar al companiei aeriene logativa cu credentialele "
+						+ "oferite de administrator</li>"
+						+ "</ul></html>");
+			}
+		});
 		btnHelp.setForeground(Color.WHITE);
 		btnHelp.setFont(new Font("Consolas", Font.PLAIN, 12));
 		btnHelp.setBackground(new Color(55, 71, 133));

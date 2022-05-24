@@ -37,7 +37,6 @@ public class CautareZborFrame extends JFrame {
 
 	private RezervareZbor rezervare;
 	RezervareZbor ZborAles = null;
-	private RezervareZborFrame initial_frame;
 
 	// private static CautareZborFrame frame;
 
@@ -59,7 +58,7 @@ public class CautareZborFrame extends JFrame {
 	// functii
 	// generare forma
 	@SuppressWarnings("unchecked")
-	public CautareZborFrame(List<CursaZbor> curseZborDisponibile, RezervareZbor rezervare, boolean staffOnly) {
+	public CautareZborFrame(List<CursaZbor> curseZborDisponibile, RezervareZbor rezervare, List<CursaZbor> curseRezervareDisponibile, boolean staffOnly) {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
@@ -77,7 +76,7 @@ public class CautareZborFrame extends JFrame {
 
 		JList lstZboruriDisponibile = new JList();
 		lstZboruriDisponibile.setModel(new AbstractListModel() {
-			String[] values = getInfoCurse(curseZborDisponibile, rezervare);
+			String[] values = getInfoCurse(curseZborDisponibile, rezervare, curseRezervareDisponibile);
 
 			public int getSize() {
 				return values.length;
@@ -130,11 +129,15 @@ public class CautareZborFrame extends JFrame {
 					for (var cursa : curseZborDisponibile) {
 						if (gotCursa(cursa, rezervare)) curseZborValide.add(cursa);
 					}
-					
-					VizualizareZborFrame vizualizareZborFrame = new VizualizareZborFrame(curseZborValide.get(index), rezervare, getPret(curseZborValide.get(index), rezervare), staffOnly);
-					vizualizareZborFrame.setVisible(true);
-					dispose();
-					
+						
+					if (index < curseZborValide.size() ) {
+						float pret = getPret(curseZborValide.get(index), rezervare);
+						VizualizareZborFrame vizualizareZborFrame = new VizualizareZborFrame(curseZborValide.get(index), rezervare, pret, staffOnly);
+						vizualizareZborFrame.setVisible(true);
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "Zborurile de retur sunt cu scop informativ!");
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Nici un zbor selectat!");
 				}
@@ -182,7 +185,7 @@ public class CautareZborFrame extends JFrame {
 		return flag;
 	}
 	
-	private String[] getInfoCurse(List<CursaZbor> curseZborDisponibile, RezervareZbor rezervare) {
+	private String[] getInfoCurse(List<CursaZbor> curseZborDisponibile, RezervareZbor rezervare, List<CursaZbor> curseRezervareDisponibile) {
 		List<String> rawInfoCurse = new ArrayList<String>();
 
 		for (var cursa : curseZborDisponibile) {
@@ -191,6 +194,20 @@ public class CautareZborFrame extends JFrame {
 				+ ", Data: " + rezervare.getDataPlecare().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() +
 				", Orar: " + cursa.getOraPlecare() + "-" + cursa.getOraSosire() + ", "+ rezervare.getNrBilete() + " bilete, "
 				+ "Pret: " + String.valueOf(getPret(cursa, rezervare)) + " RON");
+			}
+		}
+		
+		if (curseRezervareDisponibile != null) {
+			RezervareZbor rezervareRetur = new RezervareZbor(rezervare.getOrigine(), rezervare.getDestinatie(), 
+					rezervare.getDataIntoarcere(), rezervare.getNrBilete(), rezervare.getTipLoc(), rezervare.getClasa(),
+					true, null);
+			for (var cursa : curseRezervareDisponibile) {
+				if (gotCursa(cursa, rezervareRetur)) {
+					rawInfoCurse.add(cursa.getNumeCompanie() + " : " + cursa.getCodCursa()
+					+ ", Data: " + rezervare.getDataIntoarcere().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() +
+					", Orar: " + cursa.getOraPlecare() + "-" + cursa.getOraSosire() + ", "+ rezervare.getNrBilete() + " bilete, "
+					+ "Pret: " + String.valueOf(getPret(cursa, rezervareRetur)) + " RON");
+				}
 			}
 		}
 		

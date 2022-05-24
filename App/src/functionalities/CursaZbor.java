@@ -15,7 +15,7 @@ public class CursaZbor {
 	private String tipAvion;
 	private boolean discountDusIntors;
 	private boolean discountLastMinute;
-	
+
 	public CursaZbor(String numeCompanie, String aeroportPlecare, String aeroportSosire, String oraPlecare, String oraSosire,
 			int[] zileOperare, float[] pretClase, int[] locuriDisponibile, int[] locuriRezervate, String codCursa, String tipAvion, boolean discountDusIntors,
 			boolean discountLastMinute) {

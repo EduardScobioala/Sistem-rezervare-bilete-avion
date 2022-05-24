@@ -46,8 +46,8 @@ public class RezervareZborFrame extends JFrame {
 	static RezervareZborFrame frame;
 
 	private RezervareZbor rezervare = null;
-	private RezervareZbor zbor = null;
-	boolean plata_cash = false;
+	private RezervareZbor rezervareRetur = null;
+	//private RezervareZbor zbor = null;
 	private JTextField txtOrasPlecare;
 	private JLabel lblNrBilete;
 
@@ -114,9 +114,9 @@ public class RezervareZborFrame extends JFrame {
 	}
 
 	// seteaza zborul ales in variabila 'zbor' de tip RezervareZbor
-	public void setZborAles(RezervareZbor zbor) {
-		this.zbor = zbor;
-	}
+	/*
+	 * public void setZborAles(RezervareZbor zbor) { this.zbor = zbor; }
+	 */
 
 	// genereaza forma
 	public RezervareZborFrame(boolean staffOnly) {
@@ -240,13 +240,28 @@ public class RezervareZborFrame extends JFrame {
 						(Date)dateTimeDataPlecarii.getValue(), (int)spinnerNrBilete.getValue(),
 						(String)comboTipLoc.getSelectedItem(), (String)comboClasa.getSelectedItem(),chkZborRetur.isSelected(),
 						chkZborRetur.isSelected() ? (Date)dateTimeDataIntoarcerii.getValue() : null);
+				//if (rezervare.getDataIntoarcere() != null) rezervare.setRetur(true);
 				
 				List<CursaZbor> curseZborDisponibile = new ArrayList<CursaZbor>();
+				List<CursaZbor> curseRezervareDisponibile = null;
 				curseZborDisponibile = rezervare.getCurseZborDisponibile("curseZbor.json");
 				
-				CautareZborFrame cautareZbor = new CautareZborFrame(curseZborDisponibile, rezervare, staffOnly);
-				cautareZbor.setVisible(true);
-				dispose();
+				if (rezervare.isRetur()) {
+					rezervareRetur = new RezervareZbor(rezervare.getDestinatie(), rezervare.getOrigine(),
+							rezervare.getDataIntoarcere(), rezervare.getNrBilete(), rezervare.getTipLoc(), rezervare.getClasa(),
+							false, null);
+					curseRezervareDisponibile = new ArrayList<CursaZbor>();
+					curseRezervareDisponibile = rezervareRetur.getCurseZborDisponibile("curseZbor.json");
+				}
+				
+				if (!curseZborDisponibile.isEmpty()) {
+					CautareZborFrame cautareZbor = new CautareZborFrame(curseZborDisponibile, rezervare, curseRezervareDisponibile, staffOnly);
+					cautareZbor.setVisible(true);
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, "Ne pare rau, dar nu am gasit nici un zbor potrivit!");
+				}
+				
 				
 				/////////////////////////////////////////////////
 				/*boolean err_plecare = false;

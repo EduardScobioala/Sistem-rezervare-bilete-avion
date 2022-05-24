@@ -194,9 +194,7 @@ public class RezervareZbor {
 		List<CursaZbor> curseZborDisponibile = new ArrayList<CursaZbor>();
 		List<CursaZbor> curseZbor = getData(filename);
 		
-		int index = -1;
 		for(var cursa : curseZbor) {
-			index++;
 			if (meetRequirements(cursa)) curseZborDisponibile.add(cursa);
 		}
 		
