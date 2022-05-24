@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import ui.VizualizareZborFrame;
 
 class TEST_VizualizareZborFrameTest {
-	VizualizareZborFrame obj = new VizualizareZborFrame();
+	VizualizareZborFrame obj = new VizualizareZborFrame(null, null, 0, false);
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 	}

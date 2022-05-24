@@ -21,115 +21,48 @@ class TEST_RezervareZborFrame {
 	void tearDown() throws Exception {
 	}
 	
-	/*
-	// teste pentru functia numeOrasValid()
-
-	// nume gresite
-	// nume = "" (empty string)
+	// TESTE pentru functia numeOrasValid
+	
+	// nume oras null
 	@Test
-	void test_numeOrasValid_null() {
+	void test_numeOrasValid1() {
+		assertEquals(obj.numeOrasValid(null), false);
+	}
+	
+	// nume oras gol
+	@Test
+	void test_numeOrasValid2() {
 		assertEquals(obj.numeOrasValid(""), false);
 	}
-
-	// nume inexistent
+	
+	// nume oras corect
 	@Test
-	void test_numeOrasValid_inexistent() {
-		assertEquals(obj.numeOrasValid("Hogwarts"), false);
+	void test_numeOrasValid3() {
+		assertEquals(obj.numeOrasValid("Iasi"), true);
 	}
 
-	// nume scris gresit: initiala litera mica
-	@Test
-	void test_numeOrasValid_scrisGresitInitiala() {
-		assertEquals(obj.numeOrasValid("tImisoara"), false);
-	}
-
-	// nume scris gresit: alte litere scrise gresit
-	@Test
-	void test_numeOrasValid_alteLitere() {
-		assertEquals(obj.numeOrasValid("BucuRestI"), false);
-	}
-
-	// nume scris gresit: cifre
-	@Test
-	void test_numeOrasValid_cifreLast() {
-		assertEquals(obj.numeOrasValid("Oradea1"), false);
-	}
-
-	@Test
-	void test_numeOrasValid_cifreFirst() {
-		assertEquals(obj.numeOrasValid("2Iasi"), false);
-	}
-
-	@Test
-	void test_numeOrasValid_cifreSecond() {
-		assertEquals(obj.numeOrasValid("C3onstanta"), false);
-	}
-
-	@Test
-	void test_numeOrasValid_cifreMiddle() {
-		assertEquals(obj.numeOrasValid("Chis4ineu"), false);
-	}
-
-	// nume scris gresit: alte caractere
-	@Test
-	void test_numeOrasValid_alteCaractereFirst() {
-		assertEquals(obj.numeOrasValid("#Oradea"), false);
-	}
-
-	@Test
-	void test_numeOrasValid_alteCaractereLast() {
-		assertEquals(obj.numeOrasValid("Craiova@"), false);
-	}
-
-	@Test
-	void test_numeOrasValid_alteCaractereMiddle() {
-		assertEquals(obj.numeOrasValid("Galat!i"), false);
-	}
-
-	@Test
-	void test_numeOrasValid_alteCaractereSecond() {
-		assertEquals(obj.numeOrasValid("T%argoviste"), false);
-	}
-
-	// nume scris gresit
-	@Test
-	void test_numeOrasValid_all() {
-		assertEquals(obj.numeOrasValid("1Cl#uj-Napoca3"), false);
-	}
-
-	// nume corecte
-	@Test
-	void test_numeOrasValid_Arad() {
-		assertEquals(obj.numeOrasValid("Arad"), true);
-	}
-
-	@Test
-	void test_numeOrasValid_Cluj_Napoca() {
-		assertEquals(obj.numeOrasValid("Cluj-Napoca"), true);
-	}
-
-	@Test
-	void test_numeOrasValid_Constanta() {
-		assertEquals(obj.numeOrasValid("Constanța"), true);
-	}
-	*/
-	// teste pentru functia dateValide()
-	// date gresite
+	// TESTE pentru functia dateValide()
+	
+	// date1 = prezent, tur
 	@Test
 	void test_dateValide_toate1() {
 		assertEquals(obj.dateValide(new Date(), new Date(1000), false), true);
 	}
 
+	
+	// date1 = prezent, date2 = trecut, tur-retur
 	@Test
 	void test_dateValide2() {
 		assertEquals(obj.dateValide(new Date(), new Date(1000), true), false);
 	}
 
+	// date1 = viitor, tur
 	@Test
 	void test_dateValide3() {
 		assertEquals(obj.dateValide(new Date(System.currentTimeMillis()+1), new Date(), false), true);
 	}
 	
+	// date1 = prezent, date2 = viitor, tur-retur
 	@Test
 	void test_dateValide4() {
 		assertEquals(obj.dateValide(new Date(), new Date(System.currentTimeMillis()+1), true), true);

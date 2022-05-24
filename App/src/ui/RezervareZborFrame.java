@@ -45,61 +45,12 @@ public class RezervareZborFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtOrasDestinatie;
-	static RezervareZborFrame frame;
-
+	private JTextField txtOrasPlecare;
 	private RezervareZbor rezervare = null;
 	private RezervareZbor rezervareRetur = null;
-	// private RezervareZbor zbor = null;
-	private JTextField txtOrasPlecare;
 	private JLabel lblNrBilete;
 
-	// functii utilitare
-
-	// verifica daca numele orasului este valid
-	public boolean numeOrasValid(String oras) {
-		/*
-		 * java.util.List<String> orase = new ArrayList<String>(); BufferedReader read =
-		 * null; boolean gasit = false;
-		 * 
-		 * try { read = new BufferedReader(new InputStreamReader(new
-		 * FileInputStream("orase.txt"))); } catch (FileNotFoundException e1) {
-		 * e1.printStackTrace(); } String buf;
-		 * 
-		 * try { while ((buf = read.readLine()) != null) { orase.add(buf); if
-		 * (buf.equals(oras)) gasit = true; } } catch (IOException e) {
-		 * e.printStackTrace(); }
-		 */
-
-		if (oras.equals(""))
-			return false;
-
-		return true;
-	}
-
-	// verifica daca datele de plecare (data1) si intoarcere (data2) sunt valide
-	public boolean dateValide(Date date1, Date date2, boolean isRetur) {
-
-		LocalDate _date1 = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate _date2 = date2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate _date = LocalDate.now().minusDays(1);
-
-		if (isRetur) {
-			if (_date1.compareTo(_date) < 0) return false;
-			if (_date2.compareTo(_date) < 0) return false;
-			if (_date1.compareTo(_date2) < 0) return false;
-		} else {
-			if (_date1.compareTo(_date) < 0) return false;
-		}
-
-		return true;
-	}
-
-	// seteaza zborul ales in variabila 'zbor' de tip RezervareZbor
-	/*
-	 * public void setZborAles(RezervareZbor zbor) { this.zbor = zbor; }
-	 */
-
-	// genereaza forma
+	// Genereaza forma
 	public RezervareZborFrame(boolean staffOnly) {
 		setTitle("Rezervare Zbor");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -224,54 +175,58 @@ public class RezervareZborFrame extends JFrame {
 				boolean err_clasa = false;
 				boolean err = false;
 
-				Color c_err = Color.red;
+				Color errColor = new Color(237, 181, 191);
 				String[] buf;
 
-				// functii de verificare
+				// Verificare Date Introduse
+				
+				// verificare oras de plecare
 				if (!numeOrasValid(txtOrasPlecare.getText())) {
 					err = true;
 					err_plecare = true;
-
-					txtOrasPlecare.setBackground(c_err);
+					txtOrasPlecare.setBackground(errColor);
 				} else {
-					txtOrasPlecare.setBackground(new Color(255, 255, 255));
+					txtOrasPlecare.setBackground(Color.white);
 				}
 
+				// verificare oras destinatie
 				if (!numeOrasValid(txtOrasDestinatie.getText())) {
 					err = true;
 					err_destinatie = true;
-
-					txtOrasDestinatie.setBackground(c_err);
+					txtOrasDestinatie.setBackground(errColor);
 				} else {
-					txtOrasDestinatie.setBackground(new Color(255, 255, 255));
+					txtOrasDestinatie.setBackground(Color.white);
 				}
 
+				// visual solve for user playing with wrong dates
+				dateTimeDataIntoarcerii.getEditor().getComponent(0).setBackground(Color.white);
+				// verificare consistenta date de plecare si sosire
 				if (!dateValide((Date) dateTimeDataPlecarii.getValue(), (Date) dateTimeDataIntoarcerii.getValue(), chkZborRetur.isSelected())) {
 					err = true;
 					err_date = true;
-
-					dateTimeDataPlecarii.setBackground(c_err);
-					dateTimeDataIntoarcerii.setBackground(c_err);
+					dateTimeDataPlecarii.getEditor().getComponent(0).setBackground(errColor);
+					if (chkZborRetur.isSelected()) dateTimeDataIntoarcerii.getEditor().getComponent(0).setBackground(errColor);
 				} else {
-					dateTimeDataIntoarcerii.setBackground(new Color(255, 255, 255));
+					dateTimeDataPlecarii.getEditor().getComponent(0).setBackground(Color.white);
+					dateTimeDataIntoarcerii.getEditor().getComponent(0).setBackground(Color.white);
 				}
-
+// here
 				if (comboTipLoc.getSelectedItem() == null) {
 					err = true;
 					err_tipLoc = true;
 
-					comboTipLoc.setBackground(c_err);
+					comboTipLoc.setBackground(errColor);
 				} else {
-					comboTipLoc.setBackground(new Color(255, 255, 255));
+					comboTipLoc.setBackground(Color.white);
 				}
 
 				if (comboClasa.getSelectedItem() == null) {
 					err = true;
 					err_clasa = true;
 
-					comboClasa.setBackground(c_err);
+					comboClasa.setBackground(errColor);
 				} else {
-					comboClasa.setBackground(new Color(255, 255, 255));
+					comboClasa.setBackground(Color.white);
 				}
 
 				if (!err) {
@@ -360,4 +315,32 @@ public class RezervareZborFrame extends JFrame {
 			}
 		});
 	}
+	// Functii Verificare
+
+		// verifica daca numele orasului este valid
+		public boolean numeOrasValid(String oras) {
+			if ( oras == null || oras.equals("")) return false;
+
+			return true;
+		}
+
+		// verifica daca datele de plecare (data1) si intoarcere (data2) sunt valide
+		public boolean dateValide(Date date1, Date date2, boolean isRetur) {
+
+			LocalDate _date1 = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate _date2 = date2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate _date = LocalDate.now().minusDays(1);
+
+			if (isRetur) {
+				if (_date1.compareTo(_date) < 0) return false;
+				if (_date2.compareTo(_date) < 0) return false;
+				if (_date1.compareTo(_date2) < 0) return false;
+			} else {
+				if (_date1.compareTo(_date) < 0) return false;
+			}
+
+			return true;
+		}
+		
+		
 }
