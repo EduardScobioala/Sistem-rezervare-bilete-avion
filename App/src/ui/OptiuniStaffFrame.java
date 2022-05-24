@@ -95,7 +95,7 @@ public class OptiuniStaffFrame extends JFrame {
 		btnCautareZbor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				RezervareZborFrame rezervareZbor = new RezervareZborFrame(staffOnly);
+				RezervareZborFrame rezervareZbor = new RezervareZborFrame(true);
 				rezervareZbor.setVisible(true);
 			}
 		});

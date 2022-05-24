@@ -1,9 +1,6 @@
 package ui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -17,10 +14,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
-import java.util.Date;
 import java.util.Calendar;
-import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -34,7 +28,6 @@ public class VizualizareZborFrame extends JFrame {
 
 	private JPanel contentPane;
 
-	private RezervareZbor zbor;
 	private JTextField txt_OrasPlecare;
 	private JTextField txt_OrasDestinatie;
 	private JTextField txt_NrBilete;
@@ -49,38 +42,10 @@ public class VizualizareZborFrame extends JFrame {
 	private JTextField txt_NumeTitular;
 	private JTextField txt_CVC;
 	private JTextField txt_PlataCashSuma;
-	private boolean plata_cash;
 	private JTextField textClasaBilete;
 	private JTextField textTipBilet;
 
 	
-	/*
-	 * public VizualizareZborFrame(RezervareZbor zbor, boolean plata_cash) {
-	 * this.zbor = zbor; this.plata_cash = plata_cash; }
-	 * 
-	 * static VizualizareZborFrame frame;
-	 */
-	 
-
-	/*
-	 * public static void main(String[] args) { EventQueue.invokeLater(new
-	 * Runnable() { public void run() { try { frame = new VizualizareZborFrame();
-	 * frame.setVisible(true); } catch (Exception e) { e.printStackTrace(); }
-	 * 
-	 * frame.open();
-	 * 
-	 * } }); }
-	 */
-
-	/*
-	 * public void open() { // load selected flight details if (zbor == null) {
-	 * boolean ok = false; JOptionPane.showMessageDialog(null,
-	 * "Eroare �nc�rcare detalii zbor ales"); frame.dispose(); } else {
-	 * txt_OrasPlecare.setText(zbor.getOrigine());
-	 * txt_OrasDestinatie.setText(zbor.getDestinatie()); //
-	 * dateTime_DataZbor.setData(zbor.getData()); } }
-	 */
-
 	public VizualizareZborFrame(CursaZbor cursaZbor, RezervareZbor rezervare, float pret, boolean staffOnly) {
 		setTitle("Vizualizare Zbor");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -245,6 +210,7 @@ public class VizualizareZborFrame extends JFrame {
 		groupBox_PlataBanca.add(dateTime_ExpirareCard);
 
 		JPanel groupBox_PlataCash = new JPanel();
+		groupBox_PlataCash.setVisible(staffOnly);
 		groupBox_PlataCash.setBackground(new Color(168, 208, 224));
 		groupBox_PlataCash.setBounds(664, 361, 270, 80);
 		contentPane.add(groupBox_PlataCash);
@@ -291,15 +257,7 @@ public class VizualizareZborFrame extends JFrame {
 		btn_RezervaLocul.setForeground(Color.WHITE);
 		btn_RezervaLocul.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean err_nume = false;
-				boolean err_prenume = false;
 				boolean err_dataExpirare = false;
-				boolean err_email = false;
-				boolean err_tel = false;
-				boolean err_varsta = false;
-				boolean err_nrCardCont = false;
-				boolean err_NumeTitular = false;
-				boolean err_CVC = false;
 				boolean err = false;
 				String[] data;
 				String err_desc = "";
@@ -308,14 +266,12 @@ public class VizualizareZborFrame extends JFrame {
 				// functii de verificare
 				if (!numeValid(txt_Nume.getText())) {
 					err = true;
-					err_nume = true;
 					err_desc += "\nNume invalid";
 					txt_Nume.setBackground(c_err);
 				}
 
 				if (!numeValid(txt_Prenume.getText())) {
 					err = true;
-					err_prenume = true;
 					err_desc += "\nPrenume invalid";
 					txt_Prenume.setBackground(c_err);
 				}
@@ -324,7 +280,6 @@ public class VizualizareZborFrame extends JFrame {
 				for (int i = 0; i < data.length; i++) {
 					if (!numeValid(data[i])) {
 						err = true;
-						err_NumeTitular = true;
 						err_desc += "\nNume titular invalid";
 						txt_NumeTitular.setBackground(c_err);
 						break;
@@ -334,21 +289,18 @@ public class VizualizareZborFrame extends JFrame {
 				if (spinner_Varsta.getValue() == null || (spinner_Varsta.getValue() != null
 						&& Integer.parseInt(spinner_Varsta.getValue().toString()) <= 0)) {
 					err = true;
-					err_varsta = true;
 					err_desc += "\nV�rst� invalid�";
 					spinner_Varsta.setBackground(c_err);
 				}
 
 				if (!emailValid(txt_Email.getText())) {
 					err = true;
-					err_email = true;
 					err_desc += "\nE-mail invalid";
 					txt_Email.setBackground(c_err);
 				}
 
 				if (!CVCValid(txt_CVC.getText())) {
 					err = true;
-					err_CVC = true;
 					err_desc += "\nCod CVC invalid";
 					txt_CVC.setBackground(c_err);
 				}
@@ -397,21 +349,18 @@ public class VizualizareZborFrame extends JFrame {
 
 				if (!nrCardContValid(txt_NrCard.getText(), radio_Card.isSelected())) {
 					err = true;
-					err_email = true;
 					err_desc += "\nNum�r card eronat";
 					txt_NrCard.setBackground(c_err);
 				}
 
 				if (!nrTelValid(txt_Telefon.getText())) {
 					err = true;
-					err_email = true;
 					err_desc += "\nNum�r de telefon eronat";
 					txt_Telefon.setBackground(c_err);
 				}
 
 				if (!sumaCashValida(txt_PlataCashSuma.getText())) {
 					err = true;
-					err_email = true;
 					err_desc += "\nSum� eronat�";
 					txt_PlataCashSuma.setBackground(c_err);
 				}
@@ -541,9 +490,6 @@ public class VizualizareZborFrame extends JFrame {
 		});
 	}
 
-public VizualizareZborFrame() {
-	}
-
 	//verifica daca numele pasagerului este valid (fiecare cuvant din nume, fara spatii)
 	public boolean numeValid(String nume) {
 		if (nume == null || nume.length() == 0)
@@ -652,7 +598,6 @@ public VizualizareZborFrame() {
 //verifica daca suma inregistrata este valida
 	public boolean sumaCashValida(String suma) {
 		boolean dot = false;
-		double d_suma;
 		if (suma == null || suma.equals(""))
 			return false;
 
@@ -665,7 +610,7 @@ public VizualizareZborFrame() {
 
 		if (!dot)
 			return false;
-		d_suma = Double.parseDouble(suma);
+		Double.parseDouble(suma);
 
 		return true;
 	}

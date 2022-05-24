@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -128,6 +129,16 @@ public class RezervareZbor {
 	public boolean gotCursaLaData(CursaZbor cursaZbor, Date dateForChecking) {
 		boolean flag = false;
 		
+		// get ora de decolare a avionului
+		String[] rawTime = cursaZbor.getOraPlecare().split(":");
+		
+		Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(dateForChecking);
+	    // aduna ora de decolare a avionului la data de decolare
+	    calendar.add(Calendar.HOUR_OF_DAY, Integer.parseInt(rawTime[0]));
+	    dateForChecking =  calendar.getTime();
+		
+	    // verifica daca data decolarii nu a fost deja
 		if(dateForChecking.before(new Date())) return flag=false;
 		
 		int[] zileOperare = cursaZbor.getZileOperare();

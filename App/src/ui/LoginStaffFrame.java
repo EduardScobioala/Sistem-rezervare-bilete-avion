@@ -123,7 +123,7 @@ public class LoginStaffFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				dispose();
-				MainFrame mainFrame = new MainFrame(staffOnly);
+				MainFrame mainFrame = new MainFrame(false);
 				mainFrame.setVisible(true);
 			}
 		});

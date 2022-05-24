@@ -45,13 +45,6 @@ public class RezervareZborFrame extends JFrame {
 	private JTextField txtOrasDestinatie;
 	static RezervareZborFrame frame;
 
-	/*
-	 * public static void main(String[] args) { EventQueue.invokeLater(new
-	 * Runnable() { public void run() { try { frame = new RezervareZborFrame();
-	 * frame.setVisible(true); } catch (Exception e) { e.printStackTrace(); } } });
-	 * }
-	 */
-
 	private RezervareZbor rezervare = null;
 	private RezervareZbor zbor = null;
 	boolean plata_cash = false;
@@ -124,9 +117,7 @@ public class RezervareZborFrame extends JFrame {
 	public void setZborAles(RezervareZbor zbor) {
 		this.zbor = zbor;
 	}
-	public RezervareZborFrame() {
-		
-	}
+
 	// genereaza forma
 	public RezervareZborFrame(boolean staffOnly) {
 		setTitle("Rezervare Zbor");
@@ -253,7 +244,7 @@ public class RezervareZborFrame extends JFrame {
 				List<CursaZbor> curseZborDisponibile = new ArrayList<CursaZbor>();
 				curseZborDisponibile = rezervare.getCurseZborDisponibile("curseZbor.json");
 				
-				CautareZborFrame cautareZbor = new CautareZborFrame(curseZborDisponibile, rezervare, false);
+				CautareZborFrame cautareZbor = new CautareZborFrame(curseZborDisponibile, rezervare, staffOnly);
 				cautareZbor.setVisible(true);
 				dispose();
 				
