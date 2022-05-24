@@ -2,6 +2,8 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Date;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import ui.RezervareZborFrame;
 
 class TEST_RezervareZborFrame {
-	RezervareZborFrame obj = new RezervareZborFrame();
+	RezervareZborFrame obj = new RezervareZborFrame(false);
 	@BeforeEach
 	void setUp() throws Exception {
 	}
@@ -114,281 +116,22 @@ class TEST_RezervareZborFrame {
 	// teste pentru functia dateValide()
 	// date gresite
 	@Test
-	void test_dateValide_toate() {
-		int[] data1 = { 2, 2, 2 };
-		int[] data2 = { 1, 1, 1 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
+	void test_dateValide_toate1() {
+		assertEquals(obj.dateValide(new Date(), new Date(1000), false), true);
 	}
 
 	@Test
-	void test_dateValide_an() {
-		int[] data1 = { 1, 1, 2 };
-		int[] data2 = { 1, 1, 1 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
+	void test_dateValide2() {
+		assertEquals(obj.dateValide(new Date(), new Date(1000), true), false);
 	}
 
 	@Test
-	void test_dateValide_luna() {
-		int[] data1 = { 1, 2, 1 };
-		int[] data2 = { 1, 1, 1 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
+	void test_dateValide3() {
+		assertEquals(obj.dateValide(new Date(System.currentTimeMillis()+1), new Date(), false), true);
 	}
-
+	
 	@Test
-	void test_dateValide_zi() {
-		int[] data1 = { 2, 1, 1 };
-		int[] data2 = { 1, 1, 1 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	// lungime vectori gresita
-	@Test
-	void test_dateValide_intLength1() {
-		int[] data1 = { 1, 2, 1, 0 };
-		int[] data2 = { 1, 1, 1 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_intLength2() {
-		int[] data1 = { 1, 2, 1 };
-		int[] data2 = { 1, 1, 1, 0 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	// zi gresita
-	// zi > 31
-	@Test
-	void test_dateValide_ziGresita1_32() {
-		int[] data1 = { 32, 1, 2022 };
-		int[] data2 = { 1, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_ziGresita2_32() {
-		int[] data1 = { 1, 1, 2022 };
-		int[] data2 = { 32, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_ziGresita12_32() {
-		int[] data1 = { 32, 1, 2022 };
-		int[] data2 = { 32, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	// zi = 0
-	@Test
-	void test_dateValide_ziGresita1_0() {
-		int[] data1 = { 0, 1, 2022 };
-		int[] data2 = { 1, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_ziGresita2_0() {
-		int[] data1 = { 1, 1, 2022 };
-		int[] data2 = { 0, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_ziGresita12_0() {
-		int[] data1 = { 0, 1, 2022 };
-		int[] data2 = { 0, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	// zi < 0
-	@Test
-	void test_dateValide_ziGresita1_lt0() {
-		int[] data1 = { -1, 1, 2022 };
-		int[] data2 = { 1, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_ziGresita2_lt0() {
-		int[] data1 = { 1, 1, 2022 };
-		int[] data2 = { -1, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_ziGresita12_lt0() {
-		int[] data1 = { -1, 1, 2022 };
-		int[] data2 = { -1, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	// luna gresita
-	// luna >12
-	@Test
-	void test_dateValide_lunaGresita1_13() {
-		int[] data1 = { 1, 13, 2022 };
-		int[] data2 = { 1, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_lunaGresita2_13() {
-		int[] data1 = { 1, 1, 2022 };
-		int[] data2 = { 1, 13, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_lunaGresita12_13() {
-		int[] data1 = { 1, 13, 2022 };
-		int[] data2 = { 1, 13, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	// luna = 0
-	@Test
-	void test_dateValide_lunaGresita1_0() {
-		int[] data1 = { 1, 0, 2022 };
-		int[] data2 = { 1, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_lunaGresita2_0() {
-		int[] data1 = { 1, 1, 2022 };
-		int[] data2 = { 1, 0, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_lunaGresita12_0() {
-		int[] data1 = { 1, 0, 2022 };
-		int[] data2 = { 1, 0, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	// luna < 0
-	@Test
-	void test_dateValide_lunaGresita1_lt0() {
-		int[] data1 = { 1, -1, 2022 };
-		int[] data2 = { 1, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_lunaGresita2_lt0() {
-		int[] data1 = { 1, 1, 2022 };
-		int[] data2 = { 1, -1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_lunaGresita12_lt0() {
-		int[] data1 = { 1, -1, 2022 };
-		int[] data2 = { 1, -1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	// an gresit
-	// an <2022
-	@Test
-	void test_dateValide_anGresit1_2021() {
-		int[] data1 = { 1, 1, 2021 };
-		int[] data2 = { 1, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_anGresit2_2021() {
-		int[] data1 = { 1, 1, 2022 };
-		int[] data2 = { 1, 1, 2021 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_anGresit12_2021() {
-		int[] data1 = { 1, 1, 2021 };
-		int[] data2 = { 1, 1, 2021 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	// data1 > data2
-
-	@Test
-	void test_dateValide_data1_gt_data2_zi() {
-		int[] data1 = { 2, 1, 2022 };
-		int[] data2 = { 1, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_data1_gt_data2_luna() {
-		int[] data1 = { 1, 2, 2022 };
-		int[] data2 = { 1, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	@Test
-	void test_dateValide_data1_gt_data2_an() {
-		int[] data1 = { 1, 1, 2023 };
-		int[] data2 = { 1, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), false);
-	}
-
-	// date corecte
-
-	@Test
-	void test_dateValide_dateCorecte_1() {
-		int[] data1 = { 1, 1, 2022 };
-		int[] data2 = { 1, 1, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), true);
-	}
-
-	@Test
-	void test_dateValide_dateCorecte_2() {
-		int[] data1 = { 2, 1, 2022 };
-		int[] data2 = { 1, 2, 2022 };
-
-		assertEquals(obj.dateValide(data1, data2), true);
-	}
-
-	@Test
-	void test_dateValide_dateCorecte_3() {
-		int[] data1 = { 2, 1, 2022 };
-		int[] data2 = { 1, 2, 2023 };
-
-		assertEquals(obj.dateValide(data1, data2), true);
+	void test_dateValide4() {
+		assertEquals(obj.dateValide(new Date(), new Date(System.currentTimeMillis()+1), true), true);
 	}
 }

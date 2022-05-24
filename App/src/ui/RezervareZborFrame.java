@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
@@ -47,7 +49,7 @@ public class RezervareZborFrame extends JFrame {
 
 	private RezervareZbor rezervare = null;
 	private RezervareZbor rezervareRetur = null;
-	//private RezervareZbor zbor = null;
+	// private RezervareZbor zbor = null;
 	private JTextField txtOrasPlecare;
 	private JLabel lblNrBilete;
 
@@ -55,61 +57,40 @@ public class RezervareZborFrame extends JFrame {
 
 	// verifica daca numele orasului este valid
 	public boolean numeOrasValid(String oras) {
-		java.util.List<String> orase = new ArrayList<String>();
-		BufferedReader read = null;
-		boolean gasit = false;
-
-		try {
-			read = new BufferedReader(new InputStreamReader(new FileInputStream("orase.txt")));
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		String buf;
-
-		try {
-			while ((buf = read.readLine()) != null) {
-				orase.add(buf);
-				if (buf.equals(oras))
-					gasit = true;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		/*
+		 * java.util.List<String> orase = new ArrayList<String>(); BufferedReader read =
+		 * null; boolean gasit = false;
+		 * 
+		 * try { read = new BufferedReader(new InputStreamReader(new
+		 * FileInputStream("orase.txt"))); } catch (FileNotFoundException e1) {
+		 * e1.printStackTrace(); } String buf;
+		 * 
+		 * try { while ((buf = read.readLine()) != null) { orase.add(buf); if
+		 * (buf.equals(oras)) gasit = true; } } catch (IOException e) {
+		 * e.printStackTrace(); }
+		 */
 
 		if (oras.equals(""))
 			return false;
 
-		return gasit;
+		return true;
 	}
 
 	// verifica daca datele de plecare (data1) si intoarcere (data2) sunt valide
-	public boolean dateValide(int[] data1, int[] data2) {
+	public boolean dateValide(Date date1, Date date2, boolean isRetur) {
 
-		if (data1.length != 3 || data2.length != 3)
-			return false;
+		LocalDate _date1 = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate _date2 = date2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate _date = LocalDate.now().minusDays(1);
 
-		if (data1[0] <= 0 || data1[0] > 31)
-			return false;
-		if (data1[1] <= 0 || data1[1] > 12)
-			return false;
-		if (data1[2] < 2022)
-			return false;
+		if (isRetur) {
+			if (_date1.compareTo(_date) < 0) return false;
+			if (_date2.compareTo(_date) < 0) return false;
+			if (_date1.compareTo(_date2) < 0) return false;
+		} else {
+			if (_date1.compareTo(_date) < 0) return false;
+		}
 
-		if (data2[0] <= 0 || data2[0] > 31)
-			return false;
-		if (data2[1] <= 0 || data2[1] > 12)
-			return false;
-		if (data2[2] < 2022)
-			return false;
-
-		if (data1[2] > data2[2])
-			return false;
-		else if (data1[2] == data2[2] && data1[1] > data2[1])
-			return false;
-		else if (data1[2] == data2[2] && data1[1] == data2[1] && data1[0] > data2[0])
-			return false;
-
-		// System.out.println(data1[0]+" "+data1[1]+" "+data1[2]);
 		return true;
 	}
 
@@ -212,18 +193,18 @@ public class RezervareZborFrame extends JFrame {
 		txtOrasPlecare.setColumns(10);
 		txtOrasPlecare.setBounds(363, 42, 419, 30);
 		contentPane.add(txtOrasPlecare);
-		
+
 		lblNrBilete = new JLabel("Numar bilete:");
 		lblNrBilete.setFont(new Font("Consolas", Font.PLAIN, 20));
 		lblNrBilete.setBounds(202, 200, 154, 30);
 		contentPane.add(lblNrBilete);
-		
+
 		JSpinner spinnerNrBilete = new JSpinner();
 		spinnerNrBilete.setModel(new SpinnerNumberModel(0, 0, 10, 1));
 		spinnerNrBilete.setFont(new Font("Consolas", Font.PLAIN, 20));
 		spinnerNrBilete.setBounds(437, 200, 249, 25);
 		contentPane.add(spinnerNrBilete);
-		
+
 		JButton btnCautareZbor = new JButton("Căutare cursa de Zbor");
 		btnCautareZbor.setForeground(Color.WHITE);
 		btnCautareZbor.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -232,39 +213,10 @@ public class RezervareZborFrame extends JFrame {
 		btnCautareZbor.setOpaque(true);
 		btnCautareZbor.setBorder(new RoundButton(30));
 		btnCautareZbor.setUI(new ButtonFill());
-		
+
 		btnCautareZbor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				rezervare = new RezervareZbor(txtOrasPlecare.getText(), txtOrasDestinatie.getText(),
-						(Date)dateTimeDataPlecarii.getValue(), (int)spinnerNrBilete.getValue(),
-						(String)comboTipLoc.getSelectedItem(), (String)comboClasa.getSelectedItem(),chkZborRetur.isSelected(),
-						chkZborRetur.isSelected() ? (Date)dateTimeDataIntoarcerii.getValue() : null);
-				//if (rezervare.getDataIntoarcere() != null) rezervare.setRetur(true);
-				
-				List<CursaZbor> curseZborDisponibile = new ArrayList<CursaZbor>();
-				List<CursaZbor> curseRezervareDisponibile = null;
-				curseZborDisponibile = rezervare.getCurseZborDisponibile("curseZbor.json");
-				
-				if (rezervare.isRetur()) {
-					rezervareRetur = new RezervareZbor(rezervare.getDestinatie(), rezervare.getOrigine(),
-							rezervare.getDataIntoarcere(), rezervare.getNrBilete(), rezervare.getTipLoc(), rezervare.getClasa(),
-							false, null);
-					curseRezervareDisponibile = new ArrayList<CursaZbor>();
-					curseRezervareDisponibile = rezervareRetur.getCurseZborDisponibile("curseZbor.json");
-				}
-				
-				if (!curseZborDisponibile.isEmpty()) {
-					CautareZborFrame cautareZbor = new CautareZborFrame(curseZborDisponibile, rezervare, curseRezervareDisponibile, staffOnly);
-					cautareZbor.setVisible(true);
-					dispose();
-				} else {
-					JOptionPane.showMessageDialog(null, "Ne pare rau, dar nu am gasit nici un zbor potrivit!");
-				}
-				
-				
-				/////////////////////////////////////////////////
-				/*boolean err_plecare = false;
+				boolean err_plecare = false;
 				boolean err_destinatie = false;
 				boolean err_date = false;
 				boolean err_retur = false;
@@ -273,8 +225,6 @@ public class RezervareZborFrame extends JFrame {
 				boolean err = false;
 
 				Color c_err = Color.red;
-				int[] data1 = new int[4];
-				int[] data2 = new int[4];
 				String[] buf;
 
 				// functii de verificare
@@ -283,6 +233,8 @@ public class RezervareZborFrame extends JFrame {
 					err_plecare = true;
 
 					txtOrasPlecare.setBackground(c_err);
+				} else {
+					txtOrasPlecare.setBackground(new Color(255, 255, 255));
 				}
 
 				if (!numeOrasValid(txtOrasDestinatie.getText())) {
@@ -290,14 +242,18 @@ public class RezervareZborFrame extends JFrame {
 					err_destinatie = true;
 
 					txtOrasDestinatie.setBackground(c_err);
+				} else {
+					txtOrasDestinatie.setBackground(new Color(255, 255, 255));
 				}
 
-				if (!dateValide(data1, data2)) {
+				if (!dateValide((Date) dateTimeDataPlecarii.getValue(), (Date) dateTimeDataIntoarcerii.getValue(), chkZborRetur.isSelected())) {
 					err = true;
 					err_date = true;
 
 					dateTimeDataPlecarii.setBackground(c_err);
 					dateTimeDataIntoarcerii.setBackground(c_err);
+				} else {
+					dateTimeDataIntoarcerii.setBackground(new Color(255, 255, 255));
 				}
 
 				if (comboTipLoc.getSelectedItem() == null) {
@@ -305,6 +261,8 @@ public class RezervareZborFrame extends JFrame {
 					err_tipLoc = true;
 
 					comboTipLoc.setBackground(c_err);
+				} else {
+					comboTipLoc.setBackground(new Color(255, 255, 255));
 				}
 
 				if (comboClasa.getSelectedItem() == null) {
@@ -312,84 +270,87 @@ public class RezervareZborFrame extends JFrame {
 					err_clasa = true;
 
 					comboClasa.setBackground(c_err);
+				} else {
+					comboClasa.setBackground(new Color(255, 255, 255));
 				}
 
 				if (!err) {
 
-					SimpleDateFormat form = new SimpleDateFormat("dd/MM/yy");
+					/*
+					 * SimpleDateFormat form = new SimpleDateFormat("dd/MM/yy");
+					 * 
+					 * // data plecare buf =
+					 * form.format(dateTimeDataPlecarii.getValue()).split("/"); data1[0] =
+					 * Integer.parseInt(buf[2]);
+					 * 
+					 * if (buf[1].equals("Jan")) data1[1] = 1; else if (buf[1].equals("Feb"))
+					 * data1[1] = 2; else if (buf[1].equals("Mar")) data1[1] = 3; else if
+					 * (buf[1].equals("Apr")) data1[1] = 4; else if (buf[1].equals("May")) data1[1]
+					 * = 5; else if (buf[1].equals("Jun")) data1[1] = 6; else if
+					 * (buf[1].equals("Jul")) data1[1] = 7; else if (buf[1].equals("Aug")) data1[1]
+					 * = 8; else if (buf[1].equals("Sep")) data1[1] = 9; else if
+					 * (buf[1].equals("Oct")) data1[1] = 10; else if (buf[1].equals("Nov")) data1[1]
+					 * = 11; else if (buf[1].equals("Dec")) data1[1] = 12;
+					 * 
+					 * data1[2] = Integer.parseInt(buf[5]);
+					 * 
+					 * // data intoarcere buf =
+					 * form.format(dateTimeDataIntoarcerii.getValue()).split("/"); data2[0] =
+					 * Integer.parseInt(buf[2]);
+					 * 
+					 * if (buf[1].equals("Jan")) data2[1] = 1; else if (buf[1].equals("Feb"))
+					 * data2[1] = 2; else if (buf[1].equals("Mar")) data2[1] = 3; else if
+					 * (buf[1].equals("Apr")) data2[1] = 4; else if (buf[1].equals("May")) data2[1]
+					 * = 5; else if (buf[1].equals("Jun")) data2[1] = 6; else if
+					 * (buf[1].equals("Jul")) data2[1] = 7; else if (buf[1].equals("Aug")) data2[1]
+					 * = 8; else if (buf[1].equals("Sep")) data2[1] = 9; else if
+					 * (buf[1].equals("Oct")) data2[1] = 10; else if (buf[1].equals("Nov")) data2[1]
+					 * = 11; else if (buf[1].equals("Dec")) data2[1] = 12;
+					 * 
+					 * data2[2] = Integer.parseInt(buf[5]);
+					 */
 
-					// data plecare
-					buf = form.format(dateTimeDataPlecarii.getValue()).split("/");
-					data1[0] = Integer.parseInt(buf[2]);
-
-					if (buf[1].equals("Jan"))
-						data1[1] = 1;
-					else if (buf[1].equals("Feb"))
-						data1[1] = 2;
-					else if (buf[1].equals("Mar"))
-						data1[1] = 3;
-					else if (buf[1].equals("Apr"))
-						data1[1] = 4;
-					else if (buf[1].equals("May"))
-						data1[1] = 5;
-					else if (buf[1].equals("Jun"))
-						data1[1] = 6;
-					else if (buf[1].equals("Jul"))
-						data1[1] = 7;
-					else if (buf[1].equals("Aug"))
-						data1[1] = 8;
-					else if (buf[1].equals("Sep"))
-						data1[1] = 9;
-					else if (buf[1].equals("Oct"))
-						data1[1] = 10;
-					else if (buf[1].equals("Nov"))
-						data1[1] = 11;
-					else if (buf[1].equals("Dec"))
-						data1[1] = 12;
-
-					data1[2] = Integer.parseInt(buf[5]);
-
-					// data intoarcere
-					buf = form.format(dateTimeDataIntoarcerii.getValue()).split("/");
-					data2[0] = Integer.parseInt(buf[2]);
-
-					if (buf[1].equals("Jan"))
-						data2[1] = 1;
-					else if (buf[1].equals("Feb"))
-						data2[1] = 2;
-					else if (buf[1].equals("Mar"))
-						data2[1] = 3;
-					else if (buf[1].equals("Apr"))
-						data2[1] = 4;
-					else if (buf[1].equals("May"))
-						data2[1] = 5;
-					else if (buf[1].equals("Jun"))
-						data2[1] = 6;
-					else if (buf[1].equals("Jul"))
-						data2[1] = 7;
-					else if (buf[1].equals("Aug"))
-						data2[1] = 8;
-					else if (buf[1].equals("Sep"))
-						data2[1] = 9;
-					else if (buf[1].equals("Oct"))
-						data2[1] = 10;
-					else if (buf[1].equals("Nov"))
-						data2[1] = 11;
-					else if (buf[1].equals("Dec"))
-						data2[1] = 12;
-
-					data2[2] = Integer.parseInt(buf[5]);
-
-					//zbor = new RezervareZbor("ERROR");
+					// zbor = new RezervareZbor("ERROR");
 					// deschidere pagina cautare zbor
 					// CautareZbor_page3_main.main(frame,null);
-*/
-			} /*
-				 * else { JOptionPane.showMessageDialog(null, "Date zbor incorecte"); }
-				 */
+
+					///////////////////////////////
+					rezervare = new RezervareZbor(txtOrasPlecare.getText(), txtOrasDestinatie.getText(),
+							(Date) dateTimeDataPlecarii.getValue(), (int) spinnerNrBilete.getValue(),
+							(String) comboTipLoc.getSelectedItem(), (String) comboClasa.getSelectedItem(),
+							chkZborRetur.isSelected(),
+							chkZborRetur.isSelected() ? (Date) dateTimeDataIntoarcerii.getValue() : null);
+					// if (rezervare.getDataIntoarcere() != null) rezervare.setRetur(true);
+
+					List<CursaZbor> curseZborDisponibile = new ArrayList<CursaZbor>();
+					List<CursaZbor> curseRezervareDisponibile = null;
+					curseZborDisponibile = rezervare.getCurseZborDisponibile("curseZbor.json");
+
+					if (rezervare.isRetur()) {
+						rezervareRetur = new RezervareZbor(rezervare.getDestinatie(), rezervare.getOrigine(),
+								rezervare.getDataIntoarcere(), rezervare.getNrBilete(), rezervare.getTipLoc(),
+								rezervare.getClasa(), false, null);
+						curseRezervareDisponibile = new ArrayList<CursaZbor>();
+						curseRezervareDisponibile = rezervareRetur.getCurseZborDisponibile("curseZbor.json");
+					}
+
+					if (!curseZborDisponibile.isEmpty()) {
+						CautareZborFrame cautareZbor = new CautareZborFrame(curseZborDisponibile, rezervare,
+								curseRezervareDisponibile, staffOnly);
+						cautareZbor.setVisible(true);
+						dispose();
+					} else {
+						JOptionPane.showMessageDialog(null, "Ne pare rau, dar nu am gasit nici un zbor potrivit!");
+					}
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Date zbor incorecte");
+				}
+			}
+
 		});
 		contentPane.add(btnCautareZbor);
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
