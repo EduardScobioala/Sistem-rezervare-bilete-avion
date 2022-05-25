@@ -87,7 +87,6 @@ class TEST_RezervareZbor {
 	
 	@Test
 	void test_nullZileOperare() {
-		int[] zileOperare = {1,1,1,1,1,0,0};
 		int[] locuriDisponibile = {10,15,3};
 		int[] locuriRezervate = {0,0,0};
  		float[] pretClase = {100.0f,250.0f, 500.0f};
@@ -110,7 +109,6 @@ class TEST_RezervareZbor {
 	@Test
 	void test_nullLocuriDisponibile() {
 		int[] zileOperare = {1,1,1,1,1,0,0};
-		int[] locuriDisponibile = {10,15,3};
 		int[] locuriRezervate = {0,0,0};
  		float[] pretClase = {100.0f,250.0f, 500.0f};
 		
@@ -122,7 +120,6 @@ class TEST_RezervareZbor {
 	void test_nullLocuriRezervate() {
 		int[] zileOperare = {1,1,1,1,1,0,0};
 		int[] locuriDisponibile = {10,15,3};
-		int[] locuriRezervate = {0,0,0};
  		float[] pretClase = {100.0f,250.0f, 500.0f};
 		
 		assertEquals(obj.meetRequirements(new CursaZbor("AAA Airlines", "AAA","BBB","11:00","12:00",zileOperare,pretClase,locuriDisponibile,null, "qwerty","AT X134",true,true)),false);
@@ -330,10 +327,6 @@ class TEST_RezervareZbor {
 	//incorect
 	@Test
 	void test_throwIOException_null() {
-		int[] zileOperare = {1,1,1,1,1,0,0};
-		int[] locuriDisponibile = {10,15,0};
-		int[] locuriRezervate = {0,0,0};
- 		float[] pretClase = {100.0f,250.0f, 500.0f};
  		
  		try {
 		assert (obj.readFile(null)) == null;
@@ -346,10 +339,6 @@ class TEST_RezervareZbor {
 	
 	@Test
 	void test_throwIOException_empty() {
-		int[] zileOperare = {1,1,1,1,1,0,0};
-		int[] locuriDisponibile = {10,15,0};
-		int[] locuriRezervate = {0,0,0};
- 		float[] pretClase = {100.0f,250.0f, 500.0f};
  		
  		try {
 		assert (obj.readFile("")) == null;
@@ -364,10 +353,6 @@ class TEST_RezervareZbor {
 	//incorrect
 	@Test
 	void test_getData_null() {
-		int[] zileOperare = {1,1,1,1,1,0,0};
-		int[] locuriDisponibile = {10,15,0};
-		int[] locuriRezervate = {0,0,0};
- 		float[] pretClase = {100.0f,250.0f, 500.0f};
  		
 		assertEquals(obj.getData(null),null);
 	}

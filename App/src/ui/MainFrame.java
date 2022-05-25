@@ -139,7 +139,7 @@ public class MainFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				dispose();
-				// deschidem fereastra de Login
+				// deschidem fereastra de 
 				LoginStaffFrame loginStaff = new LoginStaffFrame(false);
 				loginStaff.setVisible(true);
 			}
