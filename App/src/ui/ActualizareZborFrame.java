@@ -1,9 +1,6 @@
 package ui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -14,7 +11,6 @@ import functionalities.ManagementCurseZbor;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -24,23 +20,12 @@ import java.awt.event.WindowEvent;
 
 public class ActualizareZborFrame extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtCodCursa;
 
-	/**
-	 * Launch the application.
-	 */
-	/*
-	 * public static void main(String[] args) { EventQueue.invokeLater(new
-	 * Runnable() { public void run() { try { ActualizareZborFrame frame = new
-	 * ActualizareZborFrame(); frame.setVisible(true); } catch (Exception e) {
-	 * e.printStackTrace(); } } }); }
-	 */
-
-	/**
-	 * Create the frame.
-	 */
 	public ActualizareZborFrame(boolean staffOnly) {
+		setResizable(false);
 		setTitle("Actualizare zbor");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -65,13 +50,16 @@ public class ActualizareZborFrame extends JFrame {
 		contentPane.add(txtCodCursa);
 		txtCodCursa.setColumns(10);
 
+		// Button de accesare Actualizare Zbor
 		JButton btnActualizare = new JButton("Actualizare");
 		btnActualizare.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ManagementCurseZbor manager = new ManagementCurseZbor();
 				
+				// get cursa dupa cod daca aceasta exista
 				CursaZbor cursa = manager.findCursa(txtCodCursa.getText());
 				
+				// acceseaza editarea propriu zisa
 				if (cursa != null) {
 					dispose();
 					EditareCursaFrame editareCursa = new EditareCursaFrame(cursa, staffOnly);

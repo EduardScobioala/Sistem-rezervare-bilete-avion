@@ -4,24 +4,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import functionalities.Login;
-import functionalities.LoginCredentials;
-
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -30,34 +17,16 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPasswordField;
 
 public class LoginStaffFrame extends JFrame {
-
+	
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textUsername;
-	private JTextField textPassword;
 	private JPasswordField passwordField;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					LoginStaff frame = new LoginStaff();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
 	public LoginStaffFrame(boolean staffOnly) {
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setResizable(false);
 		setBounds(100, 100, 600, 300);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -99,17 +68,20 @@ public class LoginStaffFrame extends JFrame {
 		btnLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// Logare functionar companie
 				if (textUsername.getText().equals("godMode") && new String(passwordField.getPassword()).equals("godMode")) {
 					lblLoginFailed.setText("");
 					dispose();
 					OptiuniStaffFrame optiuniStaff = new OptiuniStaffFrame(staffOnly);
 					optiuniStaff.setVisible(true);
-				} else if (new Login(textUsername.getText(), String.valueOf(passwordField.getPassword())).tryLogin()) {
+				} // Logare staff aeroport prin tryLogin al obiectului de tip Login
+				else if (new Login(textUsername.getText(), String.valueOf(passwordField.getPassword())).tryLogin()) {
 					lblLoginFailed.setText("");
 					dispose();
 					RezervareZborFrame rezervareZbor = new RezervareZborFrame(true);
 					rezervareZbor.setVisible(true);
-				} else {
+				}
+				else {
 					lblLoginFailed.setText("Wrong credentials!");
 				}
 			}

@@ -1,7 +1,5 @@
 package ui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -15,23 +13,12 @@ import java.awt.event.ActionEvent;
 
 public class OptiuniStaffFrame extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	/*
-	 * public static void main(String[] args) { EventQueue.invokeLater(new
-	 * Runnable() { public void run() { try { OptiuniStaffFrame frame = new
-	 * OptiuniStaffFrame(); frame.setVisible(true); } catch (Exception e) {
-	 * e.printStackTrace(); } } }); }
-	 */
-
-	/**
-	 * Create the frame.
-	 */
 	public OptiuniStaffFrame(boolean staffOnly) {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setResizable(false);
 		setTitle("Optiuni disponibile");
 		setResizable(false);
 		setBounds(100, 100, 1000, 600);
@@ -42,6 +29,7 @@ public class OptiuniStaffFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		// Button accesare Introducere Cursa de Zbor
 		JButton btnIntroducere = new JButton("Introducere curse");
 		btnIntroducere.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -56,12 +44,11 @@ public class OptiuniStaffFrame extends JFrame {
 		btnIntroducere.setBackground(new Color(55, 71, 133));
 		btnIntroducere.setBounds(278, 125, 400, 125);
 		btnIntroducere.setOpaque(true);
-		// Round the button with radius = 30
 		btnIntroducere.setBorder(new RoundButton(30));
-
 		btnIntroducere.setUI(new ButtonFill());
 		contentPane.add(btnIntroducere);
 
+		// Button accesare Actualizare Cursa de Zbor
 		JButton btnActualizareZbor = new JButton("Actualizare zbor");
 		btnActualizareZbor.setOpaque(true);
 		btnActualizareZbor.setForeground(Color.WHITE);
@@ -69,7 +56,6 @@ public class OptiuniStaffFrame extends JFrame {
 		btnActualizareZbor.setBackground(new Color(55, 71, 133));
 		btnActualizareZbor.setBounds(278, 333, 400, 125);
 		btnActualizareZbor.setOpaque(true);
-		// Round the button with radius = 30
 		btnActualizareZbor.setBorder(new RoundButton(30));
 		btnActualizareZbor.setUI(new ButtonFill());
 		

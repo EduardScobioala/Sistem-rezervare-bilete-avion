@@ -14,21 +14,25 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.JSpinner;
 import java.util.Calendar;
+import java.util.Date;
+
 import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.awt.event.ActionEvent;
 
 public class VizualizareZborFrame extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
 	private JTextField txt_OrasPlecare;
 	private JTextField txt_OrasDestinatie;
 	private JTextField txt_NrBilete;
@@ -45,11 +49,13 @@ public class VizualizareZborFrame extends JFrame {
 	private JTextField txt_PlataCashSuma;
 	private JTextField textClasaBilete;
 	private JTextField textTipBilet;
+	private float _pret;
 
-	
 	public VizualizareZborFrame(CursaZbor cursaZbor, RezervareZbor rezervare, float pret, boolean staffOnly) {
+		_pret = pret;
 		setTitle("Vizualizare Zbor");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setResizable(false);
 		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
@@ -157,16 +163,6 @@ public class VizualizareZborFrame extends JFrame {
 		lbl_ModalitatePlata.setBounds(10, 10, 147, 23);
 		groupBox_PlataBanca.add(lbl_ModalitatePlata);
 
-		JRadioButton radio_Card = new JRadioButton("Card");
-		radio_Card.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		radio_Card.setBounds(177, 8, 55, 20);
-		groupBox_PlataBanca.add(radio_Card);
-
-		JRadioButton radio_ViramentBancar = new JRadioButton("Virament bancar");
-		radio_ViramentBancar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		radio_ViramentBancar.setBounds(276, 8, 127, 20);
-		groupBox_PlataBanca.add(radio_ViramentBancar);
-
 		JLabel lbl_NrCard_sau_Cont = new JLabel("Num\u0103r card/cont:");
 		lbl_NrCard_sau_Cont.setFont(new Font("Consolas", Font.PLAIN, 15));
 		lbl_NrCard_sau_Cont.setBounds(10, 56, 140, 20);
@@ -205,7 +201,10 @@ public class VizualizareZborFrame extends JFrame {
 		txt_CVC.setBounds(512, 90, 122, 20);
 		groupBox_PlataBanca.add(txt_CVC);
 
-		JSpinner dateTime_ExpirareCard = new JSpinner();
+		JSpinner dateTime_ExpirareCard = new JSpinner(new SpinnerDateModel(new Date(System.currentTimeMillis()),
+				new Date(1651524853330L), new Date(1967144053330L), Calendar.DAY_OF_YEAR));
+		JSpinner.DateEditor de_dateTime_ExpirareCard = new JSpinner.DateEditor(dateTime_ExpirareCard, "MM.yy");
+		dateTime_ExpirareCard.setEditor(de_dateTime_ExpirareCard);
 		dateTime_ExpirareCard.setFont(new Font("Consolas", Font.PLAIN, 13));
 		dateTime_ExpirareCard.setBounds(512, 56, 122, 20);
 		groupBox_PlataBanca.add(dateTime_ExpirareCard);
@@ -238,11 +237,6 @@ public class VizualizareZborFrame extends JFrame {
 		lbl_RON.setBounds(215, 37, 45, 20);
 		groupBox_PlataCash.add(lbl_RON);
 
-		JLabel lbl_ErrData = new JLabel("#ERROR#");
-		lbl_ErrData.setFont(new Font("Consolas", Font.PLAIN, 16));
-		lbl_ErrData.setBounds(866, 523, 68, 25);
-		contentPane.add(lbl_ErrData);
-
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(168, 208, 224));
 		panel_1.setBounds(10, 170, 964, 132);
@@ -253,81 +247,162 @@ public class VizualizareZborFrame extends JFrame {
 		spinner_Varsta.setFont(new Font("Consolas", Font.PLAIN, 13));
 		spinner_Varsta.setBounds(448, 44, 160, 20);
 		panel_1.add(spinner_Varsta);
-
+		
+		JRadioButton radio_Card = new JRadioButton("Card");
+		radio_Card.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lbl_DataExpirareCard.setVisible(true);
+				lbl_CodCVC.setVisible(true);
+				dateTime_ExpirareCard.setVisible(true);
+				txt_CVC.setVisible(true);
+			}
+		});
+		radio_Card.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		radio_Card.setBounds(177, 8, 55, 20);
+		radio_Card.setSelected(true);
+		groupBox_PlataBanca.add(radio_Card);
+		
+		JRadioButton radio_ViramentBancar = new JRadioButton("Virament bancar");
+		radio_ViramentBancar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lbl_DataExpirareCard.setVisible(false);
+				lbl_CodCVC.setVisible(false);
+				dateTime_ExpirareCard.setVisible(false);
+				txt_CVC.setVisible(false);
+			}
+		});
+		radio_ViramentBancar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		radio_ViramentBancar.setBounds(276, 8, 127, 20);
+		groupBox_PlataBanca.add(radio_ViramentBancar);
+		
+		ButtonGroup plataGroup = new ButtonGroup();
+		plataGroup.add(radio_Card);
+		plataGroup.add(radio_ViramentBancar);		
+		
 		JButton btn_RezervaLocul = new JButton("Rezerv\u0103 locul");
 		btn_RezervaLocul.setForeground(Color.WHITE);
 		btn_RezervaLocul.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*
-				 * boolean err_dataExpirare = false; boolean err = false; String[] data; String
-				 * err_desc = ""; Color c_err = Color.red;
-				 * 
-				 * // functii de verificare if (!numeValid(txt_Nume.getText())) { err = true;
-				 * err_desc += "\nNume invalid"; txt_Nume.setBackground(c_err); }
-				 * 
-				 * if (!numeValid(txt_Prenume.getText())) { err = true; err_desc +=
-				 * "\nPrenume invalid"; txt_Prenume.setBackground(c_err); }
-				 * 
-				 * data = txt_NumeTitular.getText().split(" "); for (int i = 0; i < data.length;
-				 * i++) { if (!numeValid(data[i])) { err = true; err_desc +=
-				 * "\nNume titular invalid"; txt_NumeTitular.setBackground(c_err); break; } }
-				 * 
-				 * if (spinner_Varsta.getValue() == null || (spinner_Varsta.getValue() != null
-				 * && Integer.parseInt(spinner_Varsta.getValue().toString()) <= 0)) { err =
-				 * true; err_desc += "\nV�rst� invalid�"; spinner_Varsta.setBackground(c_err); }
-				 * 
-				 * if (!emailValid(txt_Email.getText())) { err = true; err_desc +=
-				 * "\nE-mail invalid"; txt_Email.setBackground(c_err); }
-				 * 
-				 * if (!CVCValid(txt_CVC.getText())) { err = true; err_desc +=
-				 * "\nCod CVC invalid"; txt_CVC.setBackground(c_err); }
-				 * 
-				 * int[] date = new int[4]; SimpleDateFormat form = new
-				 * SimpleDateFormat("dd/MM/yy");
-				 * 
-				 * // data plecare String[] buf =
-				 * form.format(dateTime_ExpirareCard.getValue()).split("/"); date[0] =
-				 * Integer.parseInt(buf[2]);
-				 * 
-				 * if (buf[1].equals("Jan")) date[1] = 1; else if (buf[1].equals("Feb")) date[1]
-				 * = 2; else if (buf[1].equals("Mar")) date[1] = 3; else if
-				 * (buf[1].equals("Apr")) date[1] = 4; else if (buf[1].equals("May")) date[1] =
-				 * 5; else if (buf[1].equals("Jun")) date[1] = 6; else if (buf[1].equals("Jul"))
-				 * date[1] = 7; else if (buf[1].equals("Aug")) date[1] = 8; else if
-				 * (buf[1].equals("Sep")) date[1] = 9; else if (buf[1].equals("Oct")) date[1] =
-				 * 10; else if (buf[1].equals("Nov")) date[1] = 11; else if
-				 * (buf[1].equals("Dec")) date[1] = 12;
-				 * 
-				 * date[2] = Integer.parseInt(buf[5]);
-				 * 
-				 * if (!dataExpirareValida(date)) { err = true; err_dataExpirare = true;
-				 * err_desc += "\nCard expirat"; lbl_ErrData.setVisible(err_dataExpirare);
-				 * dateTime_ExpirareCard.setBackground(c_err); }
-				 * 
-				 * if (!nrCardContValid(txt_NrCard.getText(), radio_Card.isSelected())) { err =
-				 * true; err_desc += "\nNum�r card eronat"; txt_NrCard.setBackground(c_err); }
-				 * 
-				 * if (!nrTelValid(txt_Telefon.getText())) { err = true; err_desc +=
-				 * "\nNum�r de telefon eronat"; txt_Telefon.setBackground(c_err); }
-				 * 
-				 * if (!sumaCashValida(txt_PlataCashSuma.getText())) { err = true; err_desc +=
-				 * "\nSum� eronat�"; txt_PlataCashSuma.setBackground(c_err); }
-				 */
+				boolean err = false;
+				String[] data;
+				String err_desc = "";
+				Color errColor = new Color(237, 181, 191);
+
+				// Functii de Validare
+
+				// verificare Nume
+				if (!numeValid(txt_Nume.getText())) {
+					err = true;
+					err_desc += "\nNume invalid";
+					txt_Nume.setBackground(errColor);
+				} else {
+					txt_Nume.setBackground(Color.white);
+				}
+
+				// verificare Prenume
+				if (!numeValid(txt_Prenume.getText())) {
+					err = true;
+					err_desc += "\nPrenume invalid";
+					txt_Prenume.setBackground(errColor);
+				} else {
+					txt_Prenume.setBackground(Color.white);
+				}
+
+				// verificare Nume Titular card bancar
+				data = txt_NumeTitular.getText().split(" ");
+				for (int i = 0; i < data.length; i++) {
+					if (!numeValid(data[i])) {
+						err = true;
+						err_desc += "\nNume titular invalid";
+						txt_NumeTitular.setBackground(errColor);
+						break;
+					} else {
+						txt_NumeTitular.setBackground(Color.white);
+					}
+				}
+
+				// verificare varsta
+				if (spinner_Varsta.getValue() == null || (int)spinner_Varsta.getValue() < 16) {
+					err = true;
+					err_desc += "\nVarsta invalida";
+					spinner_Varsta.getEditor().getComponent(0).setBackground(errColor);
+				} else {
+					spinner_Varsta.getEditor().getComponent(0).setBackground(Color.white);
+				}
+
+				// verificare email
+				if (!emailValid(txt_Email.getText())) {
+					err = true;
+					err_desc += "\nE-mail invalid";
+					txt_Email.setBackground(errColor);
+				} else {
+					txt_Email.setBackground(Color.white);
+				}
+
+				if (radio_Card.isSelected()) {
+					// verificare CVC
+					if (!CVCValid(txt_CVC.getText())) {
+						err = true;
+						err_desc += "\nCod CVC invalid";
+						txt_CVC.setBackground(errColor);
+					} else {
+						txt_CVC.setBackground(Color.white);
+					}
+
+					// verificare data de exprirare card
+					if (!dataExpirareValida((Date) dateTime_ExpirareCard.getValue())) {
+						err = true;
+						err_desc += "\nCard expirat";
+						dateTime_ExpirareCard.getEditor().getComponent(0).setBackground(Color.white);
+					} else {
+						dateTime_ExpirareCard.getEditor().getComponent(0).setBackground(Color.white);
+					}
+				}
+
+				// verificare card/cont
+				if (!nrCardContValid(txt_NrCard.getText(), radio_Card.isSelected())) {
+					err = true;
+					err_desc += "\nNumar card eronat";
+					txt_NrCard.setBackground(errColor);
+				} else {
+					txt_NrCard.setBackground(Color.white);
+				}
+
+				// verificare telefon 
+				if (!nrTelValid(txt_Telefon.getText())) {
+					err = true;
+					err_desc += "\nNumar de telefon eronat";
+					txt_Telefon.setBackground(errColor);
+				} else {
+					txt_Telefon.setBackground(Color.white);
+				}
+
+				// verificare suma cash introdusa
+				if (staffOnly) {
+					if (!sumaCashValida(txt_PlataCashSuma.getText(), rezervare.isRetur())) {
+						err = true;
+						err_desc += "\nSuma eronata";
+						txt_PlataCashSuma.setBackground(errColor);
+					} else {
+						txt_PlataCashSuma.setBackground(Color.white);
+					}
+				}
 
 				// REZERVAREA
-				if (5 < 5) {
-					JOptionPane.showMessageDialog(null, "err_desc");
+				if (err) {
+					JOptionPane.showMessageDialog(null, err_desc);
 				} else {
 					rezervareBilete(cursaZbor, rezervare, "curseZbor.json");
-					JOptionPane.showMessageDialog(null, "Cursa a fost rezervata, multumim ca alegeti serviciile noastre <3");
-					
+					JOptionPane.showMessageDialog(null,
+							"Cursa a fost rezervata, multumim ca alegeti serviciile noastre <3");
+
 					dispose();
 					MainFrame mainFrame = new MainFrame(false);
 					mainFrame.setVisible(true);
 				}
 			}
 		});
-		
+
 		btn_RezervaLocul.setFont(new Font("Consolas", Font.PLAIN, 16));
 		btn_RezervaLocul.setBounds(366, 500, 240, 50);
 		btn_RezervaLocul.setBackground(new Color(55, 71, 133));
@@ -354,7 +429,7 @@ public class VizualizareZborFrame extends JFrame {
 
 		txt_Prenume = new JTextField();
 		txt_Prenume.setFont(new Font("Consolas", Font.PLAIN, 13));
-		txt_Prenume.setBounds(448, 78, 160, 20);
+		txt_Prenume.setBounds(125, 80, 160, 20);
 		panel_1.add(txt_Prenume);
 		txt_Prenume.setColumns(10);
 
@@ -376,13 +451,13 @@ public class VizualizareZborFrame extends JFrame {
 
 		txt_Email = new JTextField();
 		txt_Email.setFont(new Font("Consolas", Font.PLAIN, 13));
-		txt_Email.setBounds(125, 78, 160, 20);
+		txt_Email.setBounds(709, 62, 184, 20);
 		panel_1.add(txt_Email);
 		txt_Email.setColumns(10);
 
 		txt_Telefon = new JTextField();
 		txt_Telefon.setFont(new Font("Consolas", Font.PLAIN, 13));
-		txt_Telefon.setBounds(709, 60, 225, 20);
+		txt_Telefon.setBounds(448, 80, 160, 20);
 		panel_1.add(txt_Telefon);
 		txt_Telefon.setColumns(10);
 
@@ -390,12 +465,12 @@ public class VizualizareZborFrame extends JFrame {
 		lbl_Telefon.setBounds(356, 78, 73, 23);
 		panel_1.add(lbl_Telefon);
 		lbl_Telefon.setFont(new Font("Consolas", Font.PLAIN, 15));
-		
+
 		JLabel lbl_ClasaBilete = new JLabel("Clasa:");
 		lbl_ClasaBilete.setFont(new Font("Consolas", Font.PLAIN, 15));
 		lbl_ClasaBilete.setBounds(679, 84, 70, 20);
 		panel.add(lbl_ClasaBilete);
-		
+
 		textClasaBilete = new JTextField();
 		textClasaBilete.setText("<dynamic> - <dynamic>");
 		textClasaBilete.setFont(new Font("Consolas", Font.PLAIN, 13));
@@ -403,12 +478,12 @@ public class VizualizareZborFrame extends JFrame {
 		textClasaBilete.setColumns(10);
 		textClasaBilete.setBounds(751, 84, 140, 20);
 		panel.add(textClasaBilete);
-		
+
 		JLabel lbl_OrasDestinatie_1 = new JLabel("Tip bilet:");
 		lbl_OrasDestinatie_1.setFont(new Font("Consolas", Font.PLAIN, 15));
 		lbl_OrasDestinatie_1.setBounds(339, 84, 114, 20);
 		panel.add(lbl_OrasDestinatie_1);
-		
+
 		textTipBilet = new JTextField();
 		textTipBilet.setText((String) null);
 		textTipBilet.setFont(new Font("Consolas", Font.PLAIN, 13));
@@ -416,21 +491,22 @@ public class VizualizareZborFrame extends JFrame {
 		textTipBilet.setColumns(10);
 		textTipBilet.setBounds(450, 84, 140, 20);
 		panel.add(textTipBilet);
-		
+
 		// add the previous data
 		txt_OrasPlecare.setText(cursaZbor.getAeroportPlecare());
 		txt_OrasPlecare.setEditable(false);
 		txt_OrasDestinatie.setText(cursaZbor.getAeroportSosire());
 		txt_OrasDestinatie.setEditable(false);
-		dateTime_DataZbor.setText(rezervare.getDataPlecare().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString());
+		dateTime_DataZbor.setText(
+				rezervare.getDataPlecare().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().toString());
 		dateTime_DataZbor.setEditable(false);
 		txtOrarZbor.setText(cursaZbor.getOraPlecare() + " - " + cursaZbor.getOraSosire());
 		txtOrarZbor.setEditable(false);
-		
+
 		if (rezervare.isRetur()) {
-			txt_NrBilete.setText("" + rezervare.getNrBilete()*2);
+			txt_NrBilete.setText("" + rezervare.getNrBilete() * 2);
 			txt_NrBilete.setEditable(false);
-			txt_Pret.setText(Float.toString(pret*2));
+			txt_Pret.setText(Float.toString(pret * 2));
 			txt_Pret.setEditable(false);
 		} else {
 			txt_NrBilete.setText("" + rezervare.getNrBilete());
@@ -438,32 +514,33 @@ public class VizualizareZborFrame extends JFrame {
 			txt_Pret.setText(Float.toString(pret));
 			txt_Pret.setEditable(false);
 		}
-		
+
 		textTipBilet.setText(rezervare.getTipLoc());
 		textTipBilet.setEditable(false);
 		textClasaBilete.setText(rezervare.getClasa());
 		textClasaBilete.setEditable(false);
-		
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				dispose();
+				// inregistarea rezervarii
 				RezervareZborFrame rezervareZbor = new RezervareZborFrame(staffOnly);
-				rezervareZbor.setVisible(true);;
+				rezervareZbor.setVisible(true);
+				;
 			}
 		});
 	}
 
-	//verifica daca numele pasagerului este valid (fiecare cuvant din nume, fara spatii)
+	// verifica daca numele pasagerului este valid (fiecare cuvant din nume, fara spatii)
 	public boolean numeValid(String nume) {
 		if (nume == null || nume.length() == 0)
 			return false;
 
 		for (int i = 0; i < nume.length(); i++) {
-			if (i == 0 && (nume.charAt(i) < 'A' || nume.charAt(i) > 'Z'))
+			if (nume.charAt(i) < 'A' || nume.charAt(i) > 'z')
 				return false;
-			if (i != 0 && (nume.charAt(i) < 'a' || nume.charAt(i) > 'z'))
+			if (nume.charAt(i) >= '[' && nume.charAt(i) <= '`')
 				return false;
 		}
 		return true;
@@ -496,16 +573,15 @@ public class VizualizareZborFrame extends JFrame {
 			if (CVC.charAt(i) < '0' || CVC.charAt(i) > '9')
 				return false;
 		}
-
 		return true;
 	}
 
 //verifica daca este valid numarul cardului dat
 	public boolean nrCardContValid(String nr, boolean card) {
-		boolean err = false;
 
 		if (nr == null || nr == "")
 			return false;
+		
 		if (card == true) {
 			if (nr.length() != 16)
 				return false;
@@ -513,7 +589,6 @@ public class VizualizareZborFrame extends JFrame {
 				if (nr.charAt(i) < '0' || nr.charAt(i) > '9')
 					return false;
 			}
-
 		} else {
 			if (nr.length() != 24)
 				return false;
@@ -522,46 +597,28 @@ public class VizualizareZborFrame extends JFrame {
 
 			for (int i = 0; i < nr.length(); i++) {
 				if (nr.charAt(i) < '0')
-					err = true;
+					return false;
 				if (nr.charAt(i) > '9' && nr.charAt(i) < 'A')
-					err = true;
+					return false;
 				if (nr.charAt(i) > 'Z')
-					err = true;
-
+					return false;
 			}
-
-			// more checks should be implemented here (realistically)
 		}
-		return !err;
+		return true;
 	}
 
 //verifica daca nu este expirat cardul dat
-	public boolean dataExpirareValida(int[] dataExpirare) {
-		if (dataExpirare == null)
-			return false;
-
-		if (dataExpirare[0] <= 0 || dataExpirare[0] > 31)
-			return false;
-		if (dataExpirare[1] <= 0 || dataExpirare[1] > 12)
-			return false;
-		if (dataExpirare[2] < 2020)
-			return false;
-
-		Calendar aux = Calendar.getInstance();
-
-		if (dataExpirare[2] < aux.get(Calendar.YEAR))
-			return false;
-		else if (dataExpirare[2] == aux.get(Calendar.YEAR) && dataExpirare[1] < aux.get(Calendar.MONTH) + 1)
-			return false;
-		else if (dataExpirare[2] == aux.get(Calendar.YEAR) && dataExpirare[1] == (aux.get(Calendar.MONTH) + 1)
-				&& dataExpirare[0] < aux.get(Calendar.DAY_OF_MONTH))
-			return false;
+	public boolean dataExpirareValida(Date date) {
+		LocalDate _date = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate time = LocalDate.now();
+		
+		if (_date.compareTo(time) < 0) return false;
 
 		return true;
 	}
 
 //verifica daca suma inregistrata este valida
-	public boolean sumaCashValida(String suma) {
+	public boolean sumaCashValida(String suma, boolean flag) {
 		boolean dot = false;
 		if (suma == null || suma.equals(""))
 			return false;
@@ -575,7 +632,12 @@ public class VizualizareZborFrame extends JFrame {
 
 		if (!dot)
 			return false;
-		Double.parseDouble(suma);
+		
+		if (flag) {
+			if (_pret*2 > Float.parseFloat(suma)) return false;			
+		} else {
+			if (_pret > Float.parseFloat(suma)) return false;			
+		}
 
 		return true;
 	}
@@ -589,30 +651,37 @@ public class VizualizareZborFrame extends JFrame {
 			if (tel.charAt(i) < '0' || tel.charAt(i) > '9')
 				return false;
 		}
-
 		return true;
 	}
-	
+
 	void rezervareBilete(CursaZbor cursaZbor, RezervareZbor rezervare, String filename) {
 		ManagementCurseZbor manager = new ManagementCurseZbor();
-		
+
+		// clasa to int index
 		int index = 0;
-		if (rezervare.getClasa().equals("Business")) index = 1;
-		if (rezervare.getClasa().equals("Premium")) index = 2;
-		
+		if (rezervare.getClasa().equals("Business"))
+			index = 1;
+		if (rezervare.getClasa().equals("Premium"))
+			index = 2;
+
+		// get locurile deja rezervare
 		int[] locuriRezervate = cursaZbor.getLocuriRezervate();
-		
+
+		// adaugare locuri rezervate
 		if (rezervare.isRetur()) {
 			locuriRezervate[index] += rezervare.getNrBilete() * 2;
 		} else {
 			locuriRezervate[index] += rezervare.getNrBilete();
 		}
 
-		
-		CursaZbor newCursaZbor = new CursaZbor(cursaZbor.getNumeCompanie(), cursaZbor.getAeroportPlecare(), cursaZbor.getAeroportSosire(), cursaZbor.getOraPlecare(),
-				cursaZbor.getOraSosire(), cursaZbor.getZileOperare(), cursaZbor.getPretClase(), cursaZbor.getLocuriDisponibile(), locuriRezervate, cursaZbor.getCodCursa(),
-				cursaZbor.getTipAvion(), cursaZbor.isDiscountDusIntors(), cursaZbor.isDiscountLastMinute());
-		
+		// crearea cursa cu datele adaugate
+		CursaZbor newCursaZbor = new CursaZbor(cursaZbor.getNumeCompanie(), cursaZbor.getAeroportPlecare(),
+				cursaZbor.getAeroportSosire(), cursaZbor.getOraPlecare(), cursaZbor.getOraSosire(),
+				cursaZbor.getZileOperare(), cursaZbor.getPretClase(), cursaZbor.getLocuriDisponibile(), locuriRezervate,
+				cursaZbor.getCodCursa(), cursaZbor.getTipAvion(), cursaZbor.isDiscountDusIntors(),
+				cursaZbor.isDiscountLastMinute());
+
+		// datele actualizate
 		manager.actualizareCurseZbor(cursaZbor.getCodCursa(), newCursaZbor);
 	}
 }

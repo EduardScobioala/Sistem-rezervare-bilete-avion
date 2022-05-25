@@ -3,6 +3,7 @@ package test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -10,10 +11,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import functionalities.CursaZbor;
+import functionalities.RezervareZbor;
 import ui.VizualizareZborFrame;
 
 class TEST_VizualizareZborFrameTest {
-	VizualizareZborFrame obj = new VizualizareZborFrame(null, null, 0, false);
+	VizualizareZborFrame obj = new VizualizareZborFrame(
+			new CursaZbor("", "", "", "", "", new int[1], new float[1], new int[1], new int[1], "", "", false, false),
+			new RezervareZbor("", "", new Date(), 0, "", "", false, new Date()), 0, false);
+	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 	}
@@ -35,11 +41,6 @@ class TEST_VizualizareZborFrameTest {
 	}
 
 	@Test
-	void test_numeValid_firstSmallLetter() {
-		assertEquals(obj.numeValid("dEian"), false);
-	}
-
-	@Test
 	void test_numeValid_firstLetter1() {
 		assertEquals(obj.numeValid("1Eian"), false);
 	}
@@ -50,50 +51,14 @@ class TEST_VizualizareZborFrameTest {
 	}
 
 	@Test
-	void test_numeValid_allCAPS() {
-		assertEquals(obj.numeValid("PAUL"), false);
-	}
-
-	@Test
-	void test_numeValid_allSmallLetters() {
-		assertEquals(obj.numeValid("trif"), false);
-	}
-
-	@Test
 	void test_numeValid_spaces() {
 		assertEquals(obj.numeValid("Paul Deian"), false);
 	}
-
-	@Test
-	void test_numeValid_spacesAndSmallLetters1() {
-		assertEquals(obj.numeValid("paul Deian"), false);
-	}
-
-	@Test
-	void test_numeValid_spacesAndSmallLetters2() {
-		assertEquals(obj.numeValid("Paul deian"), false);
-	}
-
-	@Test
-	void test_numeValid_spacesAndAllCAPS() {
-		assertEquals(obj.numeValid("TRIF DEIAN"), false);
-	}
-
-	@Test
-	void test_numeValid_spacesAndAllSmallLetters() {
-		assertEquals(obj.numeValid("trif paul"), false);
-	}
-
 	@Test
 	void test_numeValid_spacesNumbersAndSymbols1() {
 		assertEquals(obj.numeValid("Tri1f P#aul De	ian"), false);
 	}
-
-	@Test
-	void test_numeValid_spacesNumbersAndSymbols2() {
-		assertEquals(obj.numeValid("tr3if #paul de4ian"), false);
-	}
-
+	
 	@Test
 	void test_numeValid_Numbers() {
 		assertEquals(obj.numeValid("Tri1f"), false);
@@ -103,12 +68,7 @@ class TEST_VizualizareZborFrameTest {
 	void test_numeValid_Symbols() {
 		assertEquals(obj.numeValid("Tr#if"), false);
 	}
-
-	@Test
-	void test_numeValid_smallLettersNumbersAndSymbols() {
-		assertEquals(obj.numeValid("de1ian@"), false);
-	}
-
+	
 	// nume corecte
 	@Test
 	void test_numeValid_valid1() {
@@ -342,264 +302,5 @@ class TEST_VizualizareZborFrameTest {
 	@Test
 	void test_nrCardContValid_nrCont_valid() {
 		assertEquals(obj.nrCardContValid("RO3456789012345678901234", false), true);
-	}
-
-	// teste pentru functia dataExpirareValida
-	// data incorecta
-	@Test
-	void test_dataExpirareValida_ziInvalida_minus1() {
-		int[] data = { -1, 1, 2022 };
-
-		assertEquals(obj.dataExpirareValida(data), false);
-	}
-
-	@Test
-	void test_dataExpirareValida_ziInvalida32() {
-		int[] data = { 32, 1, 2022 };
-
-		assertEquals(obj.dataExpirareValida(data), false);
-	}
-
-	@Test
-	void test_dataExpirareValida_ziInvalida_0() {
-		int[] data = { 0, 1, 2022 };
-
-		assertEquals(obj.dataExpirareValida(data), false);
-	}
-
-	@Test
-	void test_dataExpirareValida_lunaInvalida_minus1() {
-		int[] data = { 1, -1, 2022 };
-
-		assertEquals(obj.dataExpirareValida(data), false);
-	}
-
-	@Test
-	void test_dataExpirareValida_lunaInvalida_13() {
-		int[] data = { 1, 13, 2022 };
-
-		assertEquals(obj.dataExpirareValida(data), false);
-	}
-
-	@Test
-	void test_dataExpirareValida_lunaInvalida_0() {
-		int[] data = { 1, 0, 2022 };
-
-		assertEquals(obj.dataExpirareValida(data), false);
-	}
-
-	@Test
-	void test_dataExpirareValida_anInvalid_minus1() {
-		int[] data = { 1, 1, -1 };
-
-		assertEquals(obj.dataExpirareValida(data), false);
-	}
-
-	@Test
-	void test_dataExpirareValida_anInvalid_0() {
-		int[] data = { 1, 1, 0 };
-
-		assertEquals(obj.dataExpirareValida(data), false);
-	}
-
-	@Test
-	void test_dataExpirareValida_null() {
-
-		assertEquals(obj.dataExpirareValida(null), false);
-	}
-
-	@Test
-	void test_dataExpirareValida_ziInvalida2() {
-		Calendar aux = Calendar.getInstance();
-		int[] data = { aux.get(Calendar.DAY_OF_MONTH), aux.get(Calendar.MONTH), aux.get(Calendar.YEAR) - 1 };
-		assertEquals(obj.dataExpirareValida(data), false);
-	}
-
-	@Test
-	void test_dataExpirareValida_zi() {
-		Calendar aux = Calendar.getInstance();
-		int[] data = { 1, aux.get(Calendar.MONTH) + 1, aux.get(Calendar.YEAR) };
-
-		assertEquals(obj.dataExpirareValida(data), false);
-	}
-
-	@Test
-	void test_dataExpirareValida_luna() {
-		Calendar aux = Calendar.getInstance();
-		int[] data = { 1, aux.get(Calendar.MONTH), aux.get(Calendar.YEAR) };
-
-		assertEquals(obj.dataExpirareValida(data), false);
-	}
-
-	@Test
-	void test_dataExpirareValida_an() {
-		Calendar aux = Calendar.getInstance();
-		int[] data = { 1, aux.get(Calendar.MONTH) + 1, aux.get(Calendar.YEAR) - 1 };
-
-		assertEquals(obj.dataExpirareValida(data), false);
-	}
-
-	// data corecta
-	@Test
-	void test_dataExpirareValida_valid2() {
-		Calendar aux = Calendar.getInstance();
-		int[] data = { 1, 8, aux.get(Calendar.YEAR) + 1 };
-
-		assertEquals(obj.dataExpirareValida(data), true);
-	}
-
-	@Test
-	void test_dataExpirareValida_valid3() {
-		Calendar aux = Calendar.getInstance();
-		int[] data = { aux.get(Calendar.DAY_OF_MONTH), aux.get(Calendar.MONTH) + 1, aux.get(Calendar.YEAR) };
-
-		assertEquals(obj.dataExpirareValida(data), true);
-	}
-
-	@Test
-	void test_dataExpirareValida_valid4() {
-		Calendar aux = Calendar.getInstance();
-		int[] data = { aux.get(Calendar.DAY_OF_MONTH), aux.get(Calendar.MONTH) + 2, aux.get(Calendar.YEAR) };
-
-		assertEquals(obj.dataExpirareValida(data), true);
-	}
-
-	@Test
-	void test_dataExpirareValida_valid5() {
-		Calendar aux = Calendar.getInstance();
-		int[] data = { aux.get(Calendar.DAY_OF_MONTH), aux.get(Calendar.MONTH) + 2, 2019 };
-
-		assertEquals(obj.dataExpirareValida(data), false);
-	}
-
-	// teste pentru functia sumaCashValida
-	// suma incorecta
-	@Test
-	void test_sumaCashValida_minus1() {
-		assertEquals(obj.sumaCashValida("-1.00"), false);
-	}
-
-	@Test
-	void test_sumaCashValida_lettersLast() {
-		assertEquals(obj.sumaCashValida("123.00a"), false);
-	}
-
-	@Test
-	void test_sumaCashValida_lettersFirst() {
-		assertEquals(obj.sumaCashValida("a123.00"), false);
-	}
-
-	@Test
-	void test_sumaCashValida_lettersMiddle() {
-		assertEquals(obj.sumaCashValida("1a23.00"), false);
-	}
-
-	@Test
-	void test_sumaCashValida_sSpaceLast() {
-		assertEquals(obj.sumaCashValida("123.00 "), false);
-	}
-
-	@Test
-	void test_sumaCashValida_spaceFirst() {
-		assertEquals(obj.sumaCashValida(" 123.00"), false);
-	}
-
-	@Test
-	void test_sumaCashValida_spaceMiddle() {
-		assertEquals(obj.sumaCashValida("1 23.00"), false);
-	}
-
-	@Test
-	void test_sumaCashValida_symbolLast() {
-		assertEquals(obj.sumaCashValida("123.00@"), false);
-	}
-
-	@Test
-	void test_sumaCashValida_symbolFirst() {
-		assertEquals(obj.sumaCashValida("#123.00"), false);
-	}
-
-	@Test
-	void test_sumaCashValida_symbolMiddle() {
-		assertEquals(obj.sumaCashValida("1!23.00"), false);
-	}
-
-	@Test
-	void test_sumaCashValida_null() {
-		assertEquals(obj.sumaCashValida(null), false);
-	}
-
-	@Test
-	void test_sumaCashValida_empty() {
-		assertEquals(obj.sumaCashValida(""), false);
-	}
-
-	@Test
-	void test_sumaCashValida_noDOT() {
-		assertEquals(obj.sumaCashValida("12345"), false);
-	}
-
-	// suma corecta
-	@Test
-	void test_sumaCashValida_valid() {
-		assertEquals(obj.sumaCashValida("123.00"), true);
-	}
-
-	// teste pentru functia nrTelValid
-	// nrTelValid incorect
-	@Test
-	void test_nrTelValid_LengthShort() {
-		assertEquals(obj.nrTelValid("123"), false);
-	}
-
-	@Test
-	void test_nrTelValid_LengthLong() {
-		assertEquals(obj.nrTelValid("12345678901"), false);
-	}
-
-	@Test
-	void test_nrTelValid_letter() {
-		assertEquals(obj.nrTelValid("123456789a"), false);
-	}
-
-	@Test
-	void test_nrTelValid_symbol() {
-		assertEquals(obj.nrTelValid("1@23456789"), false);
-	}
-
-	@Test
-	void test_nrTelValid_space() {
-		assertEquals(obj.nrTelValid("12 3456789"), false);
-	}
-
-	@Test
-	void test_nrTelValid_null() {
-		assertEquals(obj.nrTelValid(null), false);
-	}
-
-	@Test
-	void test_nrTelValid_empty() {
-		assertEquals(obj.nrTelValid(""), false);
-	}
-
-	@Test
-	void test_nrTelValid_letters() {
-		assertEquals(obj.nrTelValid("abc"), false);
-	}
-
-	@Test
-	void test_nrTelValid_symbols() {
-		assertEquals(obj.nrTelValid("!@#"), false);
-	}
-
-	@Test
-	void test_nrTelValid_spaces() {
-		assertEquals(obj.nrTelValid("   "), false);
-	}
-
-	// nrTelValid corect
-	@Test
-	void test_nrTelValid_valid() {
-		assertEquals(obj.nrTelValid("1234567890"), true);
 	}
 }

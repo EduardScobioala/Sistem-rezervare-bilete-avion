@@ -25,6 +25,7 @@ import java.awt.Font;
 
 public class IntroducereZborFrame extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtAeroportPlecare;
 	private JTextField txtAeroportSosire;
@@ -40,25 +41,6 @@ public class IntroducereZborFrame extends JFrame {
 	float[] pretClase;
 	private JTextField txtNumeCompanie;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					IntroducereZbor frame = new IntroducereZbor();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
 	public IntroducereZborFrame(boolean staffOnly) {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
@@ -142,10 +124,10 @@ public class IntroducereZborFrame extends JFrame {
 		contentPane.add(txtAeroportSosire);
 		txtAeroportSosire.setColumns(10);
 
+		// masca pentru ora
 		try {
 			txtOraPlecare = new JFormattedTextField(new MaskFormatter ("##:##"));
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		txtOraPlecare.setHorizontalAlignment(JTextField.CENTER);
@@ -155,10 +137,10 @@ public class IntroducereZborFrame extends JFrame {
 		contentPane.add(txtOraPlecare);
 		txtOraPlecare.setColumns(10);
 
+		// masca pentru ora
 		try {
 			txtOraSosire = new JFormattedTextField(new MaskFormatter ("##:##"));
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		txtOraSosire.setHorizontalAlignment(JTextField.CENTER);
@@ -279,6 +261,7 @@ public class IntroducereZborFrame extends JFrame {
 		lblPret_2.setBounds(423, 300, 80, 25);
 		contentPane.add(lblPret_2);
 		
+		// Buton de Introducere
 		JButton btnIntroducereZbor = new JButton("Introducere zbor");
 		btnIntroducereZbor.setFont(new Font("Consolas", Font.PLAIN, 18));
 		btnIntroducereZbor.setForeground(Color.WHITE);
@@ -295,6 +278,7 @@ public class IntroducereZborFrame extends JFrame {
 				pretClase = getPretClase();
 				locuriDisponibile = getLocuriDisponibile();
 				
+				// se creaza un obiect Management ce detine functii pentru salvarea cursei
 				introducereZbor = new ManagementCurseZbor(txtNumeCompanie.getText(), txtAeroportPlecare.getText(), txtAeroportSosire.getText(), txtOraPlecare.getText(),
 						txtOraSosire.getText(), zileOperare, pretClase, locuriDisponibile, locuriRezervate, textCodCursa.getText(), textTipAvion.getText(),
 						chckbxDiscountDusIntors.isSelected(), chckbxDiscountLastMinute.isSelected());
@@ -324,6 +308,7 @@ public class IntroducereZborFrame extends JFrame {
 		});
 	}
 	
+	// echivalare valori checkbox to int array
 	private int[] getZileOperare() {
 		int[] zileOperare = new int[7];
 		
@@ -338,6 +323,7 @@ public class IntroducereZborFrame extends JFrame {
 		return zileOperare;
 	}
 	
+	// pastrare preturi intr-un int array
 	private float[] getPretClase() {
 		float[] pretClase = new float[3];
 		
@@ -348,6 +334,7 @@ public class IntroducereZborFrame extends JFrame {
 		return pretClase;
 	}
 	
+	// pastrare locuri disponibile intr-un int array
 	private int[] getLocuriDisponibile() {
 		int[] locuriDisponibile = new int[3];
 		

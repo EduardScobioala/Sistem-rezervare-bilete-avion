@@ -63,6 +63,7 @@ public class EditareCursaFrame extends JFrame {
 	public EditareCursaFrame(CursaZbor cursaZbor, boolean staffOnly) {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setResizable(false);
+		setResizable(false);
 		setTitle("Editare cursa zbor");
 		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);

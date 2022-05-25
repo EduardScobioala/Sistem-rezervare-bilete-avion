@@ -20,11 +20,9 @@ import java.util.Locale;
 
 public class MainFrame extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -38,9 +36,6 @@ public class MainFrame extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public MainFrame(boolean staffOnly) {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,26 +46,6 @@ public class MainFrame extends JFrame {
 		contentPane.setBorder(null);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		JButton btnRezervare = new JButton("Rezervare zbor");
-		btnRezervare.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				dispose();
-				RezervareZborFrame rezervareZbor = new RezervareZborFrame(false);
-				rezervareZbor.setVisible(true);
-			}
-		});
-		btnRezervare.setFont(new Font("Consolas", Font.PLAIN, 20));
-		btnRezervare.setForeground(Color.WHITE);
-		btnRezervare.setBounds(364, 380, 246, 66);
-		btnRezervare.setBackground(new Color(55, 71, 133));
-		btnRezervare.setOpaque(true);
-		// Round the button with radius = 30
-		btnRezervare.setBorder(new RoundButton(30));
-
-		btnRezervare.setUI(new ButtonFill());
-		contentPane.add(btnRezervare);
 
 		JLabel lblSalutare = new JLabel();
 		lblSalutare.setForeground(Color.DARK_GRAY);
@@ -104,7 +79,7 @@ public class MainFrame extends JFrame {
 		lblOra.setFont(new Font("Consolas", Font.PLAIN, 30));
 		lblOra.setBounds(383, 161, 318, 56);
 
-		//
+		// Timer ce cheama functia de actualizare a orei
 		Timer t = new Timer(500, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -138,12 +113,33 @@ public class MainFrame extends JFrame {
 		lblMultumimCaAlegeti.setBounds(169, 251, 685, 56);
 		contentPane.add(lblMultumimCaAlegeti);
 
-		// Login button
+		// Buton de Rezervare
+		JButton btnRezervare = new JButton("Rezervare zbor");
+		btnRezervare.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+				RezervareZborFrame rezervareZbor = new RezervareZborFrame(false);
+				rezervareZbor.setVisible(true);
+			}
+		});
+		btnRezervare.setFont(new Font("Consolas", Font.PLAIN, 20));
+		btnRezervare.setForeground(Color.WHITE);
+		btnRezervare.setBounds(364, 380, 246, 66);
+		btnRezervare.setBackground(new Color(55, 71, 133));
+		btnRezervare.setOpaque(true);
+		// Round the button with radius = 30
+		btnRezervare.setBorder(new RoundButton(30));
+		btnRezervare.setUI(new ButtonFill());
+		contentPane.add(btnRezervare);
+		
+		// Login Button
 		JLabel lblLogin = new JLabel("<HTML><U>Login Staff</U></HTML>");
 		lblLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				dispose();
+				// deschidem fereastra de Login
 				LoginStaffFrame loginStaff = new LoginStaffFrame(false);
 				loginStaff.setVisible(true);
 			}
@@ -152,6 +148,7 @@ public class MainFrame extends JFrame {
 		lblLogin.setBounds(435, 514, 109, 19);
 		contentPane.add(lblLogin);
 
+		// Butonul de Help
 		JButton btnHelp = new JButton("Help");
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -170,9 +167,7 @@ public class MainFrame extends JFrame {
 		btnHelp.setBackground(new Color(55, 71, 133));
 		btnHelp.setBounds(869, 490, 89, 43);
 		btnHelp.setOpaque(true);
-		// Round the button with radius = 30
 		btnHelp.setBorder(new RoundButton(30));
-
 		btnHelp.setUI(new ButtonFill());
 		contentPane.add(btnHelp);
 	}
